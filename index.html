@@ -162,7 +162,7 @@ canvas{width:100%;display:block}
     </div>
     <div class="duo">
       <div class="box f" id="fBox">
-        <div class="h"><i></i><span id="fHead">Our forecast</span></div>
+        <div class="h"><i></i><span>Our forecast for YES</span></div>
         <div class="v" id="pModel">—</div>
         <div class="d" id="fDesc">Chance that deposits pass $35M before betting closes, based on how fast money is coming in right now.</div>
       </div>
@@ -327,21 +327,16 @@ function render() {
   const side = d >= CFG.goal ? 'yes' : edgeYes > .05 ? 'yes' : edgeNo > .05 ? 'no' : 'none';
   $('verdict').className = 'verdict ' + (side === 'none' ? '' : side);
   $('tYes').classList.toggle('pick', side === 'yes'); $('tNo').classList.toggle('pick', side === 'no');
-  // the two big numbers are about the cheap side; with a fair price, about the side our forecast finds more likely
-  const even = Math.round(pm * 100) === 50;
-  const onNo = side === 'no' || (side === 'none' && pm < .5 && !even), showP = onNo ? 1 - pm : pm, showAsk = onNo ? noAsk : yesAsk;
-  // a forecast that rounds to 50% belongs to neither side: grey "50 / 50"
-  $('fBox').classList.toggle('no', onNo && !even); $('fBox').classList.toggle('even', even);
-  $('chartCard').className = 'card ' + (even ? 'fc-even' : onNo ? 'fc-no' : 'fc-yes');
-  setText('fHead', even ? 'Our forecast' : `Our forecast for ${onNo ? 'NO' : 'YES'}`);
-  setText('pModel', even ? '50 / 50' : pct(showP));
-  setText('fDesc', even ? 'Deposits are as likely to pass $35M as to stay under it before betting closes, based on how fast money is coming in right now.'
-    : `Chance that deposits ${onNo ? 'stay under' : 'pass'} $35M before betting closes, based on how fast money is coming in right now.`);
+  // the forecast is always the chance of YES; its colour shows which side it favours (grey when it rounds to 50%)
+  const pr = Math.round(pm * 100), tone = pr === 50 ? 'even' : pr < 50 ? 'no' : 'yes';
+  $('fBox').classList.toggle('no', tone === 'no'); $('fBox').classList.toggle('even', tone === 'even');
+  $('chartCard').className = 'card fc-' + tone;
+  setText('pModel', pct(pm));
   const px = usdM(M.proj(CFG.xoClose));
   if (d >= CFG.goal) { $('side').innerHTML = ARROW_UP + 'YES ✓'; $('vtext').innerHTML = 'Deposits have <b>already passed $35M</b>.'; }
   else if (side === 'yes') { $('side').innerHTML = ARROW_UP + 'YES looks cheap'; $('vtext').innerHTML = `At the current pace deposits reach about <b>${px}</b> before betting closes. We give YES <b>${pct(pm)}</b>, but it costs only <b>${cents(yesAsk)}</b>.`; }
   else if (side === 'no') { $('side').innerHTML = ARROW_DN + 'NO looks cheap'; $('vtext').innerHTML = `At the current pace deposits reach about <b>${px}</b> before betting closes. We give NO <b>${pct(1 - pm)}</b>, but it costs only <b>${cents(noAsk)}</b>.`; }
-  else { $('side').innerHTML = EQUAL + 'Fair price'; $('vtext').innerHTML = `Our forecast (<b>${pct(showP)}</b>) and the XO price (<b>${cents(showAsk)}</b>) agree, so neither side is cheap right now. Check back later: the price or the deposit pace can change within hours.`; }
+  else { $('side').innerHTML = EQUAL + 'Fair price'; $('vtext').innerHTML = `Our forecast (<b>${pct(pm)}</b>) and the XO price of YES (<b>${cents(yesAsk)}</b>) agree, so neither side is cheap right now. Check back later: the price or the deposit pace can change within hours.`; }
   const hrs = Math.floor(M.tNow), level = !M.fitted || M.span < 1.2 ? 1 : M.span < 2 ? 2 : 3;
   [...$('dots').children].forEach((e, i) => e.classList.toggle('on', i < level));
   $('conf').innerHTML = level === 1
