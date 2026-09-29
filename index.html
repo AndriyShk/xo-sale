@@ -73,6 +73,7 @@ h2{font:600 18px Rubik;letter-spacing:-.015em;margin:0}
 .box .v{font:600 clamp(44px,6.4vw,60px)/1 Inter;letter-spacing:-.025em;font-variant-numeric:tabular-nums;margin:10px 0 8px}
 .box.f .v{color:var(--yes-ink)}
 .box.f.no::before,.box.f.no .h i{background:var(--no)}.box.f.no .v{color:var(--no-ink)}
+.box.f.even::before,.box.f.even .h i{background:var(--muted)}.box.f.even .v{color:var(--ink)}
 .box .d{font:400 14px/1.5 Rubik;color:var(--muted)}
 .verdict{margin-top:16px;border-radius:18px;padding:16px 18px;display:flex;gap:16px;align-items:center;background:var(--soft)}
 .verdict.yes{background:linear-gradient(100deg,var(--yes-soft),color-mix(in srgb,var(--yes-soft) 30%,var(--card)))}
@@ -158,9 +159,9 @@ canvas{width:100%;display:block}
     </div>
     <div class="duo">
       <div class="box f" id="fBox">
-        <div class="h"><i></i><span>Our forecast for <span class="sd">YES</span></span></div>
+        <div class="h"><i></i><span id="fHead">Our forecast</span></div>
         <div class="v" id="pModel">—</div>
-        <div class="d">Chance that deposits <span class="sdGoal">pass</span> $35M before betting closes, based on how fast money is coming in right now.</div>
+        <div class="d" id="fDesc">Chance that deposits pass $35M before betting closes, based on how fast money is coming in right now.</div>
       </div>
     </div>
     <div class="verdict" id="verdict"><div class="side" id="side">—</div><div class="t" id="vtext">Loading live data…</div></div>
@@ -324,11 +325,14 @@ function render() {
   $('verdict').className = 'verdict ' + (side === 'none' ? '' : side);
   $('tYes').classList.toggle('pick', side === 'yes'); $('tNo').classList.toggle('pick', side === 'no');
   // the two big numbers are about the cheap side; with a fair price, about the side our forecast finds more likely
-  const onNo = side === 'no' || (side === 'none' && pm < .5), showP = onNo ? 1 - pm : pm, showAsk = onNo ? noAsk : yesAsk;
-  document.querySelectorAll('.sd').forEach(e => e.textContent = onNo ? 'NO' : 'YES');
-  document.querySelectorAll('.sdGoal').forEach(e => e.textContent = onNo ? 'stay under' : 'pass');
-  $('fBox').classList.toggle('no', onNo);
-  $('pModel').textContent = pct(showP);
+  const even = Math.round(pm * 100) === 50;
+  const onNo = side === 'no' || (side === 'none' && pm < .5 && !even), showP = onNo ? 1 - pm : pm, showAsk = onNo ? noAsk : yesAsk;
+  // a forecast that rounds to 50% belongs to neither side: grey "50 / 50"
+  $('fBox').classList.toggle('no', onNo && !even); $('fBox').classList.toggle('even', even);
+  setText('fHead', even ? 'Our forecast' : `Our forecast for ${onNo ? 'NO' : 'YES'}`);
+  setText('pModel', even ? '50 / 50' : pct(showP));
+  setText('fDesc', even ? 'Deposits are as likely to pass $35M as to stay under it before betting closes, based on how fast money is coming in right now.'
+    : `Chance that deposits ${onNo ? 'stay under' : 'pass'} $35M before betting closes, based on how fast money is coming in right now.`);
   const px = usdM(M.proj(CFG.xoClose));
   if (d >= CFG.goal) { $('side').innerHTML = ARROW_UP + 'YES ✓'; $('vtext').innerHTML = 'Deposits have <b>already passed $35M</b>.'; }
   else if (side === 'yes') { $('side').innerHTML = ARROW_UP + 'YES looks cheap'; $('vtext').innerHTML = `At the current pace deposits reach about <b>${px}</b> before betting closes. We give YES <b>${pct(pm)}</b>, but it costs only <b>${cents(yesAsk)}</b>.`; }
