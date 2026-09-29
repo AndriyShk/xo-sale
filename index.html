@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>XO Jumper · Will Jumper raise $35M on Legion?</title>
+<title>XO JUMPER · Will Jumper raise $35M on Legion?</title>
 <meta name="description" content="Live deposits for the Jumper sale on Legion, the XO price and a simple forecast: which side of the $35M market looks better right now.">
-<meta property="og:title" content="XO Jumper · YES or NO on $35M?">
+<meta property="og:title" content="XO JUMPER · YES or NO on $35M?">
 <meta property="og:description" content="Live Legion deposits, the XO price and a forecast, in one page.">
 <meta property="og:image" content="img/icon-512.png">
 <meta name="theme-color" content="#FF87A6">
@@ -17,9 +17,6 @@
 <style>
 @font-face{font-family:Rubik;src:url(fonts/Rubik.woff2) format("woff2");font-weight:300 900;font-display:swap}
 @font-face{font-family:Figtree;src:url(fonts/Figtree.woff2) format("woff2");font-weight:300 900;font-display:swap}
-@font-face{font-family:Runde;src:url(fonts/OpenRunde-Medium.woff2) format("woff2");font-weight:500;font-display:swap}
-@font-face{font-family:Runde;src:url(fonts/OpenRunde-Semibold.woff2) format("woff2");font-weight:600;font-display:swap}
-@font-face{font-family:Runde;src:url(fonts/OpenRunde-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
 :root{
   --yes:#FF87A6;--yes-ink:#d23f6b;--yes-soft:#ffe9ef;--no:#a293ff;--no-ink:#6553ea;--no-soft:#efecff;
   --bg:#f6f5f8;--card:#ffffff;--ink:#121213;--muted:#6e6e76;--line:#ebeaf0;--soft:#f4f3f7;--warn-soft:#fff4e0;
@@ -62,19 +59,18 @@ h2{font:600 18px Rubik;letter-spacing:-.015em;margin:0}
 .box .h{display:flex;align-items:center;gap:8px;font:600 15px Rubik}
 .box .h i{width:10px;height:10px;border-radius:50%}
 .box.f .h i{background:var(--no)}.box.x .h i{background:var(--yes)}
-.box .v{font:500 clamp(44px,6.4vw,60px)/1 Runde;letter-spacing:-.03em;font-variant-numeric:tabular-nums;margin:10px 0 8px}
+.box .v{font:600 clamp(44px,6.4vw,60px)/1 Figtree;letter-spacing:-.02em;margin:10px 0 8px}
 .box.f .v{color:var(--no-ink)}.box.x .v{color:var(--yes-ink)}
 .box .d{font:400 14px/1.5 Rubik;color:var(--muted)}
-/* probability scale: where the price and the forecast sit on 0–100% */
-.scale{margin:40px 6px 0}
-.strack{position:relative;height:8px;border-radius:999px;background:var(--soft)}
-.sgap{position:absolute;top:0;bottom:0;border-radius:999px;transition:all .8s cubic-bezier(.2,.8,.2,1)}
-.smark{position:absolute;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;border:3px solid var(--card);box-shadow:0 1px 4px rgba(0,0,0,.2);transition:left .8s cubic-bezier(.2,.8,.2,1)}
-.smark.f{background:var(--no)}.smark.x{background:var(--yes)}
-.stag{position:absolute;bottom:16px;transform:translateX(-50%);font:600 12px Figtree;white-space:nowrap;padding:3px 9px;border-radius:999px;transition:left .8s cubic-bezier(.2,.8,.2,1)}
-.stag.f{background:var(--no-soft);color:var(--no-ink)}.stag.x{background:var(--yes-soft);color:var(--yes-ink)}
-.stag.below{bottom:auto;top:16px}
-.sends{display:flex;justify-content:space-between;font:500 12px Figtree;color:var(--muted);margin-top:34px}
+/* forecast vs price, as two bars on the same 0–100% scale */
+.cmp{margin-top:18px;border-radius:18px;background:var(--soft);padding:16px 18px;display:grid;gap:12px}
+.cmp .row{display:grid;grid-template-columns:112px 1fr 52px;align-items:center;gap:12px}
+.cmp .row span{font:500 14px Figtree;color:var(--muted)}
+.cmp .row b{font:600 17px Figtree;letter-spacing:-.02em;text-align:right}
+.cmp .row.f b{color:var(--no-ink)}.cmp .row.x b{color:var(--yes-ink)}
+.cmp .bar{height:10px;border-radius:999px;background:var(--card);overflow:hidden}
+.cmp .bar i{display:block;height:100%;border-radius:999px;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.cmp .row.f .bar i{background:var(--no)}.cmp .row.x .bar i{background:var(--yes)}
 .verdict{margin-top:16px;border-radius:18px;padding:16px 18px;display:flex;gap:16px;align-items:center;background:var(--soft)}
 .verdict.yes{background:linear-gradient(100deg,var(--yes-soft),color-mix(in srgb,var(--yes-soft) 30%,var(--card)))}
 .verdict.no{background:linear-gradient(100deg,var(--no-soft),color-mix(in srgb,var(--no-soft) 30%,var(--card)))}
@@ -97,7 +93,7 @@ h2{font:600 18px Rubik;letter-spacing:-.015em;margin:0}
 .dots{display:inline-flex;gap:3px;flex:none}.dots i{width:16px;height:6px;border-radius:3px;background:var(--line)}.dots i.on{background:var(--ink)}
 
 /* ---------- 2 · progress */
-.big{font:500 clamp(36px,5.6vw,52px)/1 Runde;letter-spacing:-.03em;font-variant-numeric:tabular-nums;margin:8px 0 6px}
+.big{font:600 clamp(36px,5.6vw,52px)/1 Figtree;letter-spacing:-.02em;margin:8px 0 6px}
 .sub{font:400 14.5px Rubik;color:var(--muted)}.sub b{color:var(--ink);font-weight:600}
 .ptrack{height:14px;border-radius:999px;background:var(--soft);position:relative;overflow:hidden;margin-top:18px}
 .pfill{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:linear-gradient(90deg,var(--no),var(--yes));transition:width .8s cubic-bezier(.2,.8,.2,1);overflow:hidden}
@@ -110,7 +106,7 @@ h2{font:600 18px Rubik;letter-spacing:-.015em;margin:0}
 .fact{display:flex;gap:12px;align-items:center;background:var(--soft);border-radius:14px;padding:12px 14px}
 .fact .ic{width:36px;height:36px;border-radius:10px;background:var(--card);display:grid;place-items:center;flex:none}
 .fact .ic svg{width:18px;height:18px;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.fact .v{font:500 19px Runde;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.fact .v{font:600 19px Figtree;letter-spacing:-.02em;white-space:nowrap}
 
 /* ---------- 3 · chart */
 canvas{width:100%;display:block}
@@ -140,7 +136,7 @@ footer .small{flex-basis:100%;font:400 12.5px Rubik;color:var(--muted)}
 </head>
 <body>
 <header><div class="wrap">
-  <a class="brand" href="./"><img src="img/logo.svg" alt=""><b>XO Jumper</b></a>
+  <a class="brand" href="./"><img src="img/logo.svg" alt=""><b>XO JUMPER</b></a>
   <span class="sp"></span>
   <span class="live"><i></i><span id="upd">Live</span></span>
   <button class="icon-btn" id="theme" title="Toggle theme">◐</button>
@@ -168,13 +164,9 @@ footer .small{flex-basis:100%;font:400 12.5px Rubik;color:var(--muted)}
         <div class="d">What it costs to buy YES right now. It pays $1 if deposits pass $35M, so buying it is a bet that the chance is higher than <span id="pxoPct">—</span>.</div>
       </div>
     </div>
-    <div class="scale" aria-hidden="true">
-      <div class="strack">
-        <div class="sgap" id="sgap"></div>
-        <div class="smark x" id="mX"></div><div class="smark f" id="mF"></div>
-        <span class="stag x" id="tX">YES price</span><span class="stag f" id="tF">Our forecast</span>
-      </div>
-      <div class="sends"><span>0% · won't happen</span><span>100% · sure thing</span></div>
+    <div class="cmp">
+      <div class="row f"><span>Our forecast</span><div class="bar"><i id="bF"></i></div><b id="cF">—</b></div>
+      <div class="row x"><span>XO price</span><div class="bar"><i id="bX"></i></div><b id="cX">—</b></div>
     </div>
     <div class="verdict" id="verdict"><div class="side" id="side">—</div><div class="t" id="vtext">Loading live data…</div></div>
     <div class="trade">
@@ -222,7 +214,7 @@ footer .small{flex-basis:100%;font:400 12.5px Rubik;color:var(--muted)}
 </main>
 
 <footer><div class="wrap">
-  <div class="fl"><img src="img/logo.svg" alt="">XO Jumper · made by the XO community</div>
+  <div class="fl"><img src="img/logo.svg" alt="">XO JUMPER · made by the XO community</div>
   <div class="fr">Data: <a href="https://app.legion.cc/app/invest" target="_blank" rel="noopener">Legion · deposits every ~10 min</a><a href="https://beta.xo.market" target="_blank" rel="noopener">XO · live prices</a></div>
   <div class="small">Not affiliated with XO Market or Legion. <span id="err" class="err"></span></div>
 </div></footer>
@@ -329,13 +321,8 @@ function render() {
   $('yesPx').textContent = `Buy YES · ${cents(yesAsk)}`; $('noPx').textContent = `Buy NO · ${cents(noAsk)}`;
   $('yesPay').textContent = `$10 → $${(10 / yesAsk).toFixed(2)} if it passes $35M`;
   $('noPay').textContent = `$10 → $${(10 / noAsk).toFixed(2)} if it doesn't`;
-  // scale: price marker, forecast marker, the gap between them; labels go on opposite sides when close
-  const lo = Math.min(pm, yesAsk), hi = Math.max(pm, yesAsk);
-  $('mX').style.left = $('tX').style.left = yesAsk * 100 + '%'; $('mF').style.left = $('tF').style.left = pm * 100 + '%';
-  $('tX').textContent = `YES price ${cents(yesAsk)}`; $('tF').textContent = `Our forecast ${pct(pm)}`;
-  $('tF').classList.toggle('below', Math.abs(pm - yesAsk) < .22);
-  const gapEl = $('sgap'); gapEl.style.left = lo * 100 + '%'; gapEl.style.width = (hi - lo) * 100 + '%';
-  gapEl.style.background = pm > yesAsk ? 'color-mix(in srgb,var(--yes) 45%,transparent)' : 'color-mix(in srgb,var(--no) 45%,transparent)';
+  $('bF').style.width = pm * 100 + '%'; $('bX').style.width = yesAsk * 100 + '%';
+  $('cF').textContent = pct(pm); $('cX').textContent = cents(yesAsk);
   // verdict: compare our chance with what each side costs
   const edgeYes = pm - yesAsk, edgeNo = (1 - pm) - noAsk;
   const side = d >= CFG.goal ? 'yes' : edgeYes > .05 ? 'yes' : edgeNo > .05 ? 'no' : 'none';
@@ -352,7 +339,7 @@ function render() {
     ? `How sure: <b>low</b>. The sale opened ${hrs < 1 ? 'less than an hour' : hrs + (hrs === 1 ? ' hour' : ' hours')} ago, so there isn't much data yet. The forecast gets better every hour.`
     : `How sure: <b>${level === 2 ? 'medium' : 'high'}</b>. Based on ${hrs} hours of real deposits.`;
 }
-function fmtLeft(ms) { ms = Math.max(0, ms); const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60, s = Math.floor(ms / 1e3) % 60; return (d ? d + 'd ' : '') + String(h).padStart(2, '0') + 'h ' + String(m).padStart(2, '0') + 'm ' + String(s).padStart(2, '0') + 's'; }
+function fmtLeft(ms) { ms = Math.max(0, ms); const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60, s = Math.floor(ms / 1e3) % 60; return (d ? d + 'd ' : '') + h + 'h ' + String(m).padStart(2, '0') + 'm'; }
 function tick() {
   const p = Math.min(1, (performance.now() - animT0) / 1200), e = 1 - Math.pow(1 - p, 3);
   if (shownDep) $('dep').textContent = usd(animFrom + (shownDep - animFrom) * e);
