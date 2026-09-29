@@ -8,160 +8,165 @@
 <meta property="og:title" content="XO Jumper · YES or NO on $35M?">
 <meta property="og:description" content="Live Legion deposits, the XO price and a forecast, in one page.">
 <meta property="og:image" content="img/icon-512.png">
-<meta name="theme-color" content="#0b0b0d">
+<meta name="theme-color" content="#FF87A6">
 <link rel="icon" type="image/svg+xml" href="img/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <style>
+@font-face{font-family:Rubik;src:url(fonts/Rubik.woff2) format("woff2");font-weight:300 900;font-display:swap}
+@font-face{font-family:Figtree;src:url(fonts/Figtree.woff2) format("woff2");font-weight:300 900;font-display:swap}
+@font-face{font-family:Runde;src:url(fonts/OpenRunde-Medium.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:Runde;src:url(fonts/OpenRunde-Semibold.woff2) format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:Runde;src:url(fonts/OpenRunde-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
 :root{
-  --bg:#0b0b0d;--panel:#151518;--panel-2:#1c1c21;--line:#2a2a31;--text:#f4f4f6;--muted:#8d8d98;
-  --pink:#ff6fae;--pink-2:#ff9ccb;--violet:#b98cff;--violet-2:#d2b8ff;--green:#3ddc97;--red:#ff5c6c;
+  --yes:#FF87A6;--yes-ink:#d23f6b;--yes-soft:#ffe9ef;--no:#a293ff;--no-ink:#6553ea;--no-soft:#efecff;
+  --bg:#f6f5f8;--card:#ffffff;--ink:#121213;--muted:#6e6e76;--line:#ebeaf0;--soft:#f4f3f7;--warn-soft:#fff4e0;
+  --glow1:rgba(255,135,166,.20);--glow2:rgba(162,147,255,.20);
+  --shadow:0 1px 2px rgba(18,18,19,.04),0 10px 30px rgba(18,18,19,.06);
 }
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#101012;--card:#19191c;--ink:#f4f4f5;--muted:#9d9ca6;--line:#2a2a30;--soft:#222226;--yes-soft:#3a2129;--no-soft:#28253f;--yes-ink:#ff9bb5;--no-ink:#b8adff;--warn-soft:#382c18;--glow1:rgba(255,135,166,.12);--glow2:rgba(162,147,255,.12);--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35)}}
+:root[data-theme="dark"]{--bg:#101012;--card:#19191c;--ink:#f4f4f5;--muted:#9d9ca6;--line:#2a2a30;--soft:#222226;--yes-soft:#3a2129;--no-soft:#28253f;--yes-ink:#ff9bb5;--no-ink:#b8adff;--warn-soft:#382c18;--glow1:rgba(255,135,166,.12);--glow2:rgba(162,147,255,.12);--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35)}
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif}
-body{min-height:100vh;overflow-x:hidden;
-  background:radial-gradient(800px 460px at 100% -10%,rgba(255,111,174,.18),transparent 60%),radial-gradient(700px 460px at -10% 30%,rgba(120,90,255,.14),transparent 60%),var(--bg);background-repeat:no-repeat}
-a{color:var(--pink-2)}
-.num{font-family:"Space Grotesk",sans-serif;font-weight:500;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
-.wrap{max-width:1120px;margin:0 auto;padding:28px 16px 28px}
+html,body{margin:0}
+body{background:radial-gradient(900px 420px at 12% -120px,var(--glow1),transparent 70%),radial-gradient(900px 420px at 88% -120px,var(--glow2),transparent 70%),var(--bg);background-repeat:no-repeat;color:var(--ink);font:400 15px/1.5 Rubik,system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 78%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;gap:12px;height:62px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand img{width:34px;height:34px;border-radius:10px;box-shadow:0 4px 12px rgba(255,135,166,.35)}
+.brand b{font:600 18px Rubik;letter-spacing:-.02em}
+.sp{flex:1}
+.live{display:inline-flex;align-items:center;gap:7px;font:500 13px Figtree;color:var(--muted);white-space:nowrap}
+.live i{width:8px;height:8px;border-radius:50%;background:#22c55e;animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.55)}70%{box-shadow:0 0 0 8px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:12px;background:var(--ink);color:var(--card);font:600 14px Figtree;text-decoration:none;border:0;cursor:pointer;white-space:nowrap}
+.icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;font-size:16px}
+main{padding:24px 0 8px;display:flex;flex-direction:column;gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}
+h2{font:600 18px Rubik;letter-spacing:-.015em;margin:0}
+.lbl{font:500 13px Figtree;color:var(--muted)}
 
-/* ---------- top */
-header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:34px}
-.brand{display:flex;align-items:center;gap:10px;font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:20px;letter-spacing:.5px;text-decoration:none;color:var(--text)}
-.brand img{width:32px;height:32px;border-radius:9px}
-.brand b{color:var(--pink)}
-.live{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);white-space:nowrap}
-.live i{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 1.8s infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(61,220,151,.55)}70%{box-shadow:0 0 0 8px rgba(61,220,151,0)}100%{box-shadow:0 0 0 0 rgba(61,220,151,0)}}
-
-/* ---------- hero with the rooster */
-.hero{position:relative}
-.hero .kicker{color:var(--pink);font-weight:700;text-transform:uppercase;letter-spacing:2px;font-size:13px}
-.hero h1{font-family:"Space Grotesk",sans-serif;font-size:clamp(32px,5.4vw,58px);line-height:1.02;margin:10px 0 12px;letter-spacing:-1.5px;font-weight:700}
-.hero h1 span{color:var(--pink)}
-.hero p{color:var(--muted);font-size:17px;margin:0;max-width:560px;line-height:1.5}
-.mascot{position:absolute;right:30px;top:6px;width:300px;height:300px;pointer-events:none}
-.m-fig{position:absolute;inset:70px 0 0 0;display:flex;align-items:flex-end;justify-content:center}
-.m-fig img{display:block;max-height:250px;max-width:100%;filter:drop-shadow(0 18px 30px rgba(0,0,0,.5));animation:float 3.2s ease-in-out infinite}
-.m-fig img.cut{-webkit-mask-image:linear-gradient(#000 78%,transparent);mask-image:linear-gradient(#000 78%,transparent)}
-@keyframes float{50%{transform:translateY(-10px)}}
-.bubble{position:absolute;top:0;right:10px;max-width:280px;background:#fff;color:#16161a;font-weight:700;font-size:15px;padding:10px 14px;border-radius:16px;box-shadow:0 10px 30px -8px rgba(0,0,0,.6);line-height:1.3;animation:msgIn .3s ease-out}
-.bubble::after{content:"";position:absolute;bottom:-8px;left:50%;border:9px solid transparent;border-top-color:#fff;border-bottom:0}
-@keyframes msgIn{from{transform:translateY(6px);opacity:0}}
-@media (min-width:900px){.hero{padding-right:340px;min-height:290px}}
-@media (max-width:899px){.hero{display:flex;flex-direction:column}.mascot{position:relative;order:10;right:auto;top:auto;width:100%;height:240px;margin-top:10px}.m-fig{inset:56px 0 0 0}.m-fig img{max-height:180px}.bubble{left:0;right:0;margin:0 auto;width:max-content;max-width:92%;text-align:center}}
-
-/* ---------- panels */
-.panel{position:relative;margin-top:22px;border-radius:20px;padding:26px;overflow:hidden;
-  background:radial-gradient(600px 300px at 105% -20%,rgba(255,111,174,.14),transparent 60%),radial-gradient(500px 300px at -10% 120%,rgba(120,90,255,.12),transparent 60%),#0f0f12;
-  border:1px solid var(--line);box-shadow:0 30px 80px -40px rgba(255,111,174,.25)}
-.panel::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:40px 40px;-webkit-mask-image:linear-gradient(180deg,#000,transparent 80%);mask-image:linear-gradient(180deg,#000,transparent 80%)}
-.panel > *{position:relative;z-index:1}
-.kick{color:var(--pink);font-weight:700;text-transform:uppercase;letter-spacing:2px;font-size:13px}
-.kick.v{color:var(--violet)}
-.ttl{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:26px;letter-spacing:-.5px;margin:6px 0 0}
-
-/* the call */
-.call{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:clamp(38px,6vw,60px);line-height:.98;letter-spacing:-1.5px;margin:10px 0 12px}
-.call.yes{color:var(--pink)}.call.no{color:var(--violet)}
-.why{font-size:18px;color:#cfcfd6;line-height:1.45;max-width:760px}
-.why b{color:var(--text);font-weight:600}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
-.chips span{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:14px;font-weight:600;white-space:nowrap}
-.chips span i{font-style:normal;color:var(--muted);font-weight:500;margin-right:6px}
-.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:22px}
-@media (max-width:640px){.stats{grid-template-columns:1fr}}
-.stat{background:rgba(21,21,24,.85);border:1px solid var(--line);border-radius:16px;padding:16px 18px;min-width:0}
-.stat .l{color:var(--muted);font-size:12.5px;font-weight:600;text-transform:uppercase;letter-spacing:1px}
-.stat .v{font-family:"Space Grotesk",sans-serif;font-size:40px;font-weight:500;margin-top:6px;letter-spacing:-1px;font-variant-numeric:tabular-nums}
-.stat .s{color:var(--muted);font-size:14px;margin-top:4px;line-height:1.45}
-.stat.f .v{color:var(--violet-2)}.stat.x .v{color:var(--pink-2)}
-/* scale */
-.scale{margin:40px 8px 0}
-.strack{position:relative;height:8px;border-radius:999px;background:rgba(255,255,255,.08)}
+/* ---------- 1 · the answer */
+.q{display:flex;gap:14px;align-items:center}
+.q img{width:52px;height:52px;border-radius:14px;object-fit:cover;flex:none;background:var(--soft)}
+.q h1{font:600 clamp(20px,2.6vw,26px)/1.22 Rubik;letter-spacing:-.025em;margin:0}
+.q .meta{font:400 13.5px Rubik;color:var(--muted);margin-top:3px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+@media (max-width:620px){.duo{grid-template-columns:1fr}}
+.box{border-radius:18px;padding:18px 18px 16px;border:1px solid var(--line);background:var(--card);position:relative;overflow:hidden}
+.box::before{content:"";position:absolute;inset:0 0 auto 0;height:4px}
+.box.f::before{background:var(--no)}.box.x::before{background:var(--yes)}
+.box .h{display:flex;align-items:center;gap:8px;font:600 15px Rubik}
+.box .h i{width:10px;height:10px;border-radius:50%}
+.box.f .h i{background:var(--no)}.box.x .h i{background:var(--yes)}
+.box .v{font:500 clamp(44px,6.4vw,60px)/1 Runde;letter-spacing:-.03em;font-variant-numeric:tabular-nums;margin:10px 0 8px}
+.box.f .v{color:var(--no-ink)}.box.x .v{color:var(--yes-ink)}
+.box .d{font:400 14px/1.5 Rubik;color:var(--muted)}
+/* probability scale: where the price and the forecast sit on 0–100% */
+.scale{margin:40px 6px 0}
+.strack{position:relative;height:8px;border-radius:999px;background:var(--soft)}
 .sgap{position:absolute;top:0;bottom:0;border-radius:999px;transition:all .8s cubic-bezier(.2,.8,.2,1)}
-.smark{position:absolute;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;border:3px solid #0f0f12;transition:left .8s cubic-bezier(.2,.8,.2,1)}
-.smark.f{background:var(--violet)}.smark.x{background:var(--pink)}
-.stag{position:absolute;bottom:16px;transform:translateX(-50%);font-size:12.5px;font-weight:600;white-space:nowrap;padding:3px 10px;border-radius:999px;transition:left .8s cubic-bezier(.2,.8,.2,1)}
-.stag.x{background:rgba(255,111,174,.16);color:var(--pink-2)}.stag.f{background:rgba(185,140,255,.16);color:var(--violet-2)}
+.smark{position:absolute;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;border:3px solid var(--card);box-shadow:0 1px 4px rgba(0,0,0,.2);transition:left .8s cubic-bezier(.2,.8,.2,1)}
+.smark.f{background:var(--no)}.smark.x{background:var(--yes)}
+.stag{position:absolute;bottom:16px;transform:translateX(-50%);font:600 12px Figtree;white-space:nowrap;padding:3px 9px;border-radius:999px;transition:left .8s cubic-bezier(.2,.8,.2,1)}
+.stag.f{background:var(--no-soft);color:var(--no-ink)}.stag.x{background:var(--yes-soft);color:var(--yes-ink)}
 .stag.below{bottom:auto;top:16px}
-.sends{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);margin-top:36px}
-/* buttons */
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
-@media (max-width:520px){.actions{grid-template-columns:1fr}}
-.buy{display:flex;flex-direction:column;align-items:center;gap:3px;padding:15px 18px;border-radius:14px;text-decoration:none;font-weight:700;font-size:17px;transition:transform .15s,box-shadow .2s,border-color .2s,background .2s}
-.buy span{font-weight:500;font-size:13px;opacity:.75}
-.buy.yes{background:var(--pink);color:#1a0710}
-.buy.yes:hover{background:var(--pink-2)}
-.buy.no{background:var(--panel);color:var(--text);border:1px solid var(--line)}
-.buy.no:hover{border-color:var(--violet);background:var(--panel-2)}
-.buy.no.pick{border-color:var(--violet);box-shadow:0 12px 40px -12px var(--violet)}
-.buy.yes.pick{box-shadow:0 12px 40px -10px var(--pink)}
-.buy.yes:not(.pick){background:var(--panel);color:var(--text);border:1px solid var(--line)}
-.buy.yes:not(.pick):hover{border-color:var(--pink);background:var(--panel-2)}
-.buy.no.pick{background:var(--violet);color:#150a2a}
-.sure{display:flex;align-items:center;gap:10px;margin-top:16px;color:var(--muted);font-size:14px;line-height:1.45}
-.sure b{color:var(--text)}
-.dots{display:inline-flex;gap:3px;flex:none}.dots i{width:16px;height:6px;border-radius:3px;background:var(--line)}.dots i.on{background:var(--pink)}
+.sends{display:flex;justify-content:space-between;font:500 12px Figtree;color:var(--muted);margin-top:34px}
+.verdict{margin-top:16px;border-radius:18px;padding:16px 18px;display:flex;gap:16px;align-items:center;background:var(--soft)}
+.verdict.yes{background:linear-gradient(100deg,var(--yes-soft),color-mix(in srgb,var(--yes-soft) 30%,var(--card)))}
+.verdict.no{background:linear-gradient(100deg,var(--no-soft),color-mix(in srgb,var(--no-soft) 30%,var(--card)))}
+.verdict .side{display:flex;align-items:center;gap:8px;font:600 24px Rubik;letter-spacing:-.025em;white-space:nowrap}
+.verdict.yes .side{color:var(--yes-ink)}.verdict.no .side{color:var(--no-ink)}
+.verdict .side svg{width:26px;height:26px}
+.verdict .t{font:400 14.5px/1.5 Rubik}.verdict .t b{font-weight:600}
+@media (max-width:620px){.verdict{flex-direction:column;align-items:flex-start;gap:6px}}
+.trade{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.tb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:13px;border-radius:14px;text-decoration:none;border:1.5px solid transparent;transition:transform .15s,box-shadow .15s}
+.tb:hover{transform:translateY(-1px)}
+.tb.yes{background:var(--yes-soft);border-color:color-mix(in srgb,var(--yes) 50%,transparent)}
+.tb.no{background:var(--no-soft);border-color:color-mix(in srgb,var(--no) 50%,transparent)}
+.tb b{font:600 17px Rubik}.tb.yes b{color:var(--yes-ink)}.tb.no b{color:var(--no-ink)}
+.tb span{font:500 12.5px Figtree;color:var(--muted)}
+.tb.yes.pick{border-color:var(--yes);box-shadow:0 0 0 3px color-mix(in srgb,var(--yes) 28%,transparent)}
+.tb.no.pick{border-color:var(--no);box-shadow:0 0 0 3px color-mix(in srgb,var(--no) 28%,transparent)}
+.conf{margin-top:14px;display:flex;align-items:center;gap:10px;font:400 13.5px/1.5 Rubik;color:var(--muted)}
+.conf b{color:var(--ink);font-weight:600}
+.dots{display:inline-flex;gap:3px;flex:none}.dots i{width:16px;height:6px;border-radius:3px;background:var(--line)}.dots i.on{background:var(--ink)}
 
-/* progress */
-.big{font-family:"Space Grotesk",sans-serif;font-size:clamp(40px,6.4vw,64px);font-weight:500;letter-spacing:-2px;line-height:1;margin:12px 0 8px;font-variant-numeric:tabular-nums}
-.sub{color:var(--muted);font-size:16px}.sub b{color:var(--text);font-weight:600}
-.ptrack{height:12px;border-radius:999px;background:rgba(255,255,255,.08);position:relative;overflow:hidden;margin-top:20px}
-.pfill{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:linear-gradient(90deg,var(--violet),var(--pink));box-shadow:0 0 20px rgba(255,111,174,.5);transition:width .8s cubic-bezier(.2,.8,.2,1)}
-.pscale{display:flex;justify-content:space-between;margin-top:8px;font-size:12.5px;color:var(--muted)}.pscale b{color:var(--text)}
-.stats3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:20px}
-@media (max-width:640px){.stats3{grid-template-columns:1fr}}
-.stats3 .stat .v{font-size:30px}
+/* ---------- 2 · progress */
+.big{font:500 clamp(36px,5.6vw,52px)/1 Runde;letter-spacing:-.03em;font-variant-numeric:tabular-nums;margin:8px 0 6px}
+.sub{font:400 14.5px Rubik;color:var(--muted)}.sub b{color:var(--ink);font-weight:600}
+.ptrack{height:14px;border-radius:999px;background:var(--soft);position:relative;overflow:hidden;margin-top:18px}
+.pfill{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:linear-gradient(90deg,var(--no),var(--yes));transition:width .8s cubic-bezier(.2,.8,.2,1);overflow:hidden}
+.pfill::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);background-size:200px 100%;background-repeat:no-repeat;animation:shine 2.4s linear infinite}
+@keyframes shine{from{background-position:-200px 0}to{background-position:calc(100% + 200px) 0}}
+.pscale{display:flex;justify-content:space-between;margin-top:7px;font:500 12px Figtree;color:var(--muted)}
+.pscale b{color:var(--ink)}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+@media (max-width:620px){.facts{grid-template-columns:1fr}}
+.fact{display:flex;gap:12px;align-items:center;background:var(--soft);border-radius:14px;padding:12px 14px}
+.fact .ic{width:36px;height:36px;border-radius:10px;background:var(--card);display:grid;place-items:center;flex:none}
+.fact .ic svg{width:18px;height:18px;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.fact .v{font:500 19px Runde;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
 
-/* chart */
-canvas{width:100%;display:block;margin-top:16px}
-.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--muted);margin-top:12px}
+/* ---------- 3 · chart */
+canvas{width:100%;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font:500 12.5px Figtree;color:var(--muted);margin-top:12px}
 .legend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
 
-/* good to know */
-.know{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
-@media (max-width:800px){.know{grid-template-columns:1fr}}
-.know .stat b{display:block;font-family:"Space Grotesk",sans-serif;font-size:18px;font-weight:700;margin-bottom:6px;letter-spacing:-.3px}
-.know .stat p{margin:0;color:#cfcfd6;font-size:14.5px;line-height:1.55}
-.know .stat p strong{color:var(--pink-2)}
+/* ---------- 4 · good to know */
+.know{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:760px){.know{grid-template-columns:1fr}}
+.k{background:var(--soft);border-radius:16px;padding:16px}
+.k .ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;margin-bottom:10px}
+.k .ic svg{width:18px;height:18px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.k b{display:block;font:600 15px Rubik;margin-bottom:4px}
+.k p{margin:0;font:400 14px/1.55 Rubik;color:var(--muted)}
+.k p strong{color:var(--ink);font-weight:600}
 
-footer{margin-top:34px;padding-top:20px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 20px;color:var(--muted);font-size:13.5px}
-footer a{color:var(--muted)}footer a:hover{color:var(--text)}
-footer .l{display:flex;align-items:center;gap:8px}footer .l img{width:20px;height:20px;border-radius:5px}
-.err{color:var(--red)}
+footer{margin-top:28px;border-top:1px solid var(--line)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 24px;padding:20px 20px 36px}
+footer .fl{display:flex;align-items:center;gap:10px;font:500 14px Rubik}
+footer .fl img{width:22px;height:22px;border-radius:6px}
+footer .fr{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font:500 13px Figtree;color:var(--muted)}
+footer .fr a{text-decoration:none;padding:5px 11px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:var(--ink)}
+footer .small{flex-basis:100%;font:400 12.5px Rubik;color:var(--muted)}
+.err{color:#dc2626}
+@media (max-width:640px){.live span,#theme{display:none}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header class="top">
-    <a class="brand" href="./"><img src="img/logo.svg" alt=""><span>X<b>O</b> JUMPER</span></a>
-    <span class="live"><i></i><span id="upd">Live</span></span>
-  </header>
+<header><div class="wrap">
+  <a class="brand" href="./"><img src="img/logo.svg" alt=""><b>XO Jumper</b></a>
+  <span class="sp"></span>
+  <span class="live"><i></i><span id="upd">Live</span></span>
+  <button class="icon-btn" id="theme" title="Toggle theme">◐</button>
+</div></header>
 
-  <section class="hero">
-    <div class="mascot" aria-hidden="true">
-      <div class="bubble" id="bubble">Checking the numbers…</div>
-      <div class="m-fig"><img id="rooster" src="img/wave.webp" alt=""></div>
+<main class="wrap">
+  <!-- 1 · the answer -->
+  <section class="card">
+    <div class="q">
+      <img id="mimg" alt="">
+      <div>
+        <h1>Will the Jumper sale on Legion.cc raise more than $35M in deposits?</h1>
+        <div class="meta">XO market · betting closes Oct 1, 23:59 UTC</div>
+      </div>
     </div>
-    <div class="kicker">Live · XO market</div>
-    <h1>Will Jumper raise <span>$35M</span> on Legion?</h1>
-    <p>Live deposits from Legion, the price on XO, and our forecast of where the sale ends up. Betting closes <b style="color:var(--text)">Oct 1, 23:59 UTC</b>.</p>
-  </section>
-
-  <!-- 1 · the call -->
-  <section class="panel">
-    <div class="kick">The call</div>
-    <div class="call" id="call">—</div>
-    <div class="why" id="why">Loading live data…</div>
-    <div class="stats">
-      <div class="stat f"><div class="l">Our forecast</div><div class="v" id="pModel">—</div><div class="s">Chance deposits pass $35M before betting closes, based on how fast money comes in right now.</div></div>
-      <div class="stat x"><div class="l">Price of YES on XO</div><div class="v" id="pXO">—</div><div class="s">What it costs to buy YES now. It pays $1 if deposits pass $35M.</div></div>
+    <div class="duo">
+      <div class="box f">
+        <div class="h"><i></i>Our forecast</div>
+        <div class="v" id="pModel">—</div>
+        <div class="d">Chance that deposits pass $35M before betting closes, based on how fast money is coming in right now.</div>
+      </div>
+      <div class="box x">
+        <div class="h"><i></i>Price of YES on XO</div>
+        <div class="v" id="pXO">—</div>
+        <div class="d">What it costs to buy YES right now. It pays $1 if deposits pass $35M, so buying it is a bet that the chance is higher than <span id="pxoPct">—</span>.</div>
+      </div>
     </div>
     <div class="scale" aria-hidden="true">
       <div class="strack">
@@ -171,55 +176,56 @@ footer .l{display:flex;align-items:center;gap:8px}footer .l img{width:20px;heigh
       </div>
       <div class="sends"><span>0% · won't happen</span><span>100% · sure thing</span></div>
     </div>
-    <div class="actions">
-      <a class="buy yes" id="tYes" href="#" target="_blank" rel="noopener"><span style="font-size:17px;opacity:1;font-weight:700" id="yesPx">Buy YES</span><span id="yesPay">—</span></a>
-      <a class="buy no" id="tNo" href="#" target="_blank" rel="noopener"><span style="font-size:17px;opacity:1;font-weight:700" id="noPx">Buy NO</span><span id="noPay">—</span></a>
+    <div class="verdict" id="verdict"><div class="side" id="side">—</div><div class="t" id="vtext">Loading live data…</div></div>
+    <div class="trade">
+      <a class="tb yes" id="tYes" href="#" target="_blank" rel="noopener"><b id="yesPx">Buy YES</b><span id="yesPay">—</span></a>
+      <a class="tb no" id="tNo" href="#" target="_blank" rel="noopener"><b id="noPx">Buy NO</b><span id="noPay">—</span></a>
     </div>
-    <div class="sure"><span class="dots" id="dots"><i></i><i></i><i></i></span><span id="conf">—</span></div>
+    <div class="conf"><span class="dots" id="dots"><i></i><i></i><i></i></span><span id="conf">—</span></div>
   </section>
 
   <!-- 2 · progress -->
-  <section class="panel">
-    <div class="kick v">Live on Legion</div>
+  <section class="card">
+    <h2>Deposited so far</h2>
     <div class="big" id="dep">—</div>
     <div class="sub" id="depLine">—</div>
     <div class="ptrack"><div class="pfill" id="fill" style="width:0"></div></div>
     <div class="pscale"><span>$0</span><b>$35M goal</b></div>
-    <div class="stats3">
-      <div class="stat"><div class="l">Still missing</div><div class="v" id="need">—</div></div>
-      <div class="stat"><div class="l">Needed per hour</div><div class="v" id="needPace">—</div></div>
-      <div class="stat"><div class="l">Betting closes in</div><div class="v" id="cd">—</div></div>
+    <div class="facts">
+      <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M8 12h8"/></svg></div><div><div class="lbl">Still missing</div><div class="v" id="need">—</div></div></div>
+      <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><div><div class="lbl">Needed per hour to make it</div><div class="v" id="needPace">—</div></div></div>
+      <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg></div><div><div class="lbl">Betting closes in</div><div class="v" id="cd">—</div></div></div>
     </div>
   </section>
 
   <!-- 3 · chart -->
-  <section class="panel">
-    <div class="kick">The curve</div>
-    <div class="ttl">Deposits so far and where they're heading</div>
-    <canvas id="chart" height="340"></canvas>
+  <section class="card">
+    <h2>Deposits so far and where they're heading</h2>
+    <canvas id="chart" height="340" style="margin-top:14px"></canvas>
     <div class="legend">
-      <span><i style="background:var(--pink)"></i>Real deposits</span>
-      <span><i style="background:var(--violet)"></i>Our forecast</span>
-      <span><i style="background:rgba(185,140,255,.3);height:10px"></i>Could land anywhere here</span>
-      <span><i style="background:#fff"></i>$35M goal</span>
+      <span><i style="background:var(--yes)"></i>Real deposits</span>
+      <span><i style="background:var(--no-ink)"></i>Our forecast</span>
+      <span><i style="background:color-mix(in srgb,var(--no) 35%,transparent);height:10px"></i>Could land anywhere here</span>
+      <span><i style="background:var(--ink)"></i>$35M goal</span>
     </div>
   </section>
 
   <!-- 4 · good to know -->
-  <section class="panel">
-    <div class="kick v">Good to know</div>
+  <section class="card">
+    <h2>Good to know</h2>
     <div class="know">
-      <div class="stat"><b>How the forecast works</b><p>Token sales raise the most money in the first hours and slow down after. We measure that slowdown from the real deposits and extend it to the deadline. It gets sharper every hour.</p></div>
-      <div class="stat"><b>Two deadlines</b><p>Betting on XO closes Oct 1, 23:59 UTC. The Legion sale runs until Oct 2, 13:00 UTC. The rules don't say which one counts. We use the earlier one; with the later one the forecast is <strong id="pLate">—</strong>.</p></div>
-      <div class="stat"><b>Not advice</b><p>A whale or a last-minute rush can change everything. Only trade what you can afford to lose.</p></div>
+      <div class="k"><div class="ic" style="background:var(--no-soft)"><svg viewBox="0 0 24 24" style="stroke:var(--no-ink)"><path d="M3 20h18"/><path d="M5 20V10M10 20V4M15 20v-7M20 20v-4"/></svg></div><b>How the forecast works</b><p>Token sales raise the most money in the first hours and slow down after. We measure that slowdown from the real deposits and extend it to the deadline. It gets more accurate every hour.</p></div>
+      <div class="k"><div class="ic" style="background:var(--warn-soft)"><svg viewBox="0 0 24 24" style="stroke:#d18a00"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div><b>Two deadlines</b><p>Betting on XO closes Oct 1, 23:59 UTC. The Legion sale runs until Oct 2, 13:00 UTC. The rules don't say which one counts. We use the earlier one; with the later one the forecast is <strong id="pLate">—</strong>.</p></div>
+      <div class="k"><div class="ic" style="background:var(--yes-soft)"><svg viewBox="0 0 24 24" style="stroke:var(--yes-ink)"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg></div><b>Not advice</b><p>A whale or a last-minute rush can change everything. Only trade what you can afford to lose.</p></div>
     </div>
   </section>
+</main>
 
-  <footer>
-    <div class="l"><img src="img/logo.svg" alt="">XO Jumper · made by the XO community · not affiliated with XO Market or Legion</div>
-    <div>Data: <a href="https://app.legion.cc/app/invest" target="_blank" rel="noopener">Legion</a> (deposits, every ~10 min) · <a href="https://beta.xo.market" target="_blank" rel="noopener">XO</a> (live prices) <span id="err" class="err"></span></div>
-  </footer>
-</div>
+<footer><div class="wrap">
+  <div class="fl"><img src="img/logo.svg" alt="">XO Jumper · made by the XO community</div>
+  <div class="fr">Data: <a href="https://app.legion.cc/app/invest" target="_blank" rel="noopener">Legion · deposits every ~10 min</a><a href="https://beta.xo.market" target="_blank" rel="noopener">XO · live prices</a></div>
+  <div class="small">Not affiliated with XO Market or Legion. <span id="err" class="err"></span></div>
+</div></footer>
 
 <script>
 const CFG = {
@@ -233,12 +239,17 @@ const CFG = {
 };
 ['tYes', 'tNo'].forEach(id => document.getElementById(id).href = CFG.xoUrl);
 
+const root = document.documentElement;
+try { const s = localStorage.getItem('theme'); if (s) root.dataset.theme = s; } catch {}
+document.getElementById('theme').onclick = () => { const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; root.dataset.theme = dark ? 'light' : 'dark'; try { localStorage.setItem('theme', root.dataset.theme); } catch {} draw(); };
+
 const $ = id => document.getElementById(id);
 const usd = v => '$' + Math.round(v).toLocaleString('en-US');
 const usdM = v => v >= 1e6 ? '$' + (v / 1e6).toFixed(v >= 1e7 ? 1 : 2) + 'M' : v >= 1e3 ? '$' + (v / 1e3).toFixed(0) + 'K' : '$' + Math.round(v);
 const pct = v => Math.round(v * 100) + '%';
 const cents = v => Math.round(v * 100) + '¢';
 const Hh = ms => ms / 36e5;
+const css = n => getComputedStyle(root).getPropertyValue(n).trim();
 function erf(x) { const s = Math.sign(x); x = Math.abs(x); const t = 1 / (1 + .3275911 * x); return s * (1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - .284496736) * t + .254829592) * t * Math.exp(-x * x)); }
 const Phi = z => .5 * (1 + erf(z / Math.SQRT2));
 
@@ -260,7 +271,7 @@ async function refresh() {
   if (h.status === 'fulfilled') HIST = h.value;
   if (live.status === 'fulfilled' && live.value.deposits) LIVE = live.value;
   if (ev.status === 'fulfilled') { XO = ev.value.data.markets[0].market; try { BOOK = await loadBook(XO); } catch {} }
-  $('err').textContent = live.status === 'fulfilled' && live.value.deposits ? '' : '· Legion data temporarily unavailable';
+  $('err').textContent = live.status === 'fulfilled' && live.value.deposits ? '' : 'Legion live data is temporarily unavailable.';
   compute(); render(); draw();
 }
 
@@ -295,14 +306,13 @@ function compute() {
   MODEL = { pts, now, tNow, k, se, fitted, span, proj, prob, needPace: (CFG.goal - now.d) / Math.max(.01, Hh(CFG.xoClose - now.t)) };
 }
 
-function setRooster(pose, text) {
-  const img = $('rooster'), src = `img/${pose}.webp`;
-  if (!img.src.endsWith(src)) { img.src = src; img.className = pose === 'cheer' ? 'cut' : ''; }
-  if ($('bubble').textContent !== text) { const b = $('bubble'); b.textContent = text; b.style.animation = 'none'; b.offsetHeight; b.style.animation = ''; }
-}
+const ARROW_UP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>';
+const ARROW_DN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7l10 10M17 9v8H9"/></svg>';
 let shownDep = 0, animFrom = 0, animT0 = 0;
 function render() {
-  const M = MODEL; if (!M) return;
+  const M = MODEL;
+  if (XO) $('mimg').src = XO.imageUrl || '';
+  if (!M) return;
   const d = M.now.d;
   animFrom = shownDep || d * .97; animT0 = performance.now(); shownDep = d;
   const parts = (LIVE && LIVE.participants) || (HIST.length ? HIST[HIST.length - 1].participants : null);
@@ -315,32 +325,34 @@ function render() {
   const mid = +XO.outcomes.find(o => o.index === 0).currentPrice / 1e6;
   const yesAsk = BOOK && BOOK.yesAsk != null ? BOOK.yesAsk : mid, noAsk = BOOK && BOOK.noAsk != null ? BOOK.noAsk : 1 - mid;
   const pm = M.prob(CFG.xoClose);
-  $('pModel').textContent = pct(pm); $('pXO').textContent = cents(yesAsk);
+  $('pModel').textContent = pct(pm); $('pXO').textContent = cents(yesAsk); $('pxoPct').textContent = pct(yesAsk);
   $('yesPx').textContent = `Buy YES · ${cents(yesAsk)}`; $('noPx').textContent = `Buy NO · ${cents(noAsk)}`;
   $('yesPay').textContent = `$10 → $${(10 / yesAsk).toFixed(2)} if it passes $35M`;
   $('noPay').textContent = `$10 → $${(10 / noAsk).toFixed(2)} if it doesn't`;
+  // scale: price marker, forecast marker, the gap between them; labels go on opposite sides when close
   const lo = Math.min(pm, yesAsk), hi = Math.max(pm, yesAsk);
   $('mX').style.left = $('tX').style.left = yesAsk * 100 + '%'; $('mF').style.left = $('tF').style.left = pm * 100 + '%';
   $('tX').textContent = `YES price ${cents(yesAsk)}`; $('tF').textContent = `Our forecast ${pct(pm)}`;
   $('tF').classList.toggle('below', Math.abs(pm - yesAsk) < .22);
   const gapEl = $('sgap'); gapEl.style.left = lo * 100 + '%'; gapEl.style.width = (hi - lo) * 100 + '%';
-  gapEl.style.background = pm > yesAsk ? 'rgba(255,111,174,.45)' : 'rgba(185,140,255,.45)';
+  gapEl.style.background = pm > yesAsk ? 'color-mix(in srgb,var(--yes) 45%,transparent)' : 'color-mix(in srgb,var(--no) 45%,transparent)';
+  // verdict: compare our chance with what each side costs
   const edgeYes = pm - yesAsk, edgeNo = (1 - pm) - noAsk;
   const side = d >= CFG.goal ? 'yes' : edgeYes > .05 ? 'yes' : edgeNo > .05 ? 'no' : 'none';
-  $('call').className = 'call ' + (side === 'none' ? '' : side);
+  $('verdict').className = 'verdict ' + (side === 'none' ? '' : side);
   $('tYes').classList.toggle('pick', side === 'yes'); $('tNo').classList.toggle('pick', side === 'no');
   const px = usdM(M.proj(CFG.xoClose));
-  if (d >= CFG.goal) { $('call').textContent = 'YES, it made it'; $('why').innerHTML = 'Deposits have <b>already passed $35M</b>.'; setRooster('cheer', 'We did it! $35M+ 🎉'); }
-  else if (side === 'yes') { $('call').textContent = 'Leaning YES'; $('why').innerHTML = `At the current pace deposits reach about <b>${px}</b> before betting closes. We give it <b>${pct(pm)}</b>, but YES costs only <b>${cents(yesAsk)}</b>. YES looks cheap.`; setRooster('cheer', 'YES looks cheap right now 👀'); }
-  else if (side === 'no') { $('call').textContent = 'Leaning NO'; $('why').innerHTML = `At the current pace deposits reach about <b>${px}</b> before betting closes. We give NO <b>${pct(1 - pm)}</b>, but it costs only <b>${cents(noAsk)}</b>. NO looks cheap.`; setRooster('think', "Hmm… NO looks cheap right now 🤔"); }
-  else { $('call').textContent = 'No clear side'; $('why').innerHTML = `At the current pace deposits reach about <b>${px}</b> before betting closes. Our forecast (${pct(pm)}) is close to what YES costs (${cents(yesAsk)}), so neither side looks cheap.`; setRooster('think', 'Too close to call. Wait a bit ⏳'); }
+  if (d >= CFG.goal) { $('side').innerHTML = ARROW_UP + 'YES ✓'; $('vtext').innerHTML = 'Deposits have <b>already passed $35M</b>.'; }
+  else if (side === 'yes') { $('side').innerHTML = ARROW_UP + 'Leaning YES'; $('vtext').innerHTML = `At the current pace deposits reach about <b>${px}</b> before betting closes. We give it <b>${pct(pm)}</b>, but YES costs only <b>${cents(yesAsk)}</b>, so YES looks cheap.`; }
+  else if (side === 'no') { $('side').innerHTML = ARROW_DN + 'Leaning NO'; $('vtext').innerHTML = `At the current pace deposits reach about <b>${px}</b> before betting closes. We give NO <b>${pct(1 - pm)}</b>, but it costs only <b>${cents(noAsk)}</b>, so NO looks cheap.`; }
+  else { $('side').textContent = 'No clear side'; $('vtext').innerHTML = `At the current pace deposits reach about <b>${px}</b> before betting closes. Our forecast (${pct(pm)}) is close to what YES costs (${cents(yesAsk)}), so neither side looks cheap.`; }
   const hrs = Math.floor(M.tNow), level = !M.fitted || M.span < 1.2 ? 1 : M.span < 2 ? 2 : 3;
   [...$('dots').children].forEach((e, i) => e.classList.toggle('on', i < level));
   $('conf').innerHTML = level === 1
-    ? `How sure: <b>low</b>. The sale opened ${hrs < 1 ? 'less than an hour' : hrs + (hrs === 1 ? ' hour' : ' hours')} ago, so there isn't much data yet. It gets better every hour.`
+    ? `How sure: <b>low</b>. The sale opened ${hrs < 1 ? 'less than an hour' : hrs + (hrs === 1 ? ' hour' : ' hours')} ago, so there isn't much data yet. The forecast gets better every hour.`
     : `How sure: <b>${level === 2 ? 'medium' : 'high'}</b>. Based on ${hrs} hours of real deposits.`;
 }
-function fmtLeft(ms) { ms = Math.max(0, ms); const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60; return (d ? d + 'd ' : '') + h + 'h ' + String(m).padStart(2, '0') + 'm'; }
+function fmtLeft(ms) { ms = Math.max(0, ms); const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60, s = Math.floor(ms / 1e3) % 60; return (d ? d + 'd ' : '') + String(h).padStart(2, '0') + 'h ' + String(m).padStart(2, '0') + 'm ' + String(s).padStart(2, '0') + 's'; }
 function tick() {
   const p = Math.min(1, (performance.now() - animT0) / 1200), e = 1 - Math.pow(1 - p, 3);
   if (shownDep) $('dep').textContent = usd(animFrom + (shownDep - animFrom) * e);
@@ -350,47 +362,46 @@ function tick() {
   requestAnimationFrame(tick);
 }
 
-// chart (dark): CSS height comes from the markup once (data-h); the backing store is retina-scaled
+// chart: the CSS height comes from the markup once (data-h); the backing store is retina-scaled
 function setup(cv) { if (!cv.dataset.h) cv.dataset.h = cv.getAttribute('height'); const h = +cv.dataset.h, dpr = devicePixelRatio || 1; cv.style.height = h + 'px'; const r = cv.getBoundingClientRect(); cv.width = Math.round(r.width * dpr); cv.height = Math.round(h * dpr); const g = cv.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0); return [g, r.width, h]; }
-// plain label, no box: a dark halo keeps it readable over lines
-function label(g, text, x, y, { align = 'left', color = '#8d8d98', weight = 500, size = 12.5 } = {}) {
-  g.font = `${weight} ${size}px Inter`; g.textAlign = align; g.textBaseline = 'middle';
-  g.lineJoin = 'round'; g.lineWidth = 4; g.strokeStyle = 'rgba(15,15,18,.9)'; g.strokeText(text, x, y);
-  g.fillStyle = color; g.fillText(text, x, y);
+function tag(g, text, x, y, { align = 'left', color, bold = false } = {}) {
+  g.font = `${bold ? 600 : 500} 12.5px Figtree`; g.textAlign = align; g.textBaseline = 'middle';
+  g.lineJoin = 'round'; g.lineWidth = 5; g.strokeStyle = css('--card'); g.strokeText(text, x, y);   // halo keeps it readable over lines
+  g.fillStyle = color || css('--muted'); g.fillText(text, x, y);
 }
 function draw() {
   const M = MODEL; if (!M) return;
-  const [g, W, H] = setup($('chart')), L = 50, R = 14, T = 14, B = 30;
+  const [g, W, H] = setup($('chart')), L = 50, R = 14, T = 12, B = 30;
+  const ink = css('--ink'), muted = css('--muted'), line = css('--line'), yes = css('--yes'), lav = css('--no-ink');
   const t0 = CFG.open, t1 = CFG.xoClose + 2 * 36e5;
   const yMax = Math.max(CFG.goal * 1.3, Math.min(M.proj(CFG.xoClose) * 1.15, CFG.goal * 2.2));
   const X = t => L + (t - t0) / (t1 - t0) * (W - L - R), Y = v => T + (1 - v / yMax) * (H - T - B);
   const step = [5e6, 1e7, 2e7].find(s => yMax / s <= 6) || 2e7;
-  g.strokeStyle = 'rgba(255,255,255,.06)'; g.lineWidth = 1; g.font = '500 12px Inter'; g.fillStyle = '#8d8d98'; g.textAlign = 'right'; g.textBaseline = 'middle';
+  g.font = '500 12px Figtree'; g.strokeStyle = line; g.lineWidth = 1; g.fillStyle = muted; g.textAlign = 'right'; g.textBaseline = 'middle';
   for (let v = 0; v <= yMax; v += step) { g.beginPath(); g.moveTo(L, Y(v) + .5); g.lineTo(W - R, Y(v) + .5); g.stroke(); g.fillText(v ? '$' + v / 1e6 + 'M' : '$0', L - 8, Y(v)); }
   g.textAlign = 'center'; g.textBaseline = 'top';
-  for (let day = Date.parse('2026-09-30T00:00:00Z'); day <= t1; day += 864e5) g.fillText(new Date(day).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' }), X(day), H - B + 10);
-  g.save(); g.setLineDash([4, 4]); g.strokeStyle = 'rgba(255,255,255,.25)'; g.beginPath(); g.moveTo(X(CFG.xoClose) + .5, T); g.lineTo(X(CFG.xoClose) + .5, H - B); g.stroke(); g.restore();
+  for (let day = Date.parse('2026-09-30T00:00:00Z'); day <= t1; day += 864e5) g.fillText(new Date(day).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' }), X(day), H - B + 9);
+  g.save(); g.setLineDash([4, 4]); g.strokeStyle = muted; g.beginPath(); g.moveTo(X(CFG.xoClose) + .5, T); g.lineTo(X(CFG.xoClose) + .5, H - B); g.stroke(); g.restore();
   if (M.now.t < CFG.xoClose && M.now.d < CFG.goal) {
     const ts = []; for (let i = 0; i <= 60; i++) ts.push(M.now.t + (CFG.xoClose - M.now.t) * i / 60);
     const at = (t, kk) => Math.min(yMax, M.now.d * Math.pow(Hh(t - CFG.open) / M.tNow, kk));
     g.beginPath(); ts.forEach((t, i) => { const y = Y(at(t, M.k + M.se)); i ? g.lineTo(X(t), y) : g.moveTo(X(t), y); }); [...ts].reverse().forEach(t => g.lineTo(X(t), Y(at(t, Math.max(0, M.k - M.se))))); g.closePath();
-    g.fillStyle = 'rgba(185,140,255,.14)'; g.fill();
-    g.save(); g.setLineDash([6, 5]); g.strokeStyle = '#b98cff'; g.lineWidth = 2.5; g.beginPath(); ts.forEach((t, i) => { const y = Y(at(t, M.k)); i ? g.lineTo(X(t), y) : g.moveTo(X(t), y); }); g.stroke(); g.restore();
+    g.fillStyle = 'rgba(162,147,255,.18)'; g.fill();
+    g.save(); g.setLineDash([6, 5]); g.strokeStyle = lav; g.lineWidth = 2.5; g.beginPath(); ts.forEach((t, i) => { const y = Y(at(t, M.k)); i ? g.lineTo(X(t), y) : g.moveTo(X(t), y); }); g.stroke(); g.restore();
   }
-  g.save(); g.strokeStyle = 'rgba(255,255,255,.85)'; g.lineWidth = 1.5; g.setLineDash([8, 6]); g.beginPath(); g.moveTo(L, Y(CFG.goal)); g.lineTo(W - R, Y(CFG.goal)); g.stroke(); g.restore();
-  label(g, '$35M goal', L + 8, Y(CFG.goal) - 12, { color: '#f4f4f6', weight: 600 });
+  g.save(); g.strokeStyle = ink; g.lineWidth = 1.5; g.setLineDash([8, 6]); g.beginPath(); g.moveTo(L, Y(CFG.goal)); g.lineTo(W - R, Y(CFG.goal)); g.stroke(); g.restore();
+  tag(g, '$35M goal', L + 8, Y(CFG.goal) - 14, { color: ink, bold: true });
   const pts = M.pts;
   const path = () => { g.beginPath(); g.moveTo(X(CFG.open), Y(0)); pts.forEach(p => g.lineTo(X(p.t), Y(p.d))); };
   path(); g.lineTo(X(pts[pts.length - 1].t), Y(0)); g.closePath();
-  const gr = g.createLinearGradient(0, T, 0, H - B); gr.addColorStop(0, 'rgba(255,111,174,.35)'); gr.addColorStop(1, 'rgba(255,111,174,0)'); g.fillStyle = gr; g.fill();
-  path(); g.strokeStyle = '#ff6fae'; g.lineWidth = 3; g.lineJoin = 'round'; g.shadowColor = 'rgba(255,111,174,.6)'; g.shadowBlur = 12; g.stroke(); g.shadowBlur = 0;
-  const last = pts[pts.length - 1]; g.fillStyle = '#ff6fae'; g.beginPath(); g.arc(X(last.t), Y(last.d), 5.5, 0, 7); g.fill(); g.strokeStyle = '#0f0f12'; g.lineWidth = 2; g.stroke();
-  label(g, 'now ' + usdM(last.d), X(last.t) + 12, Y(last.d) - 2, { color: '#ff9ccb', weight: 600 });
-  if (M.now.t < CFG.xoClose && M.now.d < CFG.goal) { const v = M.proj(CFG.xoClose); if (v <= yMax) { g.fillStyle = '#b98cff'; g.beginPath(); g.arc(X(CFG.xoClose), Y(v), 5, 0, 7); g.fill(); label(g, 'forecast ' + usdM(v), X(CFG.xoClose) - 10, Math.max(T + 10, Math.min(H - B - 40, Y(v) - 18)), { align: 'right', color: '#d2b8ff', weight: 600 }); } }
-  label(g, 'betting closes', X(CFG.xoClose) - 8, H - B - 12, { align: 'right' });
+  const gr = g.createLinearGradient(0, T, 0, H - B); gr.addColorStop(0, 'rgba(255,135,166,.32)'); gr.addColorStop(1, 'rgba(255,135,166,0)'); g.fillStyle = gr; g.fill();
+  path(); g.strokeStyle = yes; g.lineWidth = 3; g.lineJoin = 'round'; g.stroke();
+  const last = pts[pts.length - 1]; g.fillStyle = yes; g.beginPath(); g.arc(X(last.t), Y(last.d), 5.5, 0, 7); g.fill(); g.strokeStyle = css('--card'); g.lineWidth = 2; g.stroke();
+  tag(g, 'now ' + usdM(last.d), X(last.t) + 10, Y(last.d) - 4, { color: css('--yes-ink'), bold: true });
+  if (M.now.t < CFG.xoClose && M.now.d < CFG.goal) { const v = M.proj(CFG.xoClose); if (v <= yMax) { g.fillStyle = lav; g.beginPath(); g.arc(X(CFG.xoClose), Y(v), 5, 0, 7); g.fill(); tag(g, 'forecast ' + usdM(v), X(CFG.xoClose) - 8, Math.max(T + 12, Math.min(H - B - 40, Y(v) - 22)), { align: 'right', color: lav, bold: true }); } }
+  tag(g, 'betting closes', X(CFG.xoClose) - 6, H - B - 12, { align: 'right' });
 }
 addEventListener('resize', () => draw());
-document.fonts.ready.then(() => draw());
 refresh(); setInterval(refresh, 30000); requestAnimationFrame(tick);
 </script>
 </body>
