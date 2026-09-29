@@ -71,8 +71,6 @@ h2{font:600 18px Rubik;letter-spacing:-.015em;margin:0}
 .box.f .h i{background:var(--yes)}
 .box .v{font:600 clamp(44px,6.4vw,60px)/1 Inter;letter-spacing:-.025em;font-variant-numeric:tabular-nums;margin:10px 0 8px}
 .box.f .v{color:var(--yes-ink)}
-.box.f.no::before,.box.f.no .h i{background:var(--no)}.box.f.no .v{color:var(--no-ink)}
-.box.f.even::before,.box.f.even .h i{background:var(--muted)}.box.f.even .v{color:var(--ink)}
 .box .d{font:400 14px/1.5 Rubik;color:var(--muted)}
 .verdict{margin-top:16px;border-radius:18px;padding:16px 18px;display:flex;gap:16px;align-items:center;background:var(--soft)}
 .verdict.yes{background:linear-gradient(100deg,var(--yes-soft),color-mix(in srgb,var(--yes-soft) 30%,var(--card)))}
@@ -327,9 +325,8 @@ function render() {
   const side = d >= CFG.goal ? 'yes' : edgeYes > .05 ? 'yes' : edgeNo > .05 ? 'no' : 'none';
   $('verdict').className = 'verdict ' + (side === 'none' ? '' : side);
   $('tYes').classList.toggle('pick', side === 'yes'); $('tNo').classList.toggle('pick', side === 'no');
-  // the forecast is always the chance of YES; its colour shows which side it favours (grey when it rounds to 50%)
+  // the forecast box is always the chance of YES (pink); the chart's forecast takes the colour of the side it favours (grey at 50%)
   const pr = Math.round(pm * 100), tone = pr === 50 ? 'even' : pr < 50 ? 'no' : 'yes';
-  $('fBox').classList.toggle('no', tone === 'no'); $('fBox').classList.toggle('even', tone === 'even');
   $('chartCard').className = 'card fc-' + tone;
   setText('pModel', pct(pm));
   const px = usdM(M.proj(CFG.xoClose));
