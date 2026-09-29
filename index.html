@@ -410,7 +410,8 @@ function renderPast(d, parts) {
 }
 
 // ---------------------------------------------------------------- charts
-function setup(cv) { const r = cv.getBoundingClientRect(), dpr = devicePixelRatio || 1, h = +cv.getAttribute('height'); cv.width = r.width * dpr; cv.height = h * dpr; cv.style.height = h + 'px'; const g = cv.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0); return [g, r.width, h]; }
+// the CSS height is fixed once from the markup (data-h); cv.height is the retina-scaled backing store, never read back
+function setup(cv) { if (!cv.dataset.h) cv.dataset.h = cv.getAttribute('height'); const h = +cv.dataset.h, dpr = devicePixelRatio || 1; cv.style.height = h + 'px'; const r = cv.getBoundingClientRect(); cv.width = Math.round(r.width * dpr); cv.height = Math.round(h * dpr); const g = cv.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0); return [g, r.width, h]; }
 // label on a card-coloured pill, so it stays readable over lines
 function tag(g, text, x, y, { align = 'left', color, bold = false } = {}) {
   g.font = `${bold ? 600 : 500} 12px Figtree`; const w = g.measureText(text).width + 12, h = 20;
