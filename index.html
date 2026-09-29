@@ -395,7 +395,7 @@ function draw() {
   path(); g.strokeStyle = yes; g.lineWidth = 3; g.lineJoin = 'round'; g.stroke();
   const last = pts[pts.length - 1]; g.fillStyle = yes; g.beginPath(); g.arc(X(last.t), Y(last.d), 5.5, 0, 7); g.fill(); g.strokeStyle = css('--card'); g.lineWidth = 2; g.stroke();
   tag(g, 'now ' + usdM(last.d), X(last.t) + 10, Y(last.d) - 4, { color: css('--yes-ink'), bold: true });
-  if (M.now.t < CFG.xoClose && M.now.d < CFG.goal) { const v = M.proj(CFG.xoClose); if (v <= yMax) { g.fillStyle = lav; g.beginPath(); g.arc(X(CFG.xoClose), Y(v), 5, 0, 7); g.fill(); tag(g, 'forecast ' + usdM(v), X(CFG.xoClose) - 8, Math.max(T + 12, Math.min(H - B - 40, Y(v) - 22)), { align: 'right', color: lav, bold: true }); } }
+  if (M.now.t < CFG.xoClose && M.now.d < CFG.goal) { const v = M.proj(CFG.xoClose); if (v <= yMax) { g.fillStyle = lav; g.beginPath(); g.arc(X(CFG.xoClose), Y(v), 5, 0, 7); g.fill(); let ly = Math.max(T + 12, Math.min(H - B - 40, Y(v) - 22)); if (Math.abs(ly - Y(CFG.goal)) < 12) ly = Y(v) + 22; tag(g, 'forecast ' + usdM(v), X(CFG.xoClose) - 8, ly, { align: 'right', color: lav, bold: true }); } }
   tag(g, 'betting closes', X(CFG.xoClose) - 6, H - B - 12, { align: 'right' });
 }
 addEventListener('resize', () => draw());
