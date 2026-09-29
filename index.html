@@ -63,17 +63,16 @@ h2{font:600 18px Rubik;letter-spacing:-.015em;margin:0}
 .q img{width:52px;height:52px;border-radius:14px;object-fit:cover;flex:none;background:var(--soft)}
 .q h1{font:600 clamp(20px,2.6vw,26px)/1.22 Rubik;letter-spacing:-.025em;margin:0}
 .q .meta{font:400 13.5px Rubik;color:var(--muted);margin-top:3px}
-.duo{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
-@media (max-width:620px){.duo{grid-template-columns:1fr}}
+.duo{margin-top:20px}
 .box{border-radius:18px;padding:18px 18px 16px;border:1px solid var(--line);background:var(--card);position:relative;overflow:hidden}
 .box::before{content:"";position:absolute;inset:0 0 auto 0;height:4px}
-.box.f::before{background:var(--fc)}.box.x::before{background:var(--yes)}
+.box.f::before{background:var(--yes)}
 .box .h{display:flex;align-items:center;gap:8px;font:600 15px Rubik}
 .box .h i{width:10px;height:10px;border-radius:50%}
-.box.f .h i{background:var(--fc)}.box.x .h i{background:var(--yes)}
+.box.f .h i{background:var(--yes)}
 .box .v{font:600 clamp(44px,6.4vw,60px)/1 Inter;letter-spacing:-.025em;font-variant-numeric:tabular-nums;margin:10px 0 8px}
-.box.f .v{color:var(--fc-ink)}.box.x .v{color:var(--yes-ink)}
-.box.x.no::before,.box.x.no .h i{background:var(--no)}.box.x.no .v{color:var(--no-ink)}
+.box.f .v{color:var(--yes-ink)}
+.box.f.no::before,.box.f.no .h i{background:var(--no)}.box.f.no .v{color:var(--no-ink)}
 .box .d{font:400 14px/1.5 Rubik;color:var(--muted)}
 .verdict{margin-top:16px;border-radius:18px;padding:16px 18px;display:flex;gap:16px;align-items:center;background:var(--soft)}
 .verdict.yes{background:linear-gradient(100deg,var(--yes-soft),color-mix(in srgb,var(--yes-soft) 30%,var(--card)))}
@@ -158,15 +157,10 @@ canvas{width:100%;display:block}
       </div>
     </div>
     <div class="duo">
-      <div class="box f">
+      <div class="box f" id="fBox">
         <div class="h"><i></i><span>Our forecast for <span class="sd">YES</span></span></div>
         <div class="v" id="pModel">—</div>
         <div class="d">Chance that deposits <span class="sdGoal">pass</span> $35M before betting closes, based on how fast money is coming in right now.</div>
-      </div>
-      <div class="box x" id="pBox">
-        <div class="h"><i></i><span>Price of <span class="sd">YES</span> on XO</span></div>
-        <div class="v" id="pXO">—</div>
-        <div class="d">What it costs to buy <span class="sd">YES</span> right now. It pays $1 if deposits <span class="sdGoal">pass</span> $35M, so buying it is a bet that the chance is higher than <span id="pxoPct">—</span>.</div>
       </div>
     </div>
     <div class="verdict" id="verdict"><div class="side" id="side">—</div><div class="t" id="vtext">Loading live data…</div></div>
@@ -333,8 +327,8 @@ function render() {
   const onNo = side === 'no' || (side === 'none' && pm < .5), showP = onNo ? 1 - pm : pm, showAsk = onNo ? noAsk : yesAsk;
   document.querySelectorAll('.sd').forEach(e => e.textContent = onNo ? 'NO' : 'YES');
   document.querySelectorAll('.sdGoal').forEach(e => e.textContent = onNo ? 'stay under' : 'pass');
-  $('pBox').classList.toggle('no', onNo);
-  $('pModel').textContent = pct(showP); $('pXO').textContent = cents(showAsk); $('pxoPct').textContent = pct(showAsk);
+  $('fBox').classList.toggle('no', onNo);
+  $('pModel').textContent = pct(showP);
   const px = usdM(M.proj(CFG.xoClose));
   if (d >= CFG.goal) { $('side').innerHTML = ARROW_UP + 'YES ✓'; $('vtext').innerHTML = 'Deposits have <b>already passed $35M</b>.'; }
   else if (side === 'yes') { $('side').innerHTML = ARROW_UP + 'YES looks cheap'; $('vtext').innerHTML = `At the current pace deposits reach about <b>${px}</b> before betting closes. We give YES <b>${pct(pm)}</b>, but it costs only <b>${cents(yesAsk)}</b>.`; }
