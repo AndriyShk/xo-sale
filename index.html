@@ -27,7 +27,8 @@ a{color:inherit}
 .wrap{max-width:1160px;margin:0 auto;padding:0 20px}
 header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 header .wrap{display:flex;align-items:center;gap:14px;height:64px}
-.logo{height:30px;width:auto}
+.logo{height:30px;width:85px;flex:none}
+@media (max-width:640px){.brand,#theme{display:none}.live span{display:none}header .btn{height:36px;padding:0 12px;font-size:14px}.tick span{font-size:10px}.tick.t175 span{display:none}}
 .logo path.w{fill:var(--ink)}
 .brand{font:700 13px Runde,sans-serif;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;white-space:nowrap}
 .sp{flex:1}
@@ -370,7 +371,7 @@ function render() {
     `At the current pace the sale finishes <b>${usdM(CFG.goal - M.proj(CFG.xoClose))} short</b> at the XO close. It needs to speed up.`;
   // track ticks
   const tr = $('track'); tr.querySelectorAll('.tick').forEach(e => e.remove());
-  [[CFG.target, 'Target $2M'], [CFG.hardCap, 'Hard cap $3M'], [17.5e6, '$17.5M'], [CFG.goal, '$35M', 'goal']].forEach(([v, l, c]) => { const e = document.createElement('div'); e.className = 'tick' + (c ? ' ' + c : ''); e.style.left = `calc(${Math.min(100, v / CFG.goal * 100)}% - 1px)`; e.innerHTML = `<span>${l}</span>`; if (v === CFG.hardCap) e.querySelector('span').style.top = '-22px'; tr.appendChild(e); });
+  [[CFG.target, 'Target $2M'], [CFG.hardCap, 'Hard cap $3M'], [17.5e6, '$17.5M'], [CFG.goal, '$35M', 'goal']].forEach(([v, l, c]) => { const e = document.createElement('div'); e.className = 'tick' + (c ? ' ' + c : '') + (v === 17.5e6 ? ' t175' : ''); e.style.left = `calc(${Math.min(100, v / CFG.goal * 100)}% - 1px)`; e.innerHTML = `<span>${l}</span>`; if (v === CFG.hardCap) e.querySelector('span').style.top = '-22px'; tr.appendChild(e); });
   renderPast(d, parts);
 }
 function tickDeposits() {
