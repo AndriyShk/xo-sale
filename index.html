@@ -3,235 +3,251 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Jumper × Legion Tracker | XO Community</title>
-<meta name="description" content="Live deposits, odds and a projection for the XO market: will the Jumper sale on Legion surpass $35M?">
-<meta property="og:title" content="Will Jumper hit $35M on Legion? Live tracker">
-<meta property="og:description" content="Live deposits, the XO crowd's odds and a simple projection model.">
+<title>Jumper × Legion: will it hit $35M? | Community tracker</title>
+<meta name="description" content="Which side to lean on the XO market 'Will the Jumper sale on Legion surpass $35M?' Live deposits, the crowd's odds vs a projection model.">
+<meta property="og:title" content="Jumper × Legion: YES or NO on $35M?">
+<meta property="og:description" content="Live deposits, the XO crowd's odds and a projection model, in one page.">
 <meta name="theme-color" content="#FF87A6">
 <style>
-@font-face{font-family:Gosha;src:url(fonts/GoshaSansBold.otf) format("opentype");font-weight:700;font-display:swap}
+@font-face{font-family:Rubik;src:url(fonts/Rubik.woff2) format("woff2");font-weight:300 900;font-display:swap}
+@font-face{font-family:Figtree;src:url(fonts/Figtree.woff2) format("woff2");font-weight:300 900;font-display:swap}
+@font-face{font-family:Runde;src:url(fonts/OpenRunde-Medium.woff2) format("woff2");font-weight:500;font-display:swap}
 @font-face{font-family:Runde;src:url(fonts/OpenRunde-Semibold.woff2) format("woff2");font-weight:600;font-display:swap}
 @font-face{font-family:Runde;src:url(fonts/OpenRunde-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
-@font-face{font-family:InterX;src:url(fonts/InterVariable.woff2) format("woff2");font-weight:100 900;font-display:swap}
 :root{
-  --pink:#FF87A6;--pink-d:#e0577c;--lav:#a293ff;--lime:#d0fa49;--orange:#ff9500;
-  --bg:#f6f5f8;--card:#ffffff;--ink:#121213;--muted:#6f6d78;--line:#e7e5ec;--soft:#f1eff5;
-  --shadow:0 1px 2px rgba(18,18,19,.04),0 8px 24px rgba(18,18,19,.06);
+  --yes:#FF87A6;--yes-ink:#d94a74;--yes-soft:#ffe8ee;--no:#a293ff;--no-ink:#6f5cf0;--no-soft:#eeebff;
+  --bg:#f5f5f7;--card:#ffffff;--ink:#121213;--muted:#6e6e6e;--line:#ececf0;--soft:#f5f5f7;--warn-soft:#fff4e0;
+  --shadow:0 1px 2px rgba(18,18,19,.04),0 6px 20px rgba(18,18,19,.05);
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0f0f12;--card:#17171c;--ink:#f4f2f5;--muted:#9a97a4;--line:#2a2a31;--soft:#1f1f25;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35)}}
-:root[data-theme="dark"]{--bg:#0f0f12;--card:#17171c;--ink:#f4f2f5;--muted:#9a97a4;--line:#2a2a31;--soft:#1f1f25;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#121213;--card:#1b1b1e;--ink:#f4f4f5;--muted:#9b9ba3;--line:#2a2a2f;--soft:#232327;--yes-soft:#3a2229;--no-soft:#29263f;--yes-ink:#ff9bb5;--no-ink:#b7abff;--warn-soft:#3a2e1a;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.3)}}
+:root[data-theme="dark"]{--bg:#121213;--card:#1b1b1e;--ink:#f4f4f5;--muted:#9b9ba3;--line:#2a2a2f;--soft:#232327;--yes-soft:#3a2229;--no-soft:#29263f;--yes-ink:#ff9bb5;--no-ink:#b7abff;--warn-soft:#3a2e1a;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.3)}
 *{box-sizing:border-box}
 html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font-family:InterX,system-ui,sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--ink);font:400 15px/1.5 Rubik,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:inherit}
-.wrap{max-width:1160px;margin:0 auto;padding:0 20px}
-header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-header .wrap{display:flex;align-items:center;gap:14px;height:64px}
-.logo{height:30px;width:85px;flex:none}
-@media (max-width:640px){.brand,#theme{display:none}.live span{display:none}header .btn{height:36px;padding:0 12px;font-size:14px}.tick span{font-size:10px}.tick.t175 span{display:none}}
-.logo path.w{fill:var(--ink)}
-.brand{font:700 13px Runde,sans-serif;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;white-space:nowrap}
+.num{font-family:Runde,Rubik,sans-serif;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;gap:12px;height:60px}
+.wm{display:flex;flex-direction:column;line-height:1.15}
+.wm b{font:600 17px Rubik;letter-spacing:-.01em}
+.wm span{font:500 12px Figtree;color:var(--muted)}
 .sp{flex:1}
-.live{display:inline-flex;align-items:center;gap:8px;font:700 12px InterX;letter-spacing:.12em;color:var(--pink-d);white-space:nowrap}
-.live i{width:8px;height:8px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 0 rgba(255,135,166,.7);animation:pulse 1.6s infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,135,166,.6)}70%{box-shadow:0 0 0 10px rgba(255,135,166,0)}100%{box-shadow:0 0 0 0 rgba(255,135,166,0)}}
-.btn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 18px;border-radius:12px;background:var(--pink);color:#121213;font:700 15px Runde,sans-serif;text-decoration:none;border:0;cursor:pointer;white-space:nowrap}
-.btn:hover{background:#ff9bb5}
-.btn.ghost{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
-.icon-btn{width:40px;height:40px;border-radius:12px;border:1.5px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;font-size:17px}
+.live{display:inline-flex;align-items:center;gap:7px;font:500 13px Figtree;color:var(--muted);white-space:nowrap}
+.live i{width:8px;height:8px;border-radius:50%;background:#22c55e;animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.55)}70%{box-shadow:0 0 0 8px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:12px;background:var(--ink);color:var(--card);font:600 14px Figtree;text-decoration:none;border:0;cursor:pointer;white-space:nowrap}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;font-size:16px}
 
-.hero{padding:34px 0 10px}
-.q{display:flex;gap:16px;align-items:center}
-.q img{width:56px;height:56px;border-radius:14px;object-fit:cover;flex:none;background:var(--soft)}
-.q h1{font:700 clamp(22px,3.2vw,34px)/1.15 Runde,sans-serif;margin:0}
-.q .meta{color:var(--muted);font-size:14px;margin-top:4px}
-.pill{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;background:var(--soft);font:600 12.5px InterX;color:var(--muted)}
+main{padding:22px 0 10px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(12,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow);min-width:0}
+.c12{grid-column:span 12}.c8{grid-column:span 8}.c6{grid-column:span 6}.c4{grid-column:span 4}
+@media (max-width:900px){.c8,.c6,.c4{grid-column:span 12}}
+h2{font:600 17px Rubik;letter-spacing:-.01em;margin:0}
+.lbl{font:500 13px Figtree;color:var(--muted)}
+.sub{font:400 14px Rubik;color:var(--muted)}
 
-.grid{display:grid;gap:16px;grid-template-columns:repeat(12,1fr);margin:22px 0}
-.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow);min-width:0}
-.c12{grid-column:span 12}.c8{grid-column:span 8}.c7{grid-column:span 7}.c6{grid-column:span 6}.c5{grid-column:span 5}.c4{grid-column:span 4}.c3{grid-column:span 3}
-@media (max-width:900px){.c8,.c7,.c6,.c5,.c4{grid-column:span 12}.c3{grid-column:span 6}}
-@media (max-width:520px){.c3{grid-column:span 12}.q img{width:44px;height:44px}}
-.lbl{font:700 12px InterX;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.big{font:800 clamp(38px,6.4vw,68px)/1 InterX;letter-spacing:-.035em;font-variant-numeric:tabular-nums;margin:10px 0 4px}
-.mid{font:800 30px/1.1 InterX;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin-top:8px}
-.sub{color:var(--muted);font-size:14px}
-.up{color:#16a34a}.dn{color:#dc2626}
+/* ---------- verdict */
+.q{display:flex;gap:14px;align-items:center}
+.q img{width:48px;height:48px;border-radius:12px;object-fit:cover;flex:none;background:var(--soft)}
+.q h1{font:600 clamp(19px,2.4vw,24px)/1.25 Rubik;letter-spacing:-.02em;margin:0}
+.q .meta{font:400 13.5px Rubik;color:var(--muted);margin-top:2px}
+.verdict{display:grid;grid-template-columns:1.15fr 1fr;gap:18px;margin-top:18px;align-items:stretch}
+@media (max-width:820px){.verdict{grid-template-columns:1fr}}
+.lean{border-radius:16px;padding:20px;background:var(--soft);display:flex;flex-direction:column;gap:10px}
+.lean.yes{background:var(--yes-soft)}.lean.no{background:var(--no-soft)}
+.lean .tag{font:500 13px Figtree;color:var(--muted)}
+.lean .side{font:600 clamp(30px,4.6vw,44px)/1.05 Rubik;letter-spacing:-.03em}
+.lean.yes .side{color:var(--yes-ink)}.lean.no .side{color:var(--no-ink)}
+.lean .why{font:400 15px/1.5 Rubik}
+.lean .why b{font-weight:600}
+.conf{display:inline-flex;align-items:center;gap:8px;font:500 13px Figtree;color:var(--muted)}
+.dots{display:inline-flex;gap:3px}.dots i{width:18px;height:6px;border-radius:3px;background:color-mix(in srgb,var(--ink) 15%,transparent)}.dots i.on{background:var(--ink)}
+.cmp{display:flex;flex-direction:column;gap:14px;justify-content:center}
+.cmprow{display:grid;grid-template-columns:110px 1fr 56px;align-items:center;gap:10px}
+.cmprow .n{font:600 20px Runde;text-align:right;font-variant-numeric:tabular-nums}
+.bar{height:10px;border-radius:999px;background:var(--soft);position:relative;overflow:hidden}
+.bar i{position:absolute;left:0;top:0;bottom:0;border-radius:999px;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.edge{font:400 14px/1.5 Rubik}.edge b{font-weight:600}
+.trade{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:12px;border-radius:14px;text-decoration:none;border:1.5px solid transparent}
+.tb.yes{background:var(--yes-soft);border-color:color-mix(in srgb,var(--yes) 45%,transparent)}
+.tb.no{background:var(--no-soft);border-color:color-mix(in srgb,var(--no) 45%,transparent)}
+.tb b{font:600 17px Rubik}.tb.yes b{color:var(--yes-ink)}.tb.no b{color:var(--no-ink)}
+.tb span{font:500 12.5px Figtree;color:var(--muted)}
+.tb.pick{box-shadow:0 0 0 3px color-mix(in srgb,var(--ink) 14%,transparent)}
+.disc{font:400 12.5px Rubik;color:var(--muted)}
 
-/* progress to 35M */
-.track{position:relative;height:18px;border-radius:999px;background:var(--soft);margin:26px 0 30px;overflow:visible}
-.fill{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:linear-gradient(90deg,var(--lav),var(--pink));transition:width .8s cubic-bezier(.2,.8,.2,1)}
-.tick{position:absolute;top:-6px;bottom:-6px;width:2px;background:var(--ink);opacity:.35}
-.tick span{position:absolute;top:26px;left:50%;transform:translateX(-50%);font:600 11.5px InterX;color:var(--muted);white-space:nowrap}
-.tick.goal{opacity:1;background:var(--ink)}
-.tick.goal span{color:var(--ink);font-weight:800}
-
-/* odds */
-.vs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
-.odd{border-radius:16px;padding:14px 16px;background:var(--soft)}
-.odd b{display:block;font:800 40px/1 InterX;letter-spacing:-.03em;margin-top:6px}
-.odd.xo b{color:var(--pink-d)}
-.odd.model b{color:#7b6cf0}
-.gauge{margin-top:16px}
-.gbar{position:relative;height:10px;border-radius:999px;background:linear-gradient(90deg,#dc2626 0%,#f59e0b 40%,#16a34a 100%);opacity:.9}
-.gmark{position:absolute;top:-6px;width:3px;height:22px;background:var(--ink);border-radius:2px}
-.gmark.need{background:var(--pink-d)}
-.gleg{display:flex;justify-content:space-between;font:600 11.5px InterX;color:var(--muted);margin-top:8px}
-
-.count{display:flex;gap:8px;margin-top:10px}
-.count div{flex:1;background:var(--soft);border-radius:12px;padding:8px 0;text-align:center}
-.count b{display:block;font:800 26px/1.1 InterX;font-variant-numeric:tabular-nums}
-.count i{font:600 10.5px InterX;letter-spacing:.12em;color:var(--muted);font-style:normal}
-
-canvas{width:100%;display:block}
-.legend{display:flex;flex-wrap:wrap;gap:14px;font:600 12.5px InterX;color:var(--muted);margin-top:10px}
-.legend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
-
-table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
-th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);font-size:14px;white-space:nowrap}
-th{font:700 11.5px InterX;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-td.r,th.r{text-align:right}
-tr.me td{background:color-mix(in srgb,var(--pink) 14%,transparent);font-weight:700}
-.bar{height:8px;border-radius:999px;background:var(--lav);min-width:2px}
-.bar.me{background:var(--pink)}
-.tbl{overflow-x:auto}
-
-.note{font-size:13.5px;color:var(--muted);line-height:1.6}
-.note b{color:var(--ink)}
-.callout{border-left:3px solid var(--orange);background:color-mix(in srgb,var(--orange) 10%,transparent);padding:12px 14px;border-radius:0 12px 12px 0;font-size:14px;margin-top:12px}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.kpi{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px dashed var(--line);font-size:14.5px}
+/* ---------- live numbers */
+.big{font:600 clamp(36px,5.6vw,54px)/1 Runde;letter-spacing:-.035em;font-variant-numeric:tabular-nums;margin:6px 0 4px}
+.prog{margin:18px 0 6px}
+.ptrack{height:12px;border-radius:999px;background:var(--soft);position:relative;overflow:hidden}
+.pfill{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:linear-gradient(90deg,var(--no),var(--yes));transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.pscale{position:relative;height:18px;margin-top:6px;font:500 12px Figtree;color:var(--muted)}
+.pscale span{position:absolute;top:0;transform:translateX(-50%);white-space:nowrap}
+.pscale span:first-child{transform:none}.pscale span:last-child{transform:translateX(-100%);color:var(--ink);font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+@media (max-width:560px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--soft);border-radius:12px;padding:10px 12px}
+.stat .v{font:600 21px Runde;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin-top:2px}
+.count{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
+.count div{background:var(--soft);border-radius:10px;padding:6px 0;text-align:center}
+.count b{display:block;font:600 22px/1.15 Runde;font-variant-numeric:tabular-nums}
+.count i{font:500 11px Figtree;color:var(--muted);font-style:normal}
+.kpi{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font:400 14.5px Rubik}
 .kpi:last-child{border-bottom:0}
-.kpi b{font:800 17px InterX;font-variant-numeric:tabular-nums}
-footer{padding:30px 0 50px;color:var(--muted);font-size:13px}
-.err{color:#dc2626;font-size:13px}
+.kpi b{font:600 16px Runde;font-variant-numeric:tabular-nums;white-space:nowrap}
+canvas{width:100%;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font:500 12.5px Figtree;color:var(--muted);margin-top:10px}
+.legend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+.seg{display:inline-flex;background:var(--soft);border-radius:10px;padding:3px}
+.seg button{border:0;background:transparent;font:500 13px Figtree;color:var(--muted);padding:5px 12px;border-radius:8px;cursor:pointer}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.between{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.note{font:400 14px/1.6 Rubik;color:var(--muted);margin:10px 0 0}
+.note b{color:var(--ink);font-weight:600}
+.callout{background:var(--warn-soft);color:var(--ink);padding:12px 14px;border-radius:12px;font:400 13.5px/1.5 Rubik;margin-top:14px}
+.callout b{font-weight:600}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);font:400 14px Rubik;white-space:nowrap}
+th{font:500 12.5px Figtree;color:var(--muted)}
+td.r,th.r{text-align:right}
+td.n{font-family:Runde;font-weight:600;font-variant-numeric:tabular-nums}
+tr.me td{background:var(--yes-soft);font-weight:600}
+.hb{height:8px;border-radius:999px;background:var(--no);min-width:2px}.hb.me{background:var(--yes)}
+.pill{display:inline-flex;padding:2px 8px;border-radius:999px;background:var(--soft);font:500 12px Figtree;color:var(--muted)}
+.tbl{overflow-x:auto}
+footer{padding:26px 0 44px;font:400 13px Rubik;color:var(--muted)}
+.err{color:#dc2626}
+@media (max-width:640px){.live span,#theme{display:none}.wm span{display:none}}
 </style>
 </head>
 <body>
 <header><div class="wrap">
-  <svg class="logo" viewBox="0 0 446 158" aria-label="XO Market"><g id="logo"></g></svg>
-  <span class="brand">Community tracker</span>
+  <div class="wm"><b>Jumper × Legion</b><span>Community tracker for an XO market</span></div>
   <span class="sp"></span>
-  <span class="live"><i></i><span id="upd">LIVE</span></span>
+  <span class="live"><i></i><span id="upd">Live</span></span>
   <button class="icon-btn" id="theme" title="Toggle theme">◐</button>
   <a class="btn" id="cta1" href="#" target="_blank" rel="noopener">Trade on XO</a>
 </div></header>
 
 <main class="wrap">
-  <section class="hero">
+<section class="grid">
+
+  <!-- 1 · the answer: which side to lean -->
+  <div class="card c12">
     <div class="q">
       <img id="mimg" alt="">
       <div>
-        <h1>Will the Jumper sale on Legion.cc surpass <span style="color:var(--pink-d)">$35M</span> in total deposits?</h1>
-        <div class="meta"><span class="pill">XO Conviction</span> · created by <b id="creator">@AliHabbabeh</b> · <span id="vol">—</span> volume</div>
+        <h1>Will the Jumper sale on Legion.cc surpass $35M in total deposits?</h1>
+        <div class="meta">XO Conviction by <span id="creator">@AliHabbabeh</span> · <span id="vol">—</span> volume · closes Oct 1, 23:59 UTC</div>
       </div>
     </div>
-  </section>
-
-  <section class="grid">
-    <!-- live deposits -->
-    <div class="card c8">
-      <div class="lbl">Total deposits on Legion · live</div>
-      <div class="big" id="dep">—</div>
-      <div class="sub"><span id="depPct">—</span> of the $35M line · <span id="rate1h">—</span></div>
-      <div class="track" id="track">
-        <div class="fill" id="fill" style="width:0"></div>
+    <div class="verdict">
+      <div class="lean" id="lean">
+        <span class="tag">Tracker leans</span>
+        <div class="side" id="side">—</div>
+        <div class="why" id="why">Loading live data…</div>
+        <div class="conf">Signal strength <span class="dots" id="dots"><i></i><i></i><i></i></span> <span id="confTxt">—</span></div>
       </div>
-      <div class="row" style="gap:28px">
-        <div><div class="lbl">Participants</div><div class="mid" id="parts">—</div></div>
-        <div><div class="lbl">Avg deposit</div><div class="mid" id="avg">—</div></div>
-        <div><div class="lbl">Oversubscribed</div><div class="mid" id="over">—</div></div>
-        <div><div class="lbl">Still needed</div><div class="mid" id="need">—</div></div>
-      </div>
-    </div>
-
-    <!-- countdowns -->
-    <div class="card c4">
-      <div class="lbl">XO market closes</div>
-      <div class="count" id="cdXO"></div>
-      <div class="sub" style="margin-top:6px">Oct 1, 23:59 UTC</div>
-      <div class="lbl" style="margin-top:18px">Legion sale closes</div>
-      <div class="count" id="cdLG"></div>
-      <div class="sub" style="margin-top:6px">Oct 2, 13:00 UTC</div>
-    </div>
-
-    <!-- odds -->
-    <div class="card c5">
-      <div class="lbl">What are the chances?</div>
-      <div class="vs">
-        <div class="odd xo"><span class="lbl">XO crowd</span><b id="pXO">—</b><span class="sub">YES price on XO</span></div>
-        <div class="odd model"><span class="lbl">Tracker model</span><b id="pModel">—</b><span class="sub">at XO close</span></div>
-      </div>
-      <div class="gauge">
-        <div class="lbl" style="margin-bottom:10px">Growth needed vs growth seen</div>
-        <div class="gbar" id="gbar"><div class="gmark need" id="gNeed"></div><div class="gmark" id="gSeen"></div></div>
-        <div class="gleg"><span>stalls</span><span>steady</span><span>keeps flying</span></div>
-        <p class="note" id="gtext" style="margin:10px 0 0">—</p>
-      </div>
-    </div>
-
-    <!-- pace -->
-    <div class="card c7">
-      <div class="lbl">Pace</div>
-      <div class="kpi"><span>Needed from now to hit $35M by XO close</span><b id="needPace">—</b></div>
-      <div class="kpi"><span>Pace over the last hour</span><b id="lastPace">—</b></div>
-      <div class="kpi"><span>Average pace since the sale opened</span><b id="avgPace">—</b></div>
-      <div class="kpi"><span>Projection at XO close (Oct 1, 23:59 UTC)</span><b id="projXO">—</b></div>
-      <div class="kpi"><span>Projection at Legion close (Oct 2, 13:00 UTC)</span><b id="projLG">—</b></div>
-      <div class="kpi"><span>Model chance at Legion close</span><b id="pModelLG">—</b></div>
-    </div>
-
-    <!-- chart -->
-    <div class="card c12">
-      <div class="row" style="justify-content:space-between">
-        <div class="lbl">Deposits over time + projection</div>
-        <div class="row">
-          <button class="btn ghost" data-zoom="all" style="height:32px;font-size:13px">To close</button>
-          <button class="btn ghost" data-zoom="now" style="height:32px;font-size:13px">So far</button>
+      <div class="cmp">
+        <div class="cmprow"><span class="lbl">XO crowd (YES)</span><div class="bar"><i id="bXO" style="background:var(--yes)"></i></div><span class="n" id="pXO">—</span></div>
+        <div class="cmprow"><span class="lbl">Tracker model</span><div class="bar"><i id="bModel" style="background:var(--no)"></i></div><span class="n" id="pModel">—</span></div>
+        <div class="edge" id="edge">—</div>
+        <div class="trade">
+          <a class="tb yes" id="tYes" href="#" target="_blank" rel="noopener"><b id="yesPx">YES —</b><span id="yesPay">—</span></a>
+          <a class="tb no" id="tNo" href="#" target="_blank" rel="noopener"><b id="noPx">NO —</b><span id="noPay">—</span></a>
         </div>
-      </div>
-      <canvas id="chart" height="380"></canvas>
-      <div class="legend">
-        <span><i style="background:var(--pink)"></i>Deposits (recorded)</span>
-        <span><i style="background:#7b6cf0"></i>Model projection</span>
-        <span><i style="background:rgba(123,108,240,.25);height:10px"></i>Likely range</span>
-        <span><i style="background:var(--ink)"></i>$35M line</span>
+        <div class="disc">The lean compares the model with XO's price. It is a community signal, not financial advice.</div>
       </div>
     </div>
+  </div>
 
-    <!-- XO odds history -->
-    <div class="card c6">
-      <div class="lbl">XO crowd's odds (YES price)</div>
-      <canvas id="odds" height="220"></canvas>
+  <!-- 2 · live deposits -->
+  <div class="card c8">
+    <div class="between"><span class="lbl">Total deposits on Legion, live</span><span class="lbl" id="rate1h"></span></div>
+    <div class="big" id="dep">—</div>
+    <div class="sub"><span id="depPct">—</span> of the way to $35M · still needs <b id="need" class="num">—</b></div>
+    <div class="prog">
+      <div class="ptrack"><div class="pfill" id="fill" style="width:0"></div></div>
+      <div class="pscale"><span style="left:0">$0</span><span style="left:28.57%">$10M</span><span style="left:57.14%">$20M</span><span style="left:100%">$35M</span></div>
     </div>
+    <div class="stats">
+      <div class="stat"><div class="lbl">Participants</div><div class="v" id="parts">—</div></div>
+      <div class="stat"><div class="lbl">Avg deposit</div><div class="v" id="avg">—</div></div>
+      <div class="stat"><div class="lbl">vs. $3M hard cap</div><div class="v" id="over">—</div></div>
+      <div class="stat"><div class="lbl">vs. $2M target</div><div class="v" id="overT">—</div></div>
+    </div>
+  </div>
 
-    <!-- how the model works -->
-    <div class="card c6">
-      <div class="lbl">How the model works</div>
-      <p class="note">Token sales raise fastest at the start and slow down later. The tracker fits a simple curve, <b>deposits ∝ time<sup>k</sup></b>, to the deposits recorded so far. A <b>k</b> near 1 means money keeps coming in at the same speed; near 0 means it has stopped.</p>
-      <p class="note">To get from today's total to $35M before the XO market closes, the sale needs <b>k ≥ <span id="kneed">—</span></b>. So far it's running at <b>k ≈ <span id="kseen">—</span></b>. The chance is how often that holds once the model's uncertainty is included.</p>
-      <p class="note">Not modelled: big whales, last-minute rushes, and Legion changing the sale. This is a rough guide, not financial advice.</p>
-    </div>
+  <!-- 3 · countdowns -->
+  <div class="card c4">
+    <div class="lbl">XO market closes · Oct 1, 23:59 UTC</div>
+    <div class="count" id="cdXO"></div>
+    <div class="lbl" style="margin-top:16px">Legion sale closes · Oct 2, 13:00 UTC</div>
+    <div class="count" id="cdLG"></div>
+    <div class="callout">⚠️ The rules don't say which close counts. The tracker bases its lean on the <b>XO close</b>.</div>
+  </div>
 
-    <!-- past sales -->
-    <div class="card c12">
-      <div class="lbl">How Jumper compares with past Legion sales (total deposited)</div>
-      <div class="tbl"><table id="past"></table></div>
-      <p class="note" style="margin-top:10px">Only one earlier sale (YieldBasis, $183M) deposited more than $35M. FUEL is left out: Legion's API reports $2.04B for it, which looks like a data error.</p>
+  <!-- 4 · chart -->
+  <div class="card c12">
+    <div class="between">
+      <h2>Deposits and projection</h2>
+      <div class="seg"><button data-zoom="all" class="on">To close</button><button data-zoom="now">So far</button></div>
     </div>
+    <canvas id="chart" height="360" style="margin-top:12px"></canvas>
+    <div class="legend">
+      <span><i style="background:var(--yes)"></i>Deposits (recorded)</span>
+      <span><i style="background:var(--no-ink)"></i>Projection</span>
+      <span><i style="background:color-mix(in srgb,var(--no) 35%,transparent);height:10px"></i>Likely range</span>
+      <span><i style="background:var(--ink)"></i>$35M line</span>
+    </div>
+  </div>
 
-    <!-- rules -->
-    <div class="card c12">
-      <div class="lbl">Resolution rules (from XO)</div>
-      <p class="note" style="margin-top:10px"><b>YES</b> if total deposits for the Jumper sale on Legion.cc reach <b>35,000,000</b>. Primary source: the Legion invest page. If the sale is cancelled before the cutoff, or the data becomes permanently unavailable, the market voids and every position resolves equally.</p>
-      <div class="callout">⚠️ The XO market closes on <b>Oct 1, 23:59 UTC</b>, but the Legion sale runs until <b>Oct 2, 13:00 UTC</b>. The rules don't say which moment counts. The tracker shows both; ask the creator or XO if unsure.</div>
-      <div class="row" style="margin-top:16px"><a class="btn" id="cta2" href="#" target="_blank" rel="noopener">Trade YES / NO on XO →</a><a class="btn ghost" href="https://app.legion.cc/app/invest" target="_blank" rel="noopener">Open Legion</a></div>
-    </div>
-  </section>
+  <!-- 5 · pace -->
+  <div class="card c6">
+    <h2>Pace</h2>
+    <div class="kpi"><span>Needed to reach $35M by the XO close</span><b id="needPace">—</b></div>
+    <div class="kpi"><span>Last hour</span><b id="lastPace">—</b></div>
+    <div class="kpi"><span>Average since the sale opened</span><b id="avgPace">—</b></div>
+    <div class="kpi"><span>Projection at the XO close</span><b id="projXO">—</b></div>
+    <div class="kpi"><span>Projection at the Legion close</span><b id="projLG">—</b></div>
+    <div class="kpi"><span>Model chance if the Legion close counts</span><b id="pModelLG">—</b></div>
+  </div>
+
+  <!-- 6 · model -->
+  <div class="card c6">
+    <h2>How the model works</h2>
+    <p class="note">Sales raise fastest at the start and slow down later. The tracker fits <b>deposits ∝ time<sup>k</sup></b> to the recorded deposits. With <b>k = 1</b> money keeps coming at the same speed; with <b>k = 0</b> it has stopped.</p>
+    <p class="note">To reach $35M by the XO close, the sale needs <b>k ≥ <span id="kneed">—</span></b>. So far it's running at <b>k ≈ <span id="kseen">—</span></b>. The model's chance is how likely the real k is to stay above that line, given the uncertainty.</p>
+    <p class="note">Not modelled: whales, last-minute rushes, Legion changing the sale. The signal is weak early on and gets stronger as data comes in.</p>
+  </div>
+
+  <!-- 7 · XO odds history -->
+  <div class="card c6">
+    <h2>XO crowd's odds over time</h2>
+    <canvas id="odds" height="220" style="margin-top:12px"></canvas>
+  </div>
+
+  <!-- 8 · rules -->
+  <div class="card c6">
+    <h2>Resolution rules</h2>
+    <p class="note"><b>YES</b> if total deposits for the Jumper sale on Legion.cc reach <b>35,000,000</b>. Source: the Legion invest page. If the sale is cancelled before the cutoff, or the data becomes permanently unavailable, the market voids and positions resolve equally.</p>
+    <div class="row" style="margin-top:14px"><a class="btn" id="cta2" href="#" target="_blank" rel="noopener">Open the market on XO</a><a class="btn ghost" href="https://app.legion.cc/app/invest" target="_blank" rel="noopener">Open Legion</a></div>
+  </div>
+
+  <!-- 9 · past sales -->
+  <div class="card c12">
+    <h2>Jumper vs. past Legion sales</h2>
+    <div class="tbl" style="margin-top:6px"><table id="past"></table></div>
+    <p class="note">Only YieldBasis ($183M) finished above $35M. FUEL is left out: Legion's API reports $2.04B for it, which looks like a data error.</p>
+  </div>
+</section>
 </main>
-<footer class="wrap">
-  Made by the XO community. Data: <a href="https://app.legion.cc/app/invest" target="_blank" rel="noopener">Legion</a> (deposits) and <a href="https://beta.xo.market" target="_blank" rel="noopener">XO Market</a> (odds). Deposits are recorded every ~10 minutes. Not financial advice. <span id="err" class="err"></span>
-</footer>
+<footer class="wrap">Made by the XO community, not affiliated with XO Market or Legion. Data: <a href="https://app.legion.cc/app/invest" target="_blank" rel="noopener">Legion</a> (deposits, recorded every ~10 min) and <a href="https://beta.xo.market" target="_blank" rel="noopener">XO Market</a> (prices). Not financial advice. <span id="err" class="err"></span></footer>
 
 <script>
 // ---------------------------------------------------------------- config
@@ -239,19 +255,12 @@ const CFG = {
   xoEvent: '3a7a66d0-d123-496a-8fef-b68dc813f19d',
   xoUrl: 'https://beta.xo.market/event/will-jumper-sale-on-legioncc-surpass-30m-in-total--2217?r=andriy_shkinder',
   history: ['https://raw.githubusercontent.com/AndriyShk/xo-jumper/main/data/history.json', 'data/history.json'],
-  goal: 35e6,
+  goal: 35e6, target: 2e6, hardCap: 3e6,
   open: Date.parse('2026-09-29T13:00:00Z'),
   xoClose: Date.parse('2026-10-01T23:59:59Z'),
   lgClose: Date.parse('2026-10-02T13:00:00Z'),
-  target: 2e6, hardCap: 3e6,
 };
-document.getElementById('cta1').href = document.getElementById('cta2').href = CFG.xoUrl;
-
-// ---------------------------------------------------------------- logo (paths from the XO brand SVG)
-fetch('fonts/xo-market-logo.svg').then(r => r.text()).then(t => {
-  const d = new DOMParser().parseFromString(t, 'image/svg+xml'), g = document.getElementById('logo');
-  d.querySelectorAll('path[fill]').forEach(p => { const f = p.getAttribute('fill'); if (f === 'none') return; const n = document.createElementNS('http://www.w3.org/2000/svg', 'path'); n.setAttribute('d', p.getAttribute('d')); if (p.getAttribute('fill-rule')) n.setAttribute('fill-rule', p.getAttribute('fill-rule')); if (f === 'black') n.setAttribute('class', 'w'); else n.setAttribute('fill', f); g.appendChild(n); });
-}).catch(() => {});
+['cta1', 'cta2', 'tYes', 'tNo'].forEach(id => document.getElementById(id).href = CFG.xoUrl);
 
 // ---------------------------------------------------------------- theme
 const root = document.documentElement;
@@ -260,40 +269,35 @@ document.getElementById('theme').onclick = () => { const dark = root.dataset.the
 
 // ---------------------------------------------------------------- helpers
 const $ = id => document.getElementById(id);
-const usd = (v, d = 0) => '$' + Math.round(v).toLocaleString('en-US', { maximumFractionDigits: d });
-const usdM = v => v >= 1e6 ? '$' + (v / 1e6).toFixed(v >= 1e8 ? 0 : 2) + 'M' : v >= 1e3 ? '$' + (v / 1e3).toFixed(0) + 'K' : '$' + Math.round(v);
-const pct = v => (v * 100).toFixed(v < .1 && v > 0 ? 1 : 0) + '%';
+const usd = v => '$' + Math.round(v).toLocaleString('en-US');
+const usdM = v => v >= 1e6 ? '$' + (v / 1e6).toFixed(v >= 1e8 ? 0 : v >= 1e7 ? 1 : 2) + 'M' : v >= 1e3 ? '$' + (v / 1e3).toFixed(0) + 'K' : '$' + Math.round(v);
+const pct = v => Math.round(v * 100) + '%';
 const Hh = ms => ms / 36e5;
 const css = n => getComputedStyle(root).getPropertyValue(n).trim();
 function erf(x) { const s = Math.sign(x); x = Math.abs(x); const t = 1 / (1 + .3275911 * x); return s * (1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - .284496736) * t + .254829592) * t * Math.exp(-x * x)); }
 const Phi = z => .5 * (1 + erf(z / Math.SQRT2));
 
-// ---------------------------------------------------------------- state
 let HIST = [], LIVE = null, XO = null, ODDS = [], PAST = [], MODEL = null, zoom = 'all';
-
 async function j(u, opt) { const r = await fetch(u, opt); if (!r.ok) throw new Error(u + ' ' + r.status); return r.json(); }
 async function loadHistory() {
   for (const u of CFG.history) { try { const h = await j(u + (u.startsWith('http') ? '?t=' + Math.floor(Date.now() / 60000) : ''), { cache: 'no-store' }); if (Array.isArray(h) && h.length) return h; } catch {} }
   return [];
 }
 async function refresh() {
-  const errs = [];
   const [h, live, ev, ch] = await Promise.allSettled([
     loadHistory(), j('/api/legion', { cache: 'no-store' }),
     j(`https://api-mainnet.xo.market/api/v1/events/${CFG.xoEvent}`),
     j(`https://api-mainnet.xo.market/api/v1/events/${CFG.xoEvent}/charts/points?window=ALL&outcome=0&marketScope=onlyConviction&includeSubEvents=true`),
   ]);
   if (h.status === 'fulfilled') HIST = h.value;
-  if (live.status === 'fulfilled' && live.value.deposits) LIVE = live.value; else errs.push('Legion live data unavailable');
+  if (live.status === 'fulfilled' && live.value.deposits) LIVE = live.value;
   if (ev.status === 'fulfilled') XO = ev.value.data.markets[0].market;
   if (ch.status === 'fulfilled') ODDS = (ch.value.markets[0] || {}).points || [];
-  $('err').textContent = errs.join(' · ');
+  $('err').textContent = live.status === 'fulfilled' && live.value.deposits ? '' : 'Legion live data temporarily unavailable.';
   compute(); render(); draw();
 }
 
-// ---------------------------------------------------------------- model
-// points: (hours since open, deposits). Fit log D = a + k log t on points after the first 20 min,
-// weighting recent points more. k's uncertainty = regression SE blended with a floor.
+// ---------------------------------------------------------------- model: deposits ∝ t^k, fitted in log-log space
 function series() {
   const pts = HIST.map(r => ({ t: r.t * 1000, d: r.deposits }));
   if (LIVE && LIVE.deposits) { const last = pts[pts.length - 1]; if (!last || LIVE.fetchedAt > last.t) pts.push({ t: LIVE.fetchedAt, d: LIVE.deposits }); }
@@ -303,148 +307,176 @@ function compute() {
   const pts = series(); if (!pts.length) { MODEL = null; return; }
   const now = pts[pts.length - 1], tNow = Hh(now.t - CFG.open);
   const use = pts.filter(p => Hh(p.t - CFG.open) >= .33);
-  let k = .42, se = .15, src = 'prior';
+  let k = .42, se = .15, src = 'prior', span = 0;
   if (use.length >= 4 && Hh(use[use.length - 1].t - use[0].t) >= .75) {
-    let sw = 0, sx = 0, sy = 0, sxx = 0, sxy = 0;
-    const tl = Hh(use[use.length - 1].t - CFG.open);
+    let sw = 0, sx = 0, sy = 0, sxx = 0, sxy = 0; const tl = Hh(use[use.length - 1].t - CFG.open);
     use.forEach(p => { const x = Math.log(Hh(p.t - CFG.open)), y = Math.log(p.d), w = Math.exp(-(tl - Hh(p.t - CFG.open)) / 12); sw += w; sx += w * x; sy += w * y; sxx += w * x * x; sxy += w * x * y; });
     const den = sw * sxx - sx * sx;
     if (den > 1e-9) {
-      const kf = (sw * sxy - sx * sy) / den;
-      let ss = 0; const a = (sy - kf * sx) / sw; use.forEach(p => { const x = Math.log(Hh(p.t - CFG.open)), r = Math.log(p.d) - a - kf * x; ss += r * r; });
+      const kf = (sw * sxy - sx * sy) / den, a = (sy - kf * sx) / sw;
+      let ss = 0; use.forEach(p => { const r = Math.log(p.d) - a - kf * Math.log(Hh(p.t - CFG.open)); ss += r * r; });
       const seF = Math.sqrt(ss / Math.max(1, use.length - 2) / Math.max(1e-6, sxx / sw - (sx / sw) ** 2) / use.length);
-      const span = Math.log(tl / Hh(use[0].t - CFG.open));             // more log-time span → trust the fit more
+      span = Math.log(tl / Hh(use[0].t - CFG.open));
       const wFit = Math.min(.85, span / 2.5);
       k = wFit * Math.max(0, Math.min(1.2, kf)) + (1 - wFit) * .42;
-      se = Math.max(.05, Math.sqrt(wFit * seF ** 2 + (1 - wFit) * .15 ** 2));
-      src = 'fit';
+      se = Math.max(.05, Math.sqrt(wFit * seF ** 2 + (1 - wFit) * .15 ** 2)); src = 'fit';
     }
   }
   const proj = T => now.d * Math.pow(Hh(T - CFG.open) / tNow, k);
   const kNeed = T => Math.log(CFG.goal / now.d) / Math.log(Hh(T - CFG.open) / tNow);
-  const prob = T => { if (now.d >= CFG.goal) return 1; if (T <= now.t) return 0; return 1 - Phi((kNeed(T) - k) / se); };
+  const prob = T => now.d >= CFG.goal ? 1 : T <= now.t ? 0 : 1 - Phi((kNeed(T) - k) / se);
   const back = p => { const q = pts.filter(x => x.t <= now.t - p * 36e5); return q.length ? q[q.length - 1] : null; };
   const h1 = back(1);
-  MODEL = { pts, now, tNow, k, se, src, proj, kNeed, prob,
+  MODEL = { pts, now, tNow, k, se, src, span, proj, kNeed, prob,
     rate1h: h1 && now.t - h1.t > 30 * 6e4 ? (now.d - h1.d) / Hh(now.t - h1.t) : null,
-    rateAvg: now.d / tNow,
-    needPace: (CFG.goal - now.d) / Math.max(.01, Hh(CFG.xoClose - now.t)) };
+    rateAvg: now.d / tNow, needPace: (CFG.goal - now.d) / Math.max(.01, Hh(CFG.xoClose - now.t)) };
 }
 
-// ---------------------------------------------------------------- DOM render
+// ---------------------------------------------------------------- verdict: model chance vs the XO price
+function verdict() {
+  const M = MODEL; if (!M || !XO) return null;
+  const yes = +XO.outcomes.find(o => o.index === 0).currentPrice / 1e6, no = +XO.outcomes.find(o => o.index === 1).currentPrice / 1e6;
+  const pm = M.prob(CFG.xoClose), edge = pm - yes;
+  // strength grows with how much data the fit has and how big the gap is; stays "weak" while the model runs on its prior
+  const dataScore = M.src === 'prior' ? 0 : Math.min(1, M.span / 2.2), gapScore = Math.min(1, Math.abs(edge) / .3);
+  const strength = M.src === 'prior' ? 1 : Math.max(1, Math.min(3, 1 + Math.round(2 * Math.min(dataScore, .35 + gapScore))));
+  const side = Math.abs(edge) < .07 ? 'none' : edge > 0 ? 'yes' : 'no';
+  return { yes, no, pm, edge, side, strength };
+}
+
+// ---------------------------------------------------------------- render
 function countdown(el, T) {
   const ms = Math.max(0, T - Date.now()), d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60, s = Math.floor(ms / 1e3) % 60;
-  el.innerHTML = [[d, 'DAYS'], [h, 'HRS'], [m, 'MIN'], [s, 'SEC']].map(([v, l]) => `<div><b>${String(v).padStart(2, '0')}</b><i>${l}</i></div>`).join('');
+  el.innerHTML = [[d, 'days'], [h, 'hrs'], [m, 'min'], [s, 'sec']].map(([v, l]) => `<div><b>${String(v).padStart(2, '0')}</b><i>${l}</i></div>`).join('');
 }
 let shownDep = 0, animFrom = 0, animT0 = 0;
 function render() {
   const M = MODEL;
-  if (XO) {
-    const yes = XO.outcomes.find(o => o.index === 0), p = +yes.currentPrice / 1e6;
-    $('pXO').textContent = Math.round(p * 100) + '%';
-    $('vol').textContent = usdM(+XO.totalNotionalInUSD);
-    $('mimg').src = XO.imageUrl || '';
-    if (XO.creator) $('creator').textContent = '@' + XO.creator.username;
-  }
+  if (XO) { $('vol').textContent = usdM(+XO.totalNotionalInUSD); $('mimg').src = XO.imageUrl || ''; if (XO.creator) $('creator').textContent = '@' + XO.creator.username; }
   if (!M) return;
   const d = M.now.d, parts = (LIVE && LIVE.participants) || (HIST.length ? HIST[HIST.length - 1].participants : null);
-  animFrom = shownDep || d * .96; animT0 = performance.now(); shownDep = d;
+  animFrom = shownDep || d * .97; animT0 = performance.now(); shownDep = d;
   $('depPct').textContent = pct(d / CFG.goal);
-  $('rate1h').textContent = M.rate1h ? `+${usdM(M.rate1h)} in the last hour` : 'collecting pace data…';
+  $('need').textContent = d >= CFG.goal ? 'nothing, $35M reached' : usdM(CFG.goal - d);
+  $('rate1h').textContent = M.rate1h ? `+${usdM(M.rate1h)} in the last hour` : '';
   $('fill').style.width = Math.min(100, d / CFG.goal * 100) + '%';
   $('parts').textContent = parts ? parts.toLocaleString('en-US') : '—';
   $('avg').textContent = parts ? usd(d / parts) : '—';
   $('over').textContent = (d / CFG.hardCap).toFixed(1) + '×';
-  $('need').textContent = d >= CFG.goal ? 'done ✓' : usdM(CFG.goal - d);
-  const pX = M.prob(CFG.xoClose), pL = M.prob(CFG.lgClose);
-  $('pModel').textContent = pct(pX); $('pModelLG').textContent = pct(pL);
-  $('needPace').textContent = d >= CFG.goal ? '—' : usdM(M.needPace) + ' / hour';
-  $('lastPace').textContent = M.rate1h ? usdM(M.rate1h) + ' / hour' : 'soon';
-  $('avgPace').textContent = usdM(M.rateAvg) + ' / hour';
+  $('overT').textContent = (d / CFG.target).toFixed(1) + '×';
+  $('needPace').textContent = d >= CFG.goal ? '—' : usdM(M.needPace) + ' / h';
+  $('lastPace').textContent = M.rate1h ? usdM(M.rate1h) + ' / h' : 'after 1 h of data';
+  $('avgPace').textContent = usdM(M.rateAvg) + ' / h';
   $('projXO').textContent = usdM(M.proj(CFG.xoClose)); $('projLG').textContent = usdM(M.proj(CFG.lgClose));
-  const kn = M.kNeed(CFG.xoClose);
-  $('kneed').textContent = kn.toFixed(2); $('kseen').textContent = M.k.toFixed(2) + (M.src === 'prior' ? ' (early estimate)' : '');
-  const gpos = v => Math.max(0, Math.min(100, v / 1 * 100)) + '%';
-  $('gNeed').style.left = gpos(kn); $('gSeen').style.left = gpos(M.k);
-  $('gtext').innerHTML = d >= CFG.goal ? 'The $35M line has been crossed. 🎉' :
-    M.k >= kn ? `At the current pace the sale <b>clears $35M</b>, with about ${usdM(M.proj(CFG.xoClose) - CFG.goal)} to spare by the XO close.` :
-    `At the current pace the sale finishes <b>${usdM(CFG.goal - M.proj(CFG.xoClose))} short</b> at the XO close. It needs to speed up.`;
-  // track ticks
-  const tr = $('track'); tr.querySelectorAll('.tick').forEach(e => e.remove());
-  [[CFG.target, 'Target $2M'], [CFG.hardCap, 'Hard cap $3M'], [17.5e6, '$17.5M'], [CFG.goal, '$35M', 'goal']].forEach(([v, l, c]) => { const e = document.createElement('div'); e.className = 'tick' + (c ? ' ' + c : '') + (v === 17.5e6 ? ' t175' : ''); e.style.left = `calc(${Math.min(100, v / CFG.goal * 100)}% - 1px)`; e.innerHTML = `<span>${l}</span>`; if (v === CFG.hardCap) e.querySelector('span').style.top = '-22px'; tr.appendChild(e); });
+  $('pModelLG').textContent = pct(M.prob(CFG.lgClose));
+  $('kneed').textContent = M.kNeed(CFG.xoClose).toFixed(2); $('kseen').textContent = M.k.toFixed(2) + (M.src === 'prior' ? ' (early estimate)' : '');
+
+  const V = verdict();
+  if (V) {
+    $('pXO').textContent = pct(V.yes); $('pModel').textContent = pct(V.pm);
+    $('bXO').style.width = V.yes * 100 + '%'; $('bModel').style.width = V.pm * 100 + '%';
+    $('yesPx').textContent = `YES ${Math.round(V.yes * 100)}¢`; $('noPx').textContent = `NO ${Math.round(V.no * 100)}¢`;
+    $('yesPay').textContent = V.yes > 0 ? `pays ${(1 / V.yes).toFixed(2)}× if YES` : '';
+    $('noPay').textContent = V.no > 0 ? `pays ${(1 / V.no).toFixed(2)}× if NO` : '';
+    $('lean').className = 'lean ' + (V.side === 'none' ? '' : V.side);
+    $('side').textContent = V.side === 'yes' ? 'YES' : V.side === 'no' ? 'NO' : 'No clear edge';
+    $('tYes').classList.toggle('pick', V.side === 'yes'); $('tNo').classList.toggle('pick', V.side === 'no');
+    const gap = Math.round(Math.abs(V.edge) * 100);
+    $('edge').innerHTML = V.side === 'none' ? `The model and the crowd roughly agree (${gap} pts apart).`
+      : V.side === 'yes' ? `The model is <b>${gap} pts above</b> the XO price, so YES looks cheap vs. the model.`
+      : `The model is <b>${gap} pts below</b> the XO price, so YES looks expensive and NO looks cheap vs. the model.`;
+    $('why').innerHTML = d >= CFG.goal ? 'Deposits have <b>already crossed $35M</b>.'
+      : M.k >= M.kNeed(CFG.xoClose)
+        ? `At the current pace deposits reach about <b>${usdM(M.proj(CFG.xoClose))}</b> by the XO close, above $35M. It needs <b>${usdM(M.needPace)}/h</b> from here, and the sale has averaged <b>${usdM(M.rateAvg)}/h</b> so far.`
+        : `At the current pace deposits reach only about <b>${usdM(M.proj(CFG.xoClose))}</b> by the XO close, short of $35M. It needs <b>${usdM(M.needPace)}/h</b> from here.`;
+    [...$('dots').children].forEach((e, i) => e.classList.toggle('on', i < V.strength));
+    $('confTxt').textContent = ['', 'weak (early data)', 'medium', 'strong'][V.strength];
+  }
   renderPast(d, parts);
 }
-function tickDeposits() {
+function tick() {
   const p = Math.min(1, (performance.now() - animT0) / 1200), e = 1 - Math.pow(1 - p, 3);
   if (shownDep) $('dep').textContent = usd(animFrom + (shownDep - animFrom) * e);
   countdown($('cdXO'), CFG.xoClose); countdown($('cdLG'), CFG.lgClose);
   const age = LIVE ? Math.round((Date.now() - LIVE.fetchedAt) / 1000) : null;
-  $('upd').textContent = age == null ? 'LIVE' : age < 5 ? 'LIVE · just now' : `LIVE · ${age}s ago`;
-  requestAnimationFrame(tickDeposits);
+  $('upd').textContent = age == null ? 'Live' : age < 5 ? 'Live · just now' : `Live · ${age}s ago`;
+  requestAnimationFrame(tick);
 }
 function renderPast(d, parts) {
-  const rows = PAST.filter(s => !s.suspect).map(s => ({ ...s })).concat([{ name: 'Jumper (live)', deposited: d, raised: CFG.hardCap, participants: parts, closeDate: 'live', me: true }]).sort((a, b) => b.deposited - a.deposited);
+  const rows = PAST.filter(s => !s.suspect).concat([{ name: 'Jumper (live)', deposited: d, raised: CFG.hardCap, participants: parts, closeDate: 'live', me: true }]).sort((a, b) => b.deposited - a.deposited);
   const mx = Math.log10(Math.max(...rows.map(r => r.deposited)));
-  $('past').innerHTML = `<tr><th>#</th><th>Sale</th><th class="r">Total deposited</th><th style="width:34%"></th><th class="r">Oversubscribed</th><th class="r">Participants</th><th class="r">Closed</th></tr>` +
-    rows.map((r, i) => `<tr class="${r.me ? 'me' : ''}"><td>${i + 1}</td><td>${r.name}${r.label ? ` <span class="pill">${r.label}</span>` : ''}</td><td class="r">${usdM(r.deposited)}</td><td><div class="bar ${r.me ? 'me' : ''}" style="width:${Math.max(1, (Math.log10(r.deposited) - 5) / (mx - 5) * 100)}%"></div></td><td class="r">${r.raised ? (r.deposited / r.raised).toFixed(1) + '×' : '—'}</td><td class="r">${r.participants ? r.participants.toLocaleString('en-US') : '—'}</td><td class="r">${r.closeDate}</td></tr>`).join('');
+  $('past').innerHTML = `<tr><th>#</th><th>Sale</th><th class="r">Total deposited</th><th style="width:32%"></th><th class="r">Oversubscribed</th><th class="r">Participants</th><th class="r">Closed</th></tr>` +
+    rows.map((r, i) => `<tr class="${r.me ? 'me' : ''}"><td>${i + 1}</td><td>${r.name}${r.label ? ` <span class="pill">${r.label}</span>` : ''}</td><td class="r n">${usdM(r.deposited)}</td><td><div class="hb ${r.me ? 'me' : ''}" style="width:${Math.max(1, (Math.log10(r.deposited) - 5) / (mx - 5) * 100)}%"></div></td><td class="r n">${r.raised ? (r.deposited / r.raised).toFixed(1) + '×' : '—'}</td><td class="r n">${r.participants ? r.participants.toLocaleString('en-US') : '—'}</td><td class="r">${r.closeDate}</td></tr>`).join('');
 }
 
-// ---------------------------------------------------------------- charts (canvas, DPR-aware)
+// ---------------------------------------------------------------- charts
 function setup(cv) { const r = cv.getBoundingClientRect(), dpr = devicePixelRatio || 1, h = +cv.getAttribute('height'); cv.width = r.width * dpr; cv.height = h * dpr; cv.style.height = h + 'px'; const g = cv.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0); return [g, r.width, h]; }
+// label on a card-coloured pill, so it stays readable over lines
+function tag(g, text, x, y, { align = 'left', color, bold = false } = {}) {
+  g.font = `${bold ? 600 : 500} 12px Figtree`; const w = g.measureText(text).width + 12, h = 20;
+  const x0 = align === 'right' ? x - w : align === 'center' ? x - w / 2 : x;
+  g.fillStyle = css('--card'); g.beginPath(); g.roundRect(x0, y - h / 2, w, h, 6); g.fill();
+  g.fillStyle = color || css('--muted'); g.textAlign = 'left'; g.textBaseline = 'middle'; g.fillText(text, x0 + 6, y + .5);
+}
 function draw() {
   const M = MODEL; if (!M) return;
-  const [g, W, H] = setup($('chart')), L = 62, R = 16, T = 14, B = 32;
-  const ink = css('--ink'), muted = css('--muted'), line = css('--line'), pink = css('--pink'), lav = '#7b6cf0';
-  const t0 = CFG.open, t1 = zoom === 'all' ? CFG.lgClose : Math.max(M.now.t + 20 * 6e4, t0 + 36e5);
-  const yMax = zoom === 'all' ? Math.max(CFG.goal * 1.35, M.proj(CFG.lgClose) * 1.1) : Math.max(M.now.d * 1.15, 1e6);
+  const [g, W, H] = setup($('chart')), L = 56, R = 14, T = 12, B = 30;
+  const ink = css('--ink'), muted = css('--muted'), line = css('--line'), yes = css('--yes'), lav = css('--no-ink');
+  const t0 = CFG.open, t1 = zoom === 'all' ? CFG.lgClose : Math.max(M.now.t + 15 * 6e4, t0 + 36e5);
+  const yMax = zoom === 'all' ? Math.max(CFG.goal * 1.3, Math.min(M.proj(CFG.lgClose) * 1.12, CFG.goal * 2.2)) : Math.max(M.now.d * 1.15, 1e6);
   const X = t => L + (t - t0) / (t1 - t0) * (W - L - R), Y = v => T + (1 - v / yMax) * (H - T - B);
-  g.font = '600 11.5px InterX'; g.fillStyle = muted; g.strokeStyle = line; g.lineWidth = 1;
-  const step = [1e6, 2e6, 5e6, 10e6, 20e6][[1e6, 2e6, 5e6, 10e6, 20e6].findIndex(s => yMax / s <= 7)] || 20e6;
-  g.textAlign = 'right'; g.textBaseline = 'middle';
-  for (let v = 0; v <= yMax; v += step) { g.beginPath(); g.moveTo(L, Y(v) + .5); g.lineTo(W - R, Y(v) + .5); g.stroke(); g.fillText(usdM(v), L - 8, Y(v)); }
+  const step = [1e6, 2e6, 5e6, 1e7, 2e7].find(s => yMax / s <= 6) || 2e7;
+  g.font = '500 12px Figtree'; g.strokeStyle = line; g.lineWidth = 1; g.fillStyle = muted; g.textAlign = 'right'; g.textBaseline = 'middle';
+  for (let v = 0; v <= yMax; v += step) { g.beginPath(); g.moveTo(L, Y(v) + .5); g.lineTo(W - R, Y(v) + .5); g.stroke(); g.fillText(v ? '$' + +(v / 1e6).toFixed(1) + 'M' : '$0', L - 8, Y(v)); }
   g.textAlign = 'center'; g.textBaseline = 'top';
-  const dayMs = 864e5, hs = zoom === 'all' ? 12 : Math.max(1, Math.ceil(Hh(t1 - t0) / 8));
-  for (let t = t0; t <= t1; t += hs * 36e5) { const dt = new Date(t); g.fillText(zoom === 'all' ? dt.toLocaleString('en-GB', { weekday: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) : dt.toISOString().slice(11, 16), X(t), H - B + 10); }
-  // deadlines
-  [[CFG.xoClose, 'XO closes'], [CFG.lgClose, 'Legion closes']].forEach(([t, l]) => { if (t > t1) return; g.save(); g.setLineDash([4, 4]); g.strokeStyle = muted; g.beginPath(); g.moveTo(X(t) + .5, T); g.lineTo(X(t) + .5, H - B); g.stroke(); g.restore(); g.textAlign = 'right'; g.textBaseline = 'top'; g.fillStyle = muted; g.fillText(l, X(t) - 5, T + 2); });
-  // 35M line
-  if (CFG.goal <= yMax) { g.save(); g.strokeStyle = ink; g.lineWidth = 2; g.setLineDash([8, 6]); g.beginPath(); g.moveTo(L, Y(CFG.goal)); g.lineTo(W - R, Y(CFG.goal)); g.stroke(); g.restore(); g.fillStyle = ink; g.textAlign = 'left'; g.textBaseline = 'bottom'; g.font = '800 12.5px InterX'; g.fillText('$35M', L + 6, Y(CFG.goal) - 4); g.font = '600 11.5px InterX'; }
-  // projection band + line
-  if (zoom === 'all') {
+  const hs = zoom === 'all' ? (W < 560 ? 24 : 12) : Math.max(1, Math.ceil(Hh(t1 - t0) / 6));
+  for (let t = t0; t <= t1 + 1; t += hs * 36e5) { const dt = new Date(t); g.fillText(zoom === 'all' ? dt.toLocaleString('en-GB', { weekday: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) : dt.toISOString().slice(11, 16), Math.min(W - R - 30, Math.max(L + 20, X(t))), H - B + 9); }
+  const deadlines = [[CFG.xoClose, 'XO close'], [CFG.lgClose, 'Legion close']].filter(([t]) => t <= t1);
+  g.save(); g.setLineDash([4, 4]); g.strokeStyle = muted; deadlines.forEach(([t]) => { g.beginPath(); g.moveTo(X(t) + .5, T); g.lineTo(X(t) + .5, H - B); g.stroke(); }); g.restore();
+  if (zoom === 'all' && M.now.t < CFG.lgClose) {
     const ts = []; for (let i = 0; i <= 60; i++) ts.push(M.now.t + (CFG.lgClose - M.now.t) * i / 60);
-    const at = (t, kk) => M.now.d * Math.pow(Hh(t - CFG.open) / M.tNow, kk);
-    g.beginPath(); ts.forEach((t, i) => { const y = Y(Math.min(yMax, at(t, M.k + M.se))); i ? g.lineTo(X(t), y) : g.moveTo(X(t), y); }); [...ts].reverse().forEach(t => g.lineTo(X(t), Y(at(t, Math.max(0, M.k - M.se))))); g.closePath(); g.fillStyle = 'rgba(123,108,240,.16)'; g.fill();
-    g.save(); g.setLineDash([6, 5]); g.strokeStyle = lav; g.lineWidth = 2.5; g.beginPath(); ts.forEach((t, i) => { const y = Y(Math.min(yMax, at(t, M.k))); i ? g.lineTo(X(t), y) : g.moveTo(X(t), y); }); g.stroke(); g.restore();
-    [[CFG.xoClose], [CFG.lgClose]].forEach(([t]) => { const v = M.proj(t); if (v > yMax) return; g.fillStyle = lav; g.beginPath(); g.arc(X(t), Y(v), 5, 0, 7); g.fill(); g.font = '800 12px InterX'; g.textAlign = 'right'; g.textBaseline = 'bottom'; g.fillText(usdM(v), X(t) - 8, Y(v) - 6); g.font = '600 11.5px InterX'; });
+    const at = (t, kk) => Math.min(yMax, M.now.d * Math.pow(Hh(t - CFG.open) / M.tNow, kk));
+    g.beginPath(); ts.forEach((t, i) => { const y = Y(at(t, M.k + M.se)); i ? g.lineTo(X(t), y) : g.moveTo(X(t), y); }); [...ts].reverse().forEach(t => g.lineTo(X(t), Y(at(t, Math.max(0, M.k - M.se))))); g.closePath();
+    g.fillStyle = 'rgba(162,147,255,.18)'; g.fill();
+    g.save(); g.setLineDash([6, 5]); g.strokeStyle = lav; g.lineWidth = 2.5; g.beginPath(); ts.forEach((t, i) => { const y = Y(at(t, M.k)); i ? g.lineTo(X(t), y) : g.moveTo(X(t), y); }); g.stroke(); g.restore();
   }
-  // recorded deposits
+  if (CFG.goal <= yMax) { g.save(); g.strokeStyle = ink; g.lineWidth = 1.5; g.setLineDash([8, 6]); g.beginPath(); g.moveTo(L, Y(CFG.goal)); g.lineTo(W - R, Y(CFG.goal)); g.stroke(); g.restore(); tag(g, '$35M line', L + 8, Y(CFG.goal) - 14, { color: ink, bold: true }); }
   const pts = M.pts.filter(p => p.t <= t1);
-  g.beginPath(); g.moveTo(X(CFG.open), Y(0)); pts.forEach(p => g.lineTo(X(p.t), Y(p.d))); g.lineTo(X(pts[pts.length - 1].t), Y(0)); g.closePath();
-  const gr = g.createLinearGradient(0, T, 0, H - B); gr.addColorStop(0, 'rgba(255,135,166,.35)'); gr.addColorStop(1, 'rgba(255,135,166,0)'); g.fillStyle = gr; g.fill();
-  g.beginPath(); g.moveTo(X(CFG.open), Y(0)); pts.forEach(p => g.lineTo(X(p.t), Y(p.d))); g.strokeStyle = pink; g.lineWidth = 3; g.lineJoin = 'round'; g.stroke();
-  const last = pts[pts.length - 1]; g.fillStyle = pink; g.beginPath(); g.arc(X(last.t), Y(last.d), 6, 0, 7); g.fill(); g.strokeStyle = css('--card'); g.lineWidth = 2; g.stroke();
+  const path = () => { g.beginPath(); g.moveTo(X(CFG.open), Y(0)); pts.forEach(p => g.lineTo(X(p.t), Y(p.d))); };
+  path(); g.lineTo(X(pts[pts.length - 1].t), Y(0)); g.closePath();
+  const gr = g.createLinearGradient(0, T, 0, H - B); gr.addColorStop(0, 'rgba(255,135,166,.32)'); gr.addColorStop(1, 'rgba(255,135,166,0)'); g.fillStyle = gr; g.fill();
+  path(); g.strokeStyle = yes; g.lineWidth = 3; g.lineJoin = 'round'; g.stroke();
+  const last = pts[pts.length - 1]; g.fillStyle = yes; g.beginPath(); g.arc(X(last.t), Y(last.d), 5.5, 0, 7); g.fill(); g.strokeStyle = css('--card'); g.lineWidth = 2; g.stroke();
+  if (zoom === 'all') deadlines.forEach(([t, name], i) => {
+    const v = M.proj(t); if (v > yMax || t < M.now.t) return;
+    g.fillStyle = lav; g.beginPath(); g.arc(X(t), Y(v), 5, 0, 7); g.fill();
+    const y = Math.max(T + 12, Math.min(H - B - 40, Y(v) + (i === 0 ? 22 : -22)));
+    tag(g, `${usdM(v)} at ${name}`, X(t) - 8, y, { align: 'right', color: lav, bold: true });
+  });
+  const close = deadlines.length > 1 && X(CFG.lgClose) - X(CFG.xoClose) < 120;
+  deadlines.forEach(([t, name], i) => tag(g, name, X(t) - 6, H - B - 12 - (close && i === 1 ? 24 : 0), { align: 'right' }));
   drawOdds();
 }
 function drawOdds() {
-  const cv = $('odds'); const [g, W, H] = setup(cv), L = 40, R = 12, T = 10, B = 26;
+  const [g, W, H] = setup($('odds')), L = 40, R = 12, T = 10, B = 26;
   const pts = ODDS.filter(p => p.p != null); if (pts.length < 2) return;
   const t0 = pts[0].t, t1 = Math.max(pts[pts.length - 1].t, Date.now() / 1000);
   const X = t => L + (t - t0) / (t1 - t0) * (W - L - R), Y = p => T + (1 - p) * (H - T - B);
   const muted = css('--muted'), line = css('--line');
-  g.font = '600 11px InterX'; g.fillStyle = muted; g.strokeStyle = line; g.textAlign = 'right'; g.textBaseline = 'middle';
+  g.font = '500 12px Figtree'; g.fillStyle = muted; g.strokeStyle = line; g.textAlign = 'right'; g.textBaseline = 'middle';
   [0, .25, .5, .75, 1].forEach(p => { g.beginPath(); g.moveTo(L, Y(p) + .5); g.lineTo(W - R, Y(p) + .5); g.stroke(); g.fillText(p * 100 + '%', L - 6, Y(p)); });
   g.textAlign = 'center'; g.textBaseline = 'top';
-  for (let i = 0; i <= 4; i++) { const t = t0 + (t1 - t0) * i / 4; g.fillText(new Date(t * 1000).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' }), X(t), H - B + 8); }
+  for (let i = 0; i <= 3; i++) { const t = t0 + (t1 - t0) * i / 3; g.fillText(new Date(t * 1000).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' }), Math.min(W - R - 24, Math.max(L + 24, X(t))), H - B + 8); }
+  const open = CFG.open / 1000;
+  if (open > t0 && open < t1) { g.save(); g.setLineDash([4, 4]); g.strokeStyle = muted; g.beginPath(); g.moveTo(X(open), T); g.lineTo(X(open), H - B); g.stroke(); g.restore(); }
   g.beginPath(); pts.forEach((p, i) => { i ? g.lineTo(X(p.t), Y(p.p)) : g.moveTo(X(p.t), Y(p.p)); });
-  g.strokeStyle = css('--pink'); g.lineWidth = 2.5; g.lineJoin = 'round'; g.stroke();
-  const open = Date.parse('2026-09-29T13:00:00Z') / 1000;
-  if (open > t0 && open < t1) { g.save(); g.setLineDash([4, 4]); g.strokeStyle = muted; g.beginPath(); g.moveTo(X(open), T); g.lineTo(X(open), H - B); g.stroke(); g.restore(); g.fillStyle = muted; const right = X(open) > W - 90; g.textAlign = right ? 'right' : 'left'; g.fillText('sale opens', X(open) + (right ? -5 : 5), T); }
+  g.strokeStyle = css('--yes'); g.lineWidth = 2.5; g.lineJoin = 'round'; g.stroke();
+  if (open > t0 && open < t1) tag(g, 'sale opened', X(open) - 6, T + 10, { align: 'right' });
 }
-document.querySelectorAll('[data-zoom]').forEach(b => b.onclick = () => { zoom = b.dataset.zoom; draw(); });
+document.querySelectorAll('[data-zoom]').forEach(b => b.onclick = () => { zoom = b.dataset.zoom; document.querySelectorAll('[data-zoom]').forEach(x => x.classList.toggle('on', x === b)); draw(); });
 addEventListener('resize', () => draw());
 
-// ---------------------------------------------------------------- boot
-fetch('data/past.json').then(r => r.json()).then(p => { PAST = p; }).catch(() => {}).finally(() => { refresh(); setInterval(refresh, 30000); requestAnimationFrame(tickDeposits); });
+fetch('data/past.json').then(r => r.json()).then(p => { PAST = p; }).catch(() => {}).finally(() => { refresh(); setInterval(refresh, 30000); requestAnimationFrame(tick); });
 </script>
 </body>
 </html>
