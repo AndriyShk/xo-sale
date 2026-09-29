@@ -1,0 +1,4 @@
+node_modules
+data/recorder.log
+.vercel
+.DS_Store
