@@ -33,15 +33,15 @@ html,body{margin:0}
 body{background:radial-gradient(900px 420px at 12% -120px,var(--glow1),transparent 70%),radial-gradient(900px 420px at 88% -120px,var(--glow2),transparent 70%),var(--bg);background-repeat:no-repeat;color:var(--ink);font:400 15px/1.5 Rubik,system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
 a{color:inherit}
 .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
-header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 78%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
 header .wrap{display:flex;align-items:center;gap:12px;height:62px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
 .brand img{width:34px;height:34px;border-radius:10px;box-shadow:0 4px 12px rgba(255,135,166,.35)}
 .brand b{font:600 18px Rubik;letter-spacing:-.02em}
 .sp{flex:1}
 .live{display:inline-flex;align-items:center;gap:7px;font:500 13px Figtree;color:var(--muted);white-space:nowrap}
-.live i{width:8px;height:8px;border-radius:50%;background:#22c55e;animation:pulse 1.8s infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.55)}70%{box-shadow:0 0 0 8px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+.live i{width:8px;height:8px;border-radius:50%;background:#22c55e;animation:blink 2s ease-in-out infinite}
+@keyframes blink{50%{opacity:.35}}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:12px;background:var(--ink);color:var(--card);font:600 14px Figtree;text-decoration:none;border:0;cursor:pointer;white-space:nowrap}
 .icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;font-size:16px}
 main.wrap{padding-top:40px;padding-bottom:56px;display:flex;flex-direction:column;gap:16px}
@@ -90,8 +90,7 @@ h2{font:600 18px Rubik;letter-spacing:-.015em;margin:0}
 .sub{font:400 14.5px Rubik;color:var(--muted)}.sub b{color:var(--ink);font-weight:600}
 .ptrack{height:14px;border-radius:999px;background:var(--soft);position:relative;overflow:hidden;margin-top:18px}
 .pfill{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:linear-gradient(90deg,var(--no),var(--yes));transition:width .8s cubic-bezier(.2,.8,.2,1);overflow:hidden}
-.pfill::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);background-size:200px 100%;background-repeat:no-repeat;animation:shine 2.4s linear infinite}
-@keyframes shine{from{background-position:-200px 0}to{background-position:calc(100% + 200px) 0}}
+
 .pscale{display:flex;justify-content:space-between;margin-top:7px;font:500 12px Figtree;color:var(--muted)}
 .pscale b{color:var(--ink)}
 .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
@@ -99,6 +98,8 @@ h2{font:600 18px Rubik;letter-spacing:-.015em;margin:0}
 .fact{display:flex;gap:12px;align-items:center;background:var(--soft);border-radius:14px;padding:12px 14px}
 .fact .ic{width:36px;height:36px;border-radius:10px;background:var(--card);display:grid;place-items:center;flex:none}
 .fact .ic svg{width:18px;height:18px;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.fact .pace{font:500 13px Figtree;color:var(--muted);margin-top:1px;white-space:nowrap}
+.fact .pace b{font-weight:600}
 .fact .v{font:600 19px Inter;letter-spacing:-.02em;font-variant-numeric:tabular-nums;white-space:nowrap}
 
 /* ---------- 3 · chart */
@@ -167,7 +168,7 @@ canvas{width:100%;display:block}
     <div class="pscale"><span>$0</span><b>$35M goal</b></div>
     <div class="facts">
       <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M8 12h8"/></svg></div><div><div class="lbl">Still missing</div><div class="v" id="need">—</div></div></div>
-      <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><div><div class="lbl">Needed per hour to make it</div><div class="v" id="needPace">—</div></div></div>
+      <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><div><div class="lbl">Needed per hour to make it</div><div class="v" id="needPace">—</div><div class="pace" id="nowPace">—</div></div></div>
       <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg></div><div><div class="lbl">Betting closes in</div><div class="v" id="cd">—</div></div></div>
     </div>
   </section>
@@ -272,7 +273,10 @@ function compute() {
   const proj = T => now.d * Math.pow(Hh(T - CFG.open) / tNow, k);
   const kNeed = T => Math.log(CFG.goal / now.d) / Math.log(Hh(T - CFG.open) / tNow);
   const prob = T => now.d >= CFG.goal ? 1 : T <= now.t ? 0 : 1 - Phi((kNeed(T) - k) / se);
-  MODEL = { pts, now, tNow, k, se, fitted, span, proj, prob, needPace: (CFG.goal - now.d) / Math.max(.01, Hh(CFG.xoClose - now.t)) };
+  // recent pace: from the newest recorded point that is at least 30 min old (falls back to the average since the open)
+  const older = pts.filter(p => now.t - p.t >= 30 * 6e4), ref = older[older.length - 1];
+  const pace = ref ? (now.d - ref.d) / Hh(now.t - ref.t) : now.d / tNow, paceWindow = ref ? Hh(now.t - ref.t) : tNow;
+  MODEL = { pts, now, tNow, k, se, fitted, span, proj, prob, pace, paceWindow, needPace: (CFG.goal - now.d) / Math.max(.01, Hh(CFG.xoClose - now.t)) };
 }
 
 const ARROW_UP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>';
@@ -283,12 +287,14 @@ function render() {
   if (XO) $('mimg').src = XO.imageUrl || '';
   if (!M) return;
   const d = M.now.d;
-  animFrom = shownDep || d * .97; animT0 = performance.now(); shownDep = d;
+  if (d !== shownDep) { animFrom = shownDep || d * .97; animT0 = performance.now(); shownDep = d; animateDep(); }
   const parts = (LIVE && LIVE.participants) || (HIST.length ? HIST[HIST.length - 1].participants : null);
   $('depLine').innerHTML = `<b>${pct(d / CFG.goal)}</b> of the $35M goal${parts ? ` · from <b>${parts.toLocaleString('en-US')}</b> people` : ''}`;
   $('fill').style.width = Math.min(100, d / CFG.goal * 100) + '%';
   $('need').textContent = d >= CFG.goal ? 'Nothing 🎉' : usdM(CFG.goal - d);
   $('needPace').textContent = d >= CFG.goal ? '—' : usdM(M.needPace);
+  const ok = M.pace >= M.needPace, win = M.paceWindow < 1.5 ? 'last hour' : `last ${Math.round(M.paceWindow)} h`;
+  $('nowPace').innerHTML = d >= CFG.goal ? '' : `Now: <b style="color:${ok ? '#16a34a' : '#dc2626'}">${usdM(M.pace)}/h</b> · ${win}`;
   $('pLate').textContent = pct(M.prob(CFG.lgClose));
   if (!XO) return;
   const mid = +XO.outcomes.find(o => o.index === 0).currentPrice / 1e6;
@@ -315,13 +321,24 @@ function render() {
     : `How sure: <b>${level === 2 ? 'medium' : 'high'}</b>. Based on ${hrs} hours of real deposits.`;
 }
 function fmtLeft(ms) { ms = Math.max(0, ms); const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60, s = Math.floor(ms / 1e3) % 60; return (d ? d + 'd ' : '') + h + 'h ' + String(m).padStart(2, '0') + 'm'; }
+// write to the DOM only when the text actually changes
+const setText = (id, v) => { const el = $(id); if (el.textContent !== v) el.textContent = v; };
+// count-up of the deposit number: runs for 1.2 s after new data, then stops
+let animating = false;
+function animateDep() {
+  if (animating) return; animating = true;
+  const step = () => {
+    const p = Math.min(1, (performance.now() - animT0) / 1200), e = 1 - Math.pow(1 - p, 3);
+    setText('dep', usd(animFrom + (shownDep - animFrom) * e));
+    if (p < 1) requestAnimationFrame(step); else animating = false;
+  };
+  requestAnimationFrame(step);
+}
+// clock-like bits once a second
 function tick() {
-  const p = Math.min(1, (performance.now() - animT0) / 1200), e = 1 - Math.pow(1 - p, 3);
-  if (shownDep) $('dep').textContent = usd(animFrom + (shownDep - animFrom) * e);
-  $('cd').textContent = fmtLeft(CFG.xoClose - Date.now());
+  setText('cd', fmtLeft(CFG.xoClose - Date.now()));
   const age = LIVE ? Math.round((Date.now() - LIVE.fetchedAt) / 1000) : null;
-  $('upd').textContent = age == null ? 'Live' : age < 5 ? 'Live · just now' : `Live · ${age}s ago`;
-  requestAnimationFrame(tick);
+  setText('upd', age == null ? 'Live' : age < 5 ? 'Live · just now' : `Live · ${age}s ago`);
 }
 
 // chart: the CSS height comes from the markup once (data-h); the backing store is retina-scaled
@@ -363,7 +380,7 @@ function draw() {
   tag(g, 'betting closes', X(CFG.xoClose) - 6, H - B - 12, { align: 'right' });
 }
 addEventListener('resize', () => draw());
-refresh(); setInterval(refresh, 30000); requestAnimationFrame(tick);
+refresh(); setInterval(refresh, 30000); tick(); setInterval(tick, 1000);
 </script>
 </body>
 </html>
