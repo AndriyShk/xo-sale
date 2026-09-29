@@ -72,6 +72,7 @@ h2{font:600 18px Rubik;letter-spacing:-.015em;margin:0}
 .box.f .h i{background:var(--no)}.box.x .h i{background:var(--yes)}
 .box .v{font:600 clamp(44px,6.4vw,60px)/1 Inter;letter-spacing:-.025em;font-variant-numeric:tabular-nums;margin:10px 0 8px}
 .box.f .v{color:var(--no-ink)}.box.x .v{color:var(--yes-ink)}
+.box.x.no::before,.box.x.no .h i{background:var(--no)}.box.x.no .v{color:var(--no-ink)}
 .box .d{font:400 14px/1.5 Rubik;color:var(--muted)}
 .verdict{margin-top:16px;border-radius:18px;padding:16px 18px;display:flex;gap:16px;align-items:center;background:var(--soft)}
 .verdict.yes{background:linear-gradient(100deg,var(--yes-soft),color-mix(in srgb,var(--yes-soft) 30%,var(--card)))}
@@ -157,14 +158,14 @@ canvas{width:100%;display:block}
     </div>
     <div class="duo">
       <div class="box f">
-        <div class="h"><i></i>Our forecast</div>
+        <div class="h"><i></i><span>Our forecast for <span class="sd">YES</span></span></div>
         <div class="v" id="pModel">—</div>
-        <div class="d">Chance that deposits pass $35M before betting closes, based on how fast money is coming in right now.</div>
+        <div class="d">Chance that deposits <span class="sdGoal">pass</span> $35M before betting closes, based on how fast money is coming in right now.</div>
       </div>
-      <div class="box x">
-        <div class="h"><i></i>Price of YES on XO</div>
+      <div class="box x" id="pBox">
+        <div class="h"><i></i><span>Price of <span class="sd">YES</span> on XO</span></div>
         <div class="v" id="pXO">—</div>
-        <div class="d">What it costs to buy YES right now. It pays $1 if deposits pass $35M, so buying it is a bet that the chance is higher than <span id="pxoPct">—</span>.</div>
+        <div class="d">What it costs to buy <span class="sd">YES</span> right now. It pays $1 if deposits <span class="sdGoal">pass</span> $35M, so buying it is a bet that the chance is higher than <span id="pxoPct">—</span>.</div>
       </div>
     </div>
     <div class="verdict" id="verdict"><div class="side" id="side">—</div><div class="t" id="vtext">Loading live data…</div></div>
@@ -318,7 +319,6 @@ function render() {
   const mid = +XO.outcomes.find(o => o.index === 0).currentPrice / 1e6;
   const yesAsk = BOOK && BOOK.yesAsk != null ? BOOK.yesAsk : mid, noAsk = BOOK && BOOK.noAsk != null ? BOOK.noAsk : 1 - mid;
   const pm = M.prob(CFG.xoClose), yesCost = withFee(yesAsk), noCost = withFee(noAsk);
-  $('pModel').textContent = pct(pm); $('pXO').textContent = cents(yesAsk); $('pxoPct').textContent = pct(yesAsk);
   $('yesPx').textContent = `Buy YES · ${cents(yesAsk)}`; $('noPx').textContent = `Buy NO · ${cents(noAsk)}`;
   $('yesPay').textContent = `$10 → $${(10 / yesCost).toFixed(2)} if YES`;
   $('noPay').textContent = `$10 → $${(10 / noCost).toFixed(2)} if NO`;
@@ -327,6 +327,12 @@ function render() {
   const side = d >= CFG.goal ? 'yes' : edgeYes > .05 ? 'yes' : edgeNo > .05 ? 'no' : 'none';
   $('verdict').className = 'verdict ' + (side === 'none' ? '' : side);
   $('tYes').classList.toggle('pick', side === 'yes'); $('tNo').classList.toggle('pick', side === 'no');
+  // the two big numbers are about the side we lean to (YES when there's no clear side)
+  const onNo = side === 'no', showP = onNo ? 1 - pm : pm, showAsk = onNo ? noAsk : yesAsk;
+  document.querySelectorAll('.sd').forEach(e => e.textContent = onNo ? 'NO' : 'YES');
+  document.querySelectorAll('.sdGoal').forEach(e => e.textContent = onNo ? 'stay under' : 'pass');
+  $('pBox').classList.toggle('no', onNo);
+  $('pModel').textContent = pct(showP); $('pXO').textContent = cents(showAsk); $('pxoPct').textContent = pct(showAsk);
   const px = usdM(M.proj(CFG.xoClose));
   if (d >= CFG.goal) { $('side').innerHTML = ARROW_UP + 'YES ✓'; $('vtext').innerHTML = 'Deposits have <b>already passed $35M</b>.'; }
   else if (side === 'yes') { $('side').innerHTML = ARROW_UP + 'Leaning YES'; $('vtext').innerHTML = `At the current pace deposits reach about <b>${px}</b> before betting closes. We give it <b>${pct(pm)}</b>, but YES costs only <b>${cents(yesAsk)}</b>, so YES looks cheap.`; }
