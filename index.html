@@ -44,7 +44,7 @@ header .wrap{display:flex;align-items:center;gap:12px;height:62px}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.55)}70%{box-shadow:0 0 0 8px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:12px;background:var(--ink);color:var(--card);font:600 14px Figtree;text-decoration:none;border:0;cursor:pointer;white-space:nowrap}
 .icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;font-size:16px}
-main{padding:24px 0 8px;display:flex;flex-direction:column;gap:16px}
+main.wrap{padding-top:40px;padding-bottom:56px;display:flex;flex-direction:column;gap:16px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}
 h2{font:600 18px Rubik;letter-spacing:-.015em;margin:0}
 .lbl{font:500 13px Figtree;color:var(--muted)}
@@ -116,13 +116,6 @@ canvas{width:100%;display:block}
 .k p{margin:0;font:400 14px/1.55 Rubik;color:var(--muted)}
 .k p strong{color:var(--ink);font-weight:600}
 
-footer{margin-top:28px;border-top:1px solid var(--line)}
-footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 24px;padding:20px 20px 36px}
-footer .fl{display:flex;align-items:center;gap:10px;font:500 14px Rubik}
-footer .fl img{width:22px;height:22px;border-radius:6px}
-footer .fr{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font:500 13px Figtree;color:var(--muted)}
-footer .fr a{text-decoration:none;padding:5px 11px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:var(--ink)}
-footer .small{flex-basis:100%;font:400 12.5px Rubik;color:var(--muted)}
 .err{color:#dc2626}
 @media (max-width:640px){.live span,#theme{display:none}}
 </style>
@@ -202,11 +195,7 @@ footer .small{flex-basis:100%;font:400 12.5px Rubik;color:var(--muted)}
   </section>
 </main>
 
-<footer><div class="wrap">
-  <div class="fl"><img src="img/logo.svg" alt="">XO JUMPER · made by the XO community</div>
-  <div class="fr">Data: <a href="https://app.legion.cc/app/invest" target="_blank" rel="noopener">Legion · deposits every ~10 min</a><a href="https://beta.xo.market" target="_blank" rel="noopener">XO · live prices</a></div>
-  <div class="small">Not affiliated with XO Market or Legion. <span id="err" class="err"></span></div>
-</div></footer>
+
 
 <script>
 const CFG = {
@@ -252,7 +241,6 @@ async function refresh() {
   if (h.status === 'fulfilled') HIST = h.value;
   if (live.status === 'fulfilled' && live.value.deposits) LIVE = live.value;
   if (ev.status === 'fulfilled') { XO = ev.value.data.markets[0].market; try { BOOK = await loadBook(XO); } catch {} }
-  $('err').textContent = live.status === 'fulfilled' && live.value.deposits ? '' : 'Legion live data is temporarily unavailable.';
   compute(); render(); draw();
 }
 
@@ -340,7 +328,6 @@ function tick() {
 function setup(cv) { if (!cv.dataset.h) cv.dataset.h = cv.getAttribute('height'); const h = +cv.dataset.h, dpr = devicePixelRatio || 1; cv.style.height = h + 'px'; const r = cv.getBoundingClientRect(); cv.width = Math.round(r.width * dpr); cv.height = Math.round(h * dpr); const g = cv.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0); return [g, r.width, h]; }
 function tag(g, text, x, y, { align = 'left', color, bold = false } = {}) {
   g.font = `${bold ? 600 : 500} 12.5px Figtree`; g.textAlign = align; g.textBaseline = 'middle';
-  g.lineJoin = 'round'; g.lineWidth = 5; g.strokeStyle = css('--card'); g.strokeText(text, x, y);   // halo keeps it readable over lines
   g.fillStyle = color || css('--muted'); g.fillText(text, x, y);
 }
 function draw() {
