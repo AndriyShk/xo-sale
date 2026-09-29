@@ -87,11 +87,13 @@ h2{font:600 18px Rubik;letter-spacing:-.015em;margin:0}
 .tb.yes{background:var(--yes-soft)}
 .tb.no{background:var(--no-soft)}
 .tb b{font:600 17px Rubik}.tb.yes b{color:var(--yes-ink)}.tb.no b{color:var(--no-ink)}
-.tb span{font:500 12.5px Figtree;color:var(--muted)}
+.tb span{font:500 12.5px Figtree;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.tb b{white-space:nowrap}
+@media (max-width:380px){.tb{padding:12px 8px}.tb b{font-size:16px}.tb span{font-size:12px}}
 .tb:hover{transform:translateY(-1px)}
-.conf{margin-top:14px;display:flex;align-items:center;gap:10px;font:400 13.5px/1.5 Rubik;color:var(--muted)}
+.conf{margin-top:14px;display:flex;align-items:flex-start;gap:10px;font:400 13.5px/1.5 Rubik;color:var(--muted)}
 .conf b{color:var(--ink);font-weight:600}
-.dots{display:inline-flex;gap:3px;flex:none}.dots i{width:16px;height:6px;border-radius:3px;background:var(--line)}.dots i.on{background:var(--ink)}
+.dots{display:inline-flex;gap:3px;flex:none;margin-top:7px}.dots i{width:16px;height:6px;border-radius:3px;background:var(--line)}.dots i.on{background:var(--ink)}
 
 /* ---------- 2 · progress */
 .big{font:600 clamp(36px,5.6vw,52px)/1 Inter;letter-spacing:-.025em;font-variant-numeric:tabular-nums;margin:8px 0 6px}
@@ -232,6 +234,8 @@ const usdM = v => v >= 1e6 ? '$' + (v / 1e6).toFixed(v >= 1e7 ? 1 : 2) + 'M' : v
 const pct = v => Math.round(v * 100) + '%';
 const cents = v => Math.round(v * 100) + '¢';
 const Hh = ms => ms / 36e5;
+// XO taker fee per share: 4% × p × (1 − p) (docs.xo.market/product/trading/fees), so one share really costs p + fee
+const withFee = p => p + .04 * p * (1 - p);
 const css = n => getComputedStyle(root).getPropertyValue(n).trim();
 function erf(x) { const s = Math.sign(x); x = Math.abs(x); const t = 1 / (1 + .3275911 * x); return s * (1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - .284496736) * t + .254829592) * t * Math.exp(-x * x)); }
 const Phi = z => .5 * (1 + erf(z / Math.SQRT2));
@@ -314,13 +318,13 @@ function render() {
   if (!XO) return;
   const mid = +XO.outcomes.find(o => o.index === 0).currentPrice / 1e6;
   const yesAsk = BOOK && BOOK.yesAsk != null ? BOOK.yesAsk : mid, noAsk = BOOK && BOOK.noAsk != null ? BOOK.noAsk : 1 - mid;
-  const pm = M.prob(CFG.xoClose);
+  const pm = M.prob(CFG.xoClose), yesCost = withFee(yesAsk), noCost = withFee(noAsk);
   $('pModel').textContent = pct(pm); $('pXO').textContent = cents(yesAsk); $('pxoPct').textContent = pct(yesAsk);
   $('yesPx').textContent = `Buy YES · ${cents(yesAsk)}`; $('noPx').textContent = `Buy NO · ${cents(noAsk)}`;
-  $('yesPay').textContent = `$10 → $${(10 / yesAsk).toFixed(2)} if it passes $35M`;
-  $('noPay').textContent = `$10 → $${(10 / noAsk).toFixed(2)} if it doesn't`;
-  // verdict: compare our chance with what each side costs
-  const edgeYes = pm - yesAsk, edgeNo = (1 - pm) - noAsk;
+  $('yesPay').textContent = `$10 → $${(10 / yesCost).toFixed(2)} if YES`;
+  $('noPay').textContent = `$10 → $${(10 / noCost).toFixed(2)} if NO`;
+  // verdict: compare our chance with what each side really costs, fee included
+  const edgeYes = pm - yesCost, edgeNo = (1 - pm) - noCost;
   const side = d >= CFG.goal ? 'yes' : edgeYes > .05 ? 'yes' : edgeNo > .05 ? 'no' : 'none';
   $('verdict').className = 'verdict ' + (side === 'none' ? '' : side);
   $('tYes').classList.toggle('pick', side === 'yes'); $('tNo').classList.toggle('pick', side === 'no');
