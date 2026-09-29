@@ -62,15 +62,6 @@ h2{font:600 18px Rubik;letter-spacing:-.015em;margin:0}
 .box .v{font:600 clamp(44px,6.4vw,60px)/1 Figtree;letter-spacing:-.02em;margin:10px 0 8px}
 .box.f .v{color:var(--no-ink)}.box.x .v{color:var(--yes-ink)}
 .box .d{font:400 14px/1.5 Rubik;color:var(--muted)}
-/* forecast vs price, as two bars on the same 0–100% scale */
-.cmp{margin-top:18px;border-radius:18px;background:var(--soft);padding:16px 18px;display:grid;gap:12px}
-.cmp .row{display:grid;grid-template-columns:112px 1fr 52px;align-items:center;gap:12px}
-.cmp .row span{font:500 14px Figtree;color:var(--muted)}
-.cmp .row b{font:600 17px Figtree;letter-spacing:-.02em;text-align:right}
-.cmp .row.f b{color:var(--no-ink)}.cmp .row.x b{color:var(--yes-ink)}
-.cmp .bar{height:10px;border-radius:999px;background:var(--card);overflow:hidden}
-.cmp .bar i{display:block;height:100%;border-radius:999px;transition:width .8s cubic-bezier(.2,.8,.2,1)}
-.cmp .row.f .bar i{background:var(--no)}.cmp .row.x .bar i{background:var(--yes)}
 .verdict{margin-top:16px;border-radius:18px;padding:16px 18px;display:flex;gap:16px;align-items:center;background:var(--soft)}
 .verdict.yes{background:linear-gradient(100deg,var(--yes-soft),color-mix(in srgb,var(--yes-soft) 30%,var(--card)))}
 .verdict.no{background:linear-gradient(100deg,var(--no-soft),color-mix(in srgb,var(--no-soft) 30%,var(--card)))}
@@ -80,14 +71,13 @@ h2{font:600 18px Rubik;letter-spacing:-.015em;margin:0}
 .verdict .t{font:400 14.5px/1.5 Rubik}.verdict .t b{font-weight:600}
 @media (max-width:620px){.verdict{flex-direction:column;align-items:flex-start;gap:6px}}
 .trade{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.tb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:13px;border-radius:14px;text-decoration:none;border:1.5px solid transparent;transition:transform .15s,box-shadow .15s}
+.tb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:13px;border-radius:14px;text-decoration:none;transition:transform .15s,filter .15s}
 .tb:hover{transform:translateY(-1px)}
-.tb.yes{background:var(--yes-soft);border-color:color-mix(in srgb,var(--yes) 50%,transparent)}
-.tb.no{background:var(--no-soft);border-color:color-mix(in srgb,var(--no) 50%,transparent)}
+.tb.yes{background:var(--yes-soft)}
+.tb.no{background:var(--no-soft)}
 .tb b{font:600 17px Rubik}.tb.yes b{color:var(--yes-ink)}.tb.no b{color:var(--no-ink)}
 .tb span{font:500 12.5px Figtree;color:var(--muted)}
-.tb.yes.pick{border-color:var(--yes);box-shadow:0 0 0 3px color-mix(in srgb,var(--yes) 28%,transparent)}
-.tb.no.pick{border-color:var(--no);box-shadow:0 0 0 3px color-mix(in srgb,var(--no) 28%,transparent)}
+.tb:hover{filter:brightness(.97)}
 .conf{margin-top:14px;display:flex;align-items:center;gap:10px;font:400 13.5px/1.5 Rubik;color:var(--muted)}
 .conf b{color:var(--ink);font-weight:600}
 .dots{display:inline-flex;gap:3px;flex:none}.dots i{width:16px;height:6px;border-radius:3px;background:var(--line)}.dots i.on{background:var(--ink)}
@@ -163,10 +153,6 @@ footer .small{flex-basis:100%;font:400 12.5px Rubik;color:var(--muted)}
         <div class="v" id="pXO">—</div>
         <div class="d">What it costs to buy YES right now. It pays $1 if deposits pass $35M, so buying it is a bet that the chance is higher than <span id="pxoPct">—</span>.</div>
       </div>
-    </div>
-    <div class="cmp">
-      <div class="row f"><span>Our forecast</span><div class="bar"><i id="bF"></i></div><b id="cF">—</b></div>
-      <div class="row x"><span>XO price</span><div class="bar"><i id="bX"></i></div><b id="cX">—</b></div>
     </div>
     <div class="verdict" id="verdict"><div class="side" id="side">—</div><div class="t" id="vtext">Loading live data…</div></div>
     <div class="trade">
@@ -321,8 +307,6 @@ function render() {
   $('yesPx').textContent = `Buy YES · ${cents(yesAsk)}`; $('noPx').textContent = `Buy NO · ${cents(noAsk)}`;
   $('yesPay').textContent = `$10 → $${(10 / yesAsk).toFixed(2)} if it passes $35M`;
   $('noPay').textContent = `$10 → $${(10 / noAsk).toFixed(2)} if it doesn't`;
-  $('bF').style.width = pm * 100 + '%'; $('bX').style.width = yesAsk * 100 + '%';
-  $('cF').textContent = pct(pm); $('cX').textContent = cents(yesAsk);
   // verdict: compare our chance with what each side costs
   const edgeYes = pm - yesAsk, edgeNo = (1 - pm) - noAsk;
   const side = d >= CFG.goal ? 'yes' : edgeYes > .05 ? 'yes' : edgeNo > .05 ? 'no' : 'none';
