@@ -103,8 +103,9 @@ h2{font:600 18px Rubik;letter-spacing:-.015em;margin:0}
 
 .pscale{display:flex;justify-content:space-between;margin-top:7px;font:500 12px Figtree;color:var(--muted)}
 .pscale b{color:var(--ink)}
-.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
-@media (max-width:620px){.facts{grid-template-columns:1fr}}
+.facts{display:grid;grid-template-columns:.8fr 1fr 1.2fr;gap:10px;margin-top:18px}
+@media (max-width:900px){.facts{grid-template-columns:1fr}}
+.split .lbl{white-space:nowrap}
 .fact{display:flex;gap:12px;align-items:center;background:var(--soft);border-radius:14px;padding:12px 14px}
 .fact .ic{width:36px;height:36px;border-radius:10px;background:var(--card);display:grid;place-items:center;flex:none}
 .fact .ic svg{width:18px;height:18px;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -181,7 +182,7 @@ canvas{width:100%;display:block}
     <div class="facts">
       <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M8 12h8"/></svg></div><div><div class="lbl">Still missing</div><div class="v" id="need">—</div></div></div>
       <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><div class="split"><div><div class="lbl">Needed / hour</div><div class="v" id="needPace">—</div></div><div id="nowBox"><div class="lbl">Now / hour</div><div class="v" id="nowPace">—</div></div></div></div>
-      <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg></div><div><div class="lbl">Betting closes in</div><div class="v" id="cd">—</div></div></div>
+      <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg></div><div class="split"><div><div class="lbl">XO bets close</div><div class="v" id="cd">—</div></div><div><div class="lbl">Legion sale ends</div><div class="v" id="cdL">—</div></div></div></div>
     </div>
   </section>
 
@@ -353,7 +354,7 @@ function animateDep() {
 }
 // clock-like bits once a second
 function tick() {
-  setText('cd', fmtLeft(CFG.xoClose - Date.now()));
+  setText('cd', fmtLeft(CFG.xoClose - Date.now())); setText('cdL', fmtLeft(CFG.lgClose - Date.now()));
   const age = LIVE ? Math.round((Date.now() - LIVE.fetchedAt) / 1000) : null;
   setText('upd', age == null ? 'Live' : age < 5 ? 'Live · just now' : `Live · ${age}s ago`);
 }
