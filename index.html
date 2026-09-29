@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>XO JUMPER · Will Jumper raise $35M on Legion?</title>
+<title>XO JUMPER</title>
 <meta name="description" content="Live deposits for the Jumper sale on Legion, the XO price and a simple forecast: which side of the $35M market looks better right now.">
 <meta property="og:title" content="XO JUMPER · YES or NO on $35M?">
 <meta property="og:description" content="Live Legion deposits, the XO price and a forecast, in one page.">
@@ -98,8 +98,12 @@ h2{font:600 18px Rubik;letter-spacing:-.015em;margin:0}
 .fact{display:flex;gap:12px;align-items:center;background:var(--soft);border-radius:14px;padding:12px 14px}
 .fact .ic{width:36px;height:36px;border-radius:10px;background:var(--card);display:grid;place-items:center;flex:none}
 .fact .ic svg{width:18px;height:18px;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.fact .pace{font:500 13px Figtree;color:var(--muted);margin-top:1px;white-space:nowrap}
-.fact .pace b{font-weight:600}
+.fact .vrow{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px}
+.pace{display:inline-flex;align-items:center;gap:3px;font:600 12px/1 Inter;letter-spacing:-.01em;font-variant-numeric:tabular-nums;white-space:nowrap;padding:5px 8px 5px 6px;border-radius:999px}
+.pace:empty{display:none}
+.pace svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.pace.up{color:#15803d;background:rgba(22,163,74,.12)}
+.pace.down{color:#dc2626;background:rgba(220,38,38,.1)}
 .fact .v{font:600 19px Inter;letter-spacing:-.02em;font-variant-numeric:tabular-nums;white-space:nowrap}
 
 /* ---------- 3 · chart */
@@ -168,7 +172,7 @@ canvas{width:100%;display:block}
     <div class="pscale"><span>$0</span><b>$35M goal</b></div>
     <div class="facts">
       <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M8 12h8"/></svg></div><div><div class="lbl">Still missing</div><div class="v" id="need">—</div></div></div>
-      <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><div><div class="lbl">Needed per hour to make it</div><div class="v" id="needPace">—</div><div class="pace" id="nowPace">—</div></div></div>
+      <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><div><div class="lbl">Needed per hour to make it</div><div class="vrow"><div class="v" id="needPace">—</div><span class="pace" id="nowPace"></span></div></div></div>
       <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg></div><div><div class="lbl">Betting closes in</div><div class="v" id="cd">—</div></div></div>
     </div>
   </section>
@@ -294,7 +298,10 @@ function render() {
   $('need').textContent = d >= CFG.goal ? 'Nothing 🎉' : usdM(CFG.goal - d);
   $('needPace').textContent = d >= CFG.goal ? '—' : usdM(M.needPace);
   const ok = M.pace >= M.needPace, win = M.paceWindow < 1.5 ? 'last hour' : `last ${Math.round(M.paceWindow)} h`;
-  $('nowPace').innerHTML = d >= CFG.goal ? '' : `Now: <b style="color:${ok ? '#16a34a' : '#dc2626'}">${usdM(M.pace)}/h</b> · ${win}`;
+  const np = $('nowPace');
+  np.className = 'pace ' + (ok ? 'up' : 'down');
+  np.title = `Real pace, ${win}`;
+  np.innerHTML = d >= CFG.goal ? '' : `<svg viewBox="0 0 24 24"><path d="${ok ? 'M7 17L17 7M9 7h8v8' : 'M7 7l10 10M17 9v8H9'}"/></svg>now ${usdM(M.pace)}/h`;
   $('pLate').textContent = pct(M.prob(CFG.lgClose));
   if (!XO) return;
   const mid = +XO.outcomes.find(o => o.index === 0).currentPrice / 1e6;
