@@ -3,15 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Xo-Jumper · Will Jumper raise $35M on Legion?</title>
+<title>XO Jumper · Will Jumper raise $35M on Legion?</title>
 <meta name="description" content="Live deposits for the Jumper sale on Legion, the XO price and a simple forecast: which side of the $35M market looks better right now.">
-<meta property="og:title" content="Xo-Jumper · YES or NO on $35M?">
+<meta property="og:title" content="XO Jumper · YES or NO on $35M?">
 <meta property="og:description" content="Live Legion deposits, the XO price and a forecast, in one page.">
 <meta property="og:image" content="img/icon-512.png">
 <meta name="theme-color" content="#FF87A6">
 <link rel="icon" type="image/svg+xml" href="img/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
 <style>
 @font-face{font-family:Rubik;src:url(fonts/Rubik.woff2) format("woff2");font-weight:300 900;font-display:swap}
 @font-face{font-family:Figtree;src:url(fonts/Figtree.woff2) format("woff2");font-weight:300 900;font-display:swap}
@@ -82,12 +84,14 @@ h2{font:600 18px Rubik;letter-spacing:-.015em;margin:0}
 .verdict .t{font:400 14.5px/1.5 Rubik}.verdict .t b{font-weight:600}
 @media (max-width:620px){.verdict{flex-direction:column;align-items:flex-start;gap:6px}}
 .trade{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.tb{display:flex;flex-direction:column;align-items:center;gap:1px;padding:13px;border-radius:14px;text-decoration:none;color:#121213;transition:transform .15s,box-shadow .15s}
+.tb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:13px;border-radius:14px;text-decoration:none;border:1.5px solid transparent;transition:transform .15s,box-shadow .15s}
 .tb:hover{transform:translateY(-1px)}
-.tb.yes{background:var(--yes)}.tb.no{background:var(--no)}
-.tb b{font:600 17px Rubik}
-.tb span{font:500 12.5px Figtree;opacity:.72}
-.tb.pick{box-shadow:0 0 0 3px var(--card),0 0 0 5px var(--ink)}
+.tb.yes{background:var(--yes-soft);border-color:color-mix(in srgb,var(--yes) 50%,transparent)}
+.tb.no{background:var(--no-soft);border-color:color-mix(in srgb,var(--no) 50%,transparent)}
+.tb b{font:600 17px Rubik}.tb.yes b{color:var(--yes-ink)}.tb.no b{color:var(--no-ink)}
+.tb span{font:500 12.5px Figtree;color:var(--muted)}
+.tb.yes.pick{border-color:var(--yes);box-shadow:0 0 0 3px color-mix(in srgb,var(--yes) 28%,transparent)}
+.tb.no.pick{border-color:var(--no);box-shadow:0 0 0 3px color-mix(in srgb,var(--no) 28%,transparent)}
 .conf{margin-top:14px;display:flex;align-items:center;gap:10px;font:400 13.5px/1.5 Rubik;color:var(--muted)}
 .conf b{color:var(--ink);font-weight:600}
 .dots{display:inline-flex;gap:3px;flex:none}.dots i{width:16px;height:6px;border-radius:3px;background:var(--line)}.dots i.on{background:var(--ink)}
@@ -136,11 +140,10 @@ footer .small{flex-basis:100%;font:400 12.5px Rubik;color:var(--muted)}
 </head>
 <body>
 <header><div class="wrap">
-  <a class="brand" href="./"><img src="img/logo.svg" alt=""><b>Xo-Jumper</b></a>
+  <a class="brand" href="./"><img src="img/logo.svg" alt=""><b>XO Jumper</b></a>
   <span class="sp"></span>
   <span class="live"><i></i><span id="upd">Live</span></span>
   <button class="icon-btn" id="theme" title="Toggle theme">◐</button>
-  <a class="btn" id="cta1" href="#" target="_blank" rel="noopener">Trade on XO</a>
 </div></header>
 
 <main class="wrap">
@@ -219,7 +222,7 @@ footer .small{flex-basis:100%;font:400 12.5px Rubik;color:var(--muted)}
 </main>
 
 <footer><div class="wrap">
-  <div class="fl"><img src="img/logo.svg" alt="">Xo-Jumper · made by the XO community</div>
+  <div class="fl"><img src="img/logo.svg" alt="">XO Jumper · made by the XO community</div>
   <div class="fr">Data: <a href="https://app.legion.cc/app/invest" target="_blank" rel="noopener">Legion · deposits every ~10 min</a><a href="https://beta.xo.market" target="_blank" rel="noopener">XO · live prices</a></div>
   <div class="small">Not affiliated with XO Market or Legion. <span id="err" class="err"></span></div>
 </div></footer>
@@ -234,7 +237,7 @@ const CFG = {
   xoClose: Date.parse('2026-10-01T23:59:59Z'),
   lgClose: Date.parse('2026-10-02T13:00:00Z'),
 };
-['cta1', 'tYes', 'tNo'].forEach(id => document.getElementById(id).href = CFG.xoUrl);
+['tYes', 'tNo'].forEach(id => document.getElementById(id).href = CFG.xoUrl);
 
 const root = document.documentElement;
 try { const s = localStorage.getItem('theme'); if (s) root.dataset.theme = s; } catch {}
