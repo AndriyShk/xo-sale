@@ -138,7 +138,7 @@ canvas{width:100%;display:block}
 <header><div class="wrap">
   <a class="brand" href="./"><img src="img/logo.svg" alt=""><b>XO JUMPER</b></a>
   <span class="sp"></span>
-  <span class="live"><i></i><span id="upd">Live</span></span>
+  <span class="live"><i></i><span id="upd">Updating…</span></span>
   <button class="icon-btn" id="theme" title="Toggle theme">◐</button>
 </div></header>
 
@@ -356,7 +356,7 @@ function animateDep() {
 function tick() {
   setText('cd', fmtLeft(CFG.xoClose - Date.now())); setText('cdL', fmtLeft(CFG.lgClose - Date.now()));
   const age = LIVE ? Math.round((Date.now() - LIVE.fetchedAt) / 1000) : null;
-  setText('upd', age == null ? 'Live' : age < 5 ? 'Live · just now' : `Live · ${age}s ago`);
+  setText('upd', age == null ? 'Updating…' : age < 5 ? 'Updated just now' : age < 60 ? `Updated ${age}s ago` : `Updated ${Math.floor(age / 60)}m ago`);
 }
 
 // chart: the CSS height comes from the markup once (data-h); the backing store is retina-scaled
