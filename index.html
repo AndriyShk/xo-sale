@@ -45,7 +45,7 @@ header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px s
 header .wrap{display:flex;align-items:center;gap:12px;height:62px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
 .brand img{width:34px;height:34px;border-radius:10px}
-.brand b{font:600 18px Rubik;letter-spacing:-.02em}
+.brand b{font:600 18px Rubik;letter-spacing:-.02em;white-space:nowrap}
 .sp{flex:1}
 .live{display:inline-flex;align-items:center;gap:7px;font:500 13px Figtree;color:var(--muted);white-space:nowrap}
 .live i{width:8px;height:8px;border-radius:50%;background:#22c55e;animation:blink 2s ease-in-out infinite}
@@ -104,7 +104,7 @@ h2{font:600 18px Rubik;letter-spacing:-.015em;margin:0}
 .pscale{display:flex;justify-content:space-between;margin-top:7px;font:500 12px Figtree;color:var(--muted)}
 .pscale b{color:var(--ink)}
 .facts{display:grid;grid-template-columns:.8fr 1fr 1.2fr;gap:10px;margin-top:18px}
-@media (max-width:900px){.facts{grid-template-columns:1fr}}
+@media (max-width:900px){.facts{grid-template-columns:minmax(0,1fr)}}
 .split .lbl{white-space:nowrap}
 .fact{display:flex;gap:12px;align-items:center;background:var(--soft);border-radius:14px;padding:12px 14px}
 .fact .ic{width:36px;height:36px;border-radius:10px;background:var(--card);display:grid;place-items:center;flex:none}
@@ -131,14 +131,17 @@ canvas{width:100%;display:block}
 .k p strong{color:var(--ink);font-weight:600}
 
 .err{color:#dc2626}
-@media (max-width:640px){.live span,#theme{display:none}}
+@media (max-width:640px){header .wrap{gap:10px;height:58px}.brand img{width:30px;height:30px;border-radius:9px}.brand b{font-size:16.5px}.live{font-size:12px;gap:6px}.icon-btn{width:36px;height:36px;border-radius:11px;font-size:15px}}
+@media (max-width:360px){#updW{display:none}}
+@media (max-width:420px){.fact .ic{display:none}.fact{padding:12px 16px}.split .v{font-size:18px}.split>div+div{padding-left:14px;margin-left:2px}}
+@media (max-width:340px){.split .v{font-size:16px}}
 </style>
 </head>
 <body>
 <header><div class="wrap">
   <a class="brand" href="./"><img src="img/logo.svg" alt=""><b>XO JUMPER</b></a>
   <span class="sp"></span>
-  <span class="live"><i></i><span id="upd">Updating…</span></span>
+  <span class="live"><i></i><span><span id="updW" hidden>Updated </span><span id="upd">Updating…</span></span></span>
   <button class="icon-btn" id="theme" title="Toggle theme">◐</button>
 </div></header>
 
@@ -356,7 +359,8 @@ function animateDep() {
 function tick() {
   setText('cd', fmtLeft(CFG.xoClose - Date.now())); setText('cdL', fmtLeft(CFG.lgClose - Date.now()));
   const age = LIVE ? Math.round((Date.now() - LIVE.fetchedAt) / 1000) : null;
-  setText('upd', age == null ? 'Updating…' : age < 5 ? 'Updated just now' : age < 60 ? `Updated ${age}s ago` : `Updated ${Math.floor(age / 60)}m ago`);
+  $('updW').hidden = age == null;
+  setText('upd', age == null ? 'Updating…' : age < 5 ? 'just now' : age < 60 ? `${age}s ago` : `${Math.floor(age / 60)}m ago`);
 }
 
 // chart: the CSS height comes from the markup once (data-h); the backing store is retina-scaled
