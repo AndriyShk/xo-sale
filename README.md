@@ -1,4 +1,4 @@
-# Jumper × Legion tracker (XO community)
+# Xo-Jumper: Jumper × Legion tracker (XO community)
 
 A live page for the XO market "Will the Jumper sale on Legion.cc surpass $35M in total deposits?".
 It shows Legion deposits, the XO crowd's odds, a projection model and a comparison with past Legion sales.

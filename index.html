@@ -3,11 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Will Jumper hit $35M on Legion? | Live forecast</title>
-<meta name="description" content="Which side to lean on the XO market 'Will the Jumper sale on Legion surpass $35M?' Live deposits, the crowd's odds vs a projection model.">
-<meta property="og:title" content="Jumper × Legion: YES or NO on $35M?">
-<meta property="og:description" content="Live deposits, the XO crowd's odds and a projection model, in one page.">
+<title>Xo-Jumper · Will Jumper raise $35M on Legion?</title>
+<meta name="description" content="Live deposits for the Jumper sale on Legion, the XO price and a simple forecast: which side of the $35M market looks better right now.">
+<meta property="og:title" content="Xo-Jumper · YES or NO on $35M?">
+<meta property="og:description" content="Live Legion deposits, the XO price and a forecast, in one page.">
+<meta property="og:image" content="img/icon-512.png">
 <meta name="theme-color" content="#FF87A6">
+<link rel="icon" type="image/svg+xml" href="img/logo.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <style>
 @font-face{font-family:Rubik;src:url(fonts/Rubik.woff2) format("woff2");font-weight:300 900;font-display:swap}
 @font-face{font-family:Figtree;src:url(fonts/Figtree.woff2) format("woff2");font-weight:300 900;font-display:swap}
@@ -15,92 +19,124 @@
 @font-face{font-family:Runde;src:url(fonts/OpenRunde-Semibold.woff2) format("woff2");font-weight:600;font-display:swap}
 @font-face{font-family:Runde;src:url(fonts/OpenRunde-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
 :root{
-  --yes:#FF87A6;--yes-ink:#d94a74;--yes-soft:#ffe8ee;--no:#a293ff;--no-ink:#6f5cf0;--no-soft:#eeebff;
-  --bg:#f5f5f7;--card:#ffffff;--ink:#121213;--muted:#6e6e6e;--line:#ececf0;--soft:#f5f5f7;--warn-soft:#fff4e0;
-  --shadow:0 1px 2px rgba(18,18,19,.04),0 6px 20px rgba(18,18,19,.05);
+  --yes:#FF87A6;--yes-ink:#d23f6b;--yes-soft:#ffe9ef;--no:#a293ff;--no-ink:#6553ea;--no-soft:#efecff;
+  --bg:#f6f5f8;--card:#ffffff;--ink:#121213;--muted:#6e6e76;--line:#ebeaf0;--soft:#f4f3f7;--warn-soft:#fff4e0;
+  --glow1:rgba(255,135,166,.20);--glow2:rgba(162,147,255,.20);
+  --shadow:0 1px 2px rgba(18,18,19,.04),0 10px 30px rgba(18,18,19,.06);
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#121213;--card:#1b1b1e;--ink:#f4f4f5;--muted:#9b9ba3;--line:#2a2a2f;--soft:#232327;--yes-soft:#3a2229;--no-soft:#29263f;--yes-ink:#ff9bb5;--no-ink:#b7abff;--warn-soft:#3a2e1a;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.3)}}
-:root[data-theme="dark"]{--bg:#121213;--card:#1b1b1e;--ink:#f4f4f5;--muted:#9b9ba3;--line:#2a2a2f;--soft:#232327;--yes-soft:#3a2229;--no-soft:#29263f;--yes-ink:#ff9bb5;--no-ink:#b7abff;--warn-soft:#3a2e1a;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.3)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#101012;--card:#19191c;--ink:#f4f4f5;--muted:#9d9ca6;--line:#2a2a30;--soft:#222226;--yes-soft:#3a2129;--no-soft:#28253f;--yes-ink:#ff9bb5;--no-ink:#b8adff;--warn-soft:#382c18;--glow1:rgba(255,135,166,.12);--glow2:rgba(162,147,255,.12);--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35)}}
+:root[data-theme="dark"]{--bg:#101012;--card:#19191c;--ink:#f4f4f5;--muted:#9d9ca6;--line:#2a2a30;--soft:#222226;--yes-soft:#3a2129;--no-soft:#28253f;--yes-ink:#ff9bb5;--no-ink:#b8adff;--warn-soft:#382c18;--glow1:rgba(255,135,166,.12);--glow2:rgba(162,147,255,.12);--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35)}
 *{box-sizing:border-box}
 html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font:400 15px/1.5 Rubik,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body{background:radial-gradient(900px 420px at 12% -120px,var(--glow1),transparent 70%),radial-gradient(900px 420px at 88% -120px,var(--glow2),transparent 70%),var(--bg);background-repeat:no-repeat;color:var(--ink);font:400 15px/1.5 Rubik,system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
 a{color:inherit}
-.num{font-family:Runde,Rubik,sans-serif;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
-.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
-header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-header .wrap{display:flex;align-items:center;gap:12px;height:60px}
-.wm{display:flex;flex-direction:column;line-height:1.15}
-.wm b{font:600 17px Rubik;letter-spacing:-.01em}
-.wm span{font:500 12px Figtree;color:var(--muted)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 78%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;gap:12px;height:62px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand img{width:34px;height:34px;border-radius:10px;box-shadow:0 4px 12px rgba(255,135,166,.35)}
+.brand b{font:600 18px Rubik;letter-spacing:-.02em}
 .sp{flex:1}
 .live{display:inline-flex;align-items:center;gap:7px;font:500 13px Figtree;color:var(--muted);white-space:nowrap}
 .live i{width:8px;height:8px;border-radius:50%;background:#22c55e;animation:pulse 1.8s infinite}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.55)}70%{box-shadow:0 0 0 8px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:12px;background:var(--ink);color:var(--card);font:600 14px Figtree;text-decoration:none;border:0;cursor:pointer;white-space:nowrap}
-.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
-.icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;font-size:16px}
-
-main{padding:22px 0 10px}
-.grid{display:grid;gap:14px;grid-template-columns:repeat(12,1fr)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow);min-width:0}
-.c12{grid-column:span 12}.c8{grid-column:span 8}.c6{grid-column:span 6}.c4{grid-column:span 4}
-@media (max-width:900px){.c8,.c6,.c4{grid-column:span 12}}
-h2{font:600 17px Rubik;letter-spacing:-.01em;margin:0}
+.icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;font-size:16px}
+main{padding:24px 0 8px;display:flex;flex-direction:column;gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}
+h2{font:600 18px Rubik;letter-spacing:-.015em;margin:0}
 .lbl{font:500 13px Figtree;color:var(--muted)}
-.sub{font:400 14px Rubik;color:var(--muted)}
 
-/* ---------- answer card */
+/* ---------- 1 · the answer */
 .q{display:flex;gap:14px;align-items:center}
-.q img{width:48px;height:48px;border-radius:12px;object-fit:cover;flex:none;background:var(--soft)}
-.q h1{font:600 clamp(19px,2.4vw,24px)/1.25 Rubik;letter-spacing:-.02em;margin:0}
-.q .meta{font:400 13.5px Rubik;color:var(--muted);margin-top:2px}
-.duo{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.q img{width:52px;height:52px;border-radius:14px;object-fit:cover;flex:none;background:var(--soft)}
+.q h1{font:600 clamp(20px,2.6vw,26px)/1.22 Rubik;letter-spacing:-.025em;margin:0}
+.q .meta{font:400 13.5px Rubik;color:var(--muted);margin-top:3px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
 @media (max-width:620px){.duo{grid-template-columns:1fr}}
-.box{border-radius:16px;padding:18px;background:var(--soft)}
-.box .h{font:600 15px Rubik}
-.box .v{font:600 clamp(40px,6vw,56px)/1 Runde;letter-spacing:-.035em;font-variant-numeric:tabular-nums;margin:8px 0 6px}
-.box .d{font:400 14px/1.45 Rubik;color:var(--muted)}
+.box{border-radius:18px;padding:18px 18px 16px;border:1px solid var(--line);background:var(--card);position:relative;overflow:hidden}
+.box::before{content:"";position:absolute;inset:0 0 auto 0;height:4px}
+.box.f::before{background:var(--no)}.box.x::before{background:var(--yes)}
+.box .h{display:flex;align-items:center;gap:8px;font:600 15px Rubik}
+.box .h i{width:10px;height:10px;border-radius:50%}
+.box.f .h i{background:var(--no)}.box.x .h i{background:var(--yes)}
+.box .v{font:600 clamp(44px,6.4vw,60px)/1 Runde;letter-spacing:-.04em;font-variant-numeric:tabular-nums;margin:10px 0 8px}
 .box.f .v{color:var(--no-ink)}.box.x .v{color:var(--yes-ink)}
-.verdict{margin-top:12px;border-radius:16px;padding:16px 18px;display:flex;gap:14px;align-items:center;background:var(--soft)}
-.verdict.yes{background:var(--yes-soft)}.verdict.no{background:var(--no-soft)}
-.verdict .side{font:600 22px Rubik;letter-spacing:-.02em;white-space:nowrap}
+.box .d{font:400 14px/1.5 Rubik;color:var(--muted)}
+/* probability scale: where the price and the forecast sit on 0–100% */
+.scale{margin:40px 6px 0}
+.strack{position:relative;height:8px;border-radius:999px;background:var(--soft)}
+.sgap{position:absolute;top:0;bottom:0;border-radius:999px;transition:all .8s cubic-bezier(.2,.8,.2,1)}
+.smark{position:absolute;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;border:3px solid var(--card);box-shadow:0 1px 4px rgba(0,0,0,.2);transition:left .8s cubic-bezier(.2,.8,.2,1)}
+.smark.f{background:var(--no)}.smark.x{background:var(--yes)}
+.stag{position:absolute;bottom:16px;transform:translateX(-50%);font:600 12px Figtree;white-space:nowrap;padding:3px 9px;border-radius:999px;transition:left .8s cubic-bezier(.2,.8,.2,1)}
+.stag.f{background:var(--no-soft);color:var(--no-ink)}.stag.x{background:var(--yes-soft);color:var(--yes-ink)}
+.stag.below{bottom:auto;top:16px}
+.sends{display:flex;justify-content:space-between;font:500 12px Figtree;color:var(--muted);margin-top:34px}
+.verdict{margin-top:16px;border-radius:18px;padding:16px 18px;display:flex;gap:16px;align-items:center;background:var(--soft)}
+.verdict.yes{background:linear-gradient(100deg,var(--yes-soft),color-mix(in srgb,var(--yes-soft) 30%,var(--card)))}
+.verdict.no{background:linear-gradient(100deg,var(--no-soft),color-mix(in srgb,var(--no-soft) 30%,var(--card)))}
+.verdict .side{display:flex;align-items:center;gap:8px;font:600 24px Rubik;letter-spacing:-.025em;white-space:nowrap}
 .verdict.yes .side{color:var(--yes-ink)}.verdict.no .side{color:var(--no-ink)}
+.verdict .side svg{width:26px;height:26px}
 .verdict .t{font:400 14.5px/1.5 Rubik}.verdict .t b{font-weight:600}
-@media (max-width:620px){.verdict{flex-direction:column;align-items:flex-start;gap:4px}}
+@media (max-width:620px){.verdict{flex-direction:column;align-items:flex-start;gap:6px}}
 .trade{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.tb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:12px;border-radius:14px;text-decoration:none;border:1.5px solid transparent}
-.tb.yes{background:var(--yes-soft);border-color:color-mix(in srgb,var(--yes) 45%,transparent)}
-.tb.no{background:var(--no-soft);border-color:color-mix(in srgb,var(--no) 45%,transparent)}
-.tb b{font:600 17px Rubik}.tb.yes b{color:var(--yes-ink)}.tb.no b{color:var(--no-ink)}
-.tb span{font:500 12.5px Figtree;color:var(--muted)}
-.tb.pick{box-shadow:0 0 0 3px color-mix(in srgb,var(--ink) 14%,transparent)}
-.conf{margin-top:12px;font:400 13.5px/1.5 Rubik;color:var(--muted)}
+.tb{display:flex;flex-direction:column;align-items:center;gap:1px;padding:13px;border-radius:14px;text-decoration:none;color:#121213;transition:transform .15s,box-shadow .15s}
+.tb:hover{transform:translateY(-1px)}
+.tb.yes{background:var(--yes)}.tb.no{background:var(--no)}
+.tb b{font:600 17px Rubik}
+.tb span{font:500 12.5px Figtree;opacity:.72}
+.tb.pick{box-shadow:0 0 0 3px var(--card),0 0 0 5px var(--ink)}
+.conf{margin-top:14px;display:flex;align-items:center;gap:10px;font:400 13.5px/1.5 Rubik;color:var(--muted)}
 .conf b{color:var(--ink);font-weight:600}
+.dots{display:inline-flex;gap:3px;flex:none}.dots i{width:16px;height:6px;border-radius:3px;background:var(--line)}.dots i.on{background:var(--ink)}
 
-/* ---------- progress */
-.big{font:600 clamp(34px,5.4vw,50px)/1 Runde;letter-spacing:-.035em;font-variant-numeric:tabular-nums;margin:6px 0 4px}
-.ptrack{height:12px;border-radius:999px;background:var(--soft);position:relative;overflow:hidden;margin-top:16px}
-.pfill{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:linear-gradient(90deg,var(--no),var(--yes));transition:width .8s cubic-bezier(.2,.8,.2,1)}
-.pscale{display:flex;justify-content:space-between;margin-top:6px;font:500 12px Figtree;color:var(--muted)}
+/* ---------- 2 · progress */
+.big{font:600 clamp(36px,5.6vw,52px)/1 Runde;letter-spacing:-.04em;font-variant-numeric:tabular-nums;margin:8px 0 6px}
+.sub{font:400 14.5px Rubik;color:var(--muted)}.sub b{color:var(--ink);font-weight:600}
+.ptrack{height:14px;border-radius:999px;background:var(--soft);position:relative;overflow:hidden;margin-top:18px}
+.pfill{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:linear-gradient(90deg,var(--no),var(--yes));transition:width .8s cubic-bezier(.2,.8,.2,1);overflow:hidden}
+.pfill::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);background-size:200px 100%;background-repeat:no-repeat;animation:shine 2.4s linear infinite}
+@keyframes shine{from{background-position:-200px 0}to{background-position:calc(100% + 200px) 0}}
+.pscale{display:flex;justify-content:space-between;margin-top:7px;font:500 12px Figtree;color:var(--muted)}
 .pscale b{color:var(--ink)}
-.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
 @media (max-width:620px){.facts{grid-template-columns:1fr}}
-.fact{background:var(--soft);border-radius:12px;padding:10px 12px}
-.fact .v{font:600 20px Runde;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin-top:2px}
+.fact{display:flex;gap:12px;align-items:center;background:var(--soft);border-radius:14px;padding:12px 14px}
+.fact .ic{width:36px;height:36px;border-radius:10px;background:var(--card);display:grid;place-items:center;flex:none}
+.fact .ic svg{width:18px;height:18px;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.fact .v{font:600 19px Runde;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+
+/* ---------- 3 · chart */
 canvas{width:100%;display:block}
-.legend{display:flex;flex-wrap:wrap;gap:14px;font:500 12.5px Figtree;color:var(--muted);margin-top:10px}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font:500 12.5px Figtree;color:var(--muted);margin-top:12px}
 .legend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
-.note{font:400 14px/1.6 Rubik;color:var(--muted);margin:8px 0 0}
-.note b{color:var(--ink);font-weight:600}
-ul.note{padding-left:18px}ul.note li{margin:4px 0}
-footer{padding:22px 0 40px;font:400 13px Rubik;color:var(--muted)}
+
+/* ---------- 4 · good to know */
+.know{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:760px){.know{grid-template-columns:1fr}}
+.k{background:var(--soft);border-radius:16px;padding:16px}
+.k .ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;margin-bottom:10px}
+.k .ic svg{width:18px;height:18px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.k b{display:block;font:600 15px Rubik;margin-bottom:4px}
+.k p{margin:0;font:400 14px/1.55 Rubik;color:var(--muted)}
+.k p strong{color:var(--ink);font-weight:600}
+
+footer{margin-top:28px;border-top:1px solid var(--line)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 24px;padding:20px 20px 36px}
+footer .fl{display:flex;align-items:center;gap:10px;font:500 14px Rubik}
+footer .fl img{width:22px;height:22px;border-radius:6px}
+footer .fr{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font:500 13px Figtree;color:var(--muted)}
+footer .fr a{text-decoration:none;padding:5px 11px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:var(--ink)}
+footer .small{flex-basis:100%;font:400 12.5px Rubik;color:var(--muted)}
 .err{color:#dc2626}
-@media (max-width:640px){.live span,#theme{display:none}.wm span{display:none}}
+@media (max-width:640px){.live span,#theme{display:none}}
 </style>
 </head>
 <body>
 <header><div class="wrap">
-  <div class="wm"><b>Jumper × Legion</b><span>Community tracker for an XO market</span></div>
+  <a class="brand" href="./"><img src="img/logo.svg" alt=""><b>Xo-Jumper</b></a>
   <span class="sp"></span>
   <span class="live"><i></i><span id="upd">Live</span></span>
   <button class="icon-btn" id="theme" title="Toggle theme">◐</button>
@@ -108,10 +144,8 @@ footer{padding:22px 0 40px;font:400 13px Rubik;color:var(--muted)}
 </div></header>
 
 <main class="wrap">
-<section class="grid">
-
   <!-- 1 · the answer -->
-  <div class="card c12">
+  <section class="card">
     <div class="q">
       <img id="mimg" alt="">
       <div>
@@ -121,62 +155,75 @@ footer{padding:22px 0 40px;font:400 13px Rubik;color:var(--muted)}
     </div>
     <div class="duo">
       <div class="box f">
-        <div class="h">Our forecast</div>
+        <div class="h"><i></i>Our forecast</div>
         <div class="v" id="pModel">—</div>
         <div class="d">Chance that deposits pass $35M before betting closes, based on how fast money is coming in right now.</div>
       </div>
       <div class="box x">
-        <div class="h">XO price for YES</div>
+        <div class="h"><i></i>Price of YES on XO</div>
         <div class="v" id="pXO">—</div>
-        <div class="d">What traders on XO pay for YES now. A YES share pays $1 if deposits pass $35M, so <span id="pxoPct">—</span> is the chance they give it.</div>
+        <div class="d">What it costs to buy YES right now. It pays $1 if deposits pass $35M, so buying it is a bet that the chance is higher than <span id="pxoPct">—</span>.</div>
       </div>
+    </div>
+    <div class="scale" aria-hidden="true">
+      <div class="strack">
+        <div class="sgap" id="sgap"></div>
+        <div class="smark x" id="mX"></div><div class="smark f" id="mF"></div>
+        <span class="stag x" id="tX">YES price</span><span class="stag f" id="tF">Our forecast</span>
+      </div>
+      <div class="sends"><span>0% · won't happen</span><span>100% · sure thing</span></div>
     </div>
     <div class="verdict" id="verdict"><div class="side" id="side">—</div><div class="t" id="vtext">Loading live data…</div></div>
     <div class="trade">
       <a class="tb yes" id="tYes" href="#" target="_blank" rel="noopener"><b id="yesPx">Buy YES</b><span id="yesPay">—</span></a>
       <a class="tb no" id="tNo" href="#" target="_blank" rel="noopener"><b id="noPx">Buy NO</b><span id="noPay">—</span></a>
     </div>
-    <div class="conf" id="conf">—</div>
-  </div>
+    <div class="conf"><span class="dots" id="dots"><i></i><i></i><i></i></span><span id="conf">—</span></div>
+  </section>
 
   <!-- 2 · progress -->
-  <div class="card c12">
+  <section class="card">
     <h2>Deposited so far</h2>
     <div class="big" id="dep">—</div>
-    <div class="note" style="margin:0" id="depLine">—</div>
+    <div class="sub" id="depLine">—</div>
     <div class="ptrack"><div class="pfill" id="fill" style="width:0"></div></div>
     <div class="pscale"><span>$0</span><b>$35M goal</b></div>
     <div class="facts">
-      <div class="fact"><div class="lbl">Still missing</div><div class="v" id="need">—</div></div>
-      <div class="fact"><div class="lbl">Needed per hour to make it</div><div class="v" id="needPace">—</div></div>
-      <div class="fact"><div class="lbl">Betting closes in</div><div class="v" id="cd">—</div></div>
+      <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M8 12h8"/></svg></div><div><div class="lbl">Still missing</div><div class="v" id="need">—</div></div></div>
+      <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><div><div class="lbl">Needed per hour to make it</div><div class="v" id="needPace">—</div></div></div>
+      <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg></div><div><div class="lbl">Betting closes in</div><div class="v" id="cd">—</div></div></div>
     </div>
-  </div>
+  </section>
 
   <!-- 3 · chart -->
-  <div class="card c12">
+  <section class="card">
     <h2>Deposits so far and where they're heading</h2>
-    <canvas id="chart" height="340" style="margin-top:12px"></canvas>
+    <canvas id="chart" height="340" style="margin-top:14px"></canvas>
     <div class="legend">
       <span><i style="background:var(--yes)"></i>Real deposits</span>
       <span><i style="background:var(--no-ink)"></i>Our forecast</span>
       <span><i style="background:color-mix(in srgb,var(--no) 35%,transparent);height:10px"></i>Could land anywhere here</span>
       <span><i style="background:var(--ink)"></i>$35M goal</span>
     </div>
-  </div>
+  </section>
 
   <!-- 4 · good to know -->
-  <div class="card c12">
+  <section class="card">
     <h2>Good to know</h2>
-    <ul class="note">
-      <li><b>How the forecast works:</b> token sales raise the most money in the first hours and slow down after. We measure that slowdown from the real deposits and extend it to the deadline. It gets more accurate every hour.</li>
-      <li><b>Two deadlines:</b> betting on XO closes Oct 1, 23:59 UTC, but the Legion sale runs until Oct 2, 13:00 UTC. The rules don't say which one counts. The forecast uses the earlier one; with the later one it would be <b id="pLate">—</b>.</li>
-      <li><b>Not advice:</b> a whale or a last-minute rush can change everything. Trade only what you can afford to lose.</li>
-    </ul>
-  </div>
-</section>
+    <div class="know">
+      <div class="k"><div class="ic" style="background:var(--no-soft)"><svg viewBox="0 0 24 24" style="stroke:var(--no-ink)"><path d="M3 20h18"/><path d="M5 20V10M10 20V4M15 20v-7M20 20v-4"/></svg></div><b>How the forecast works</b><p>Token sales raise the most money in the first hours and slow down after. We measure that slowdown from the real deposits and extend it to the deadline. It gets more accurate every hour.</p></div>
+      <div class="k"><div class="ic" style="background:var(--warn-soft)"><svg viewBox="0 0 24 24" style="stroke:#d18a00"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div><b>Two deadlines</b><p>Betting on XO closes Oct 1, 23:59 UTC. The Legion sale runs until Oct 2, 13:00 UTC. The rules don't say which one counts. We use the earlier one; with the later one the forecast is <strong id="pLate">—</strong>.</p></div>
+      <div class="k"><div class="ic" style="background:var(--yes-soft)"><svg viewBox="0 0 24 24" style="stroke:var(--yes-ink)"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg></div><b>Not advice</b><p>A whale or a last-minute rush can change everything. Only trade what you can afford to lose.</p></div>
+    </div>
+  </section>
 </main>
-<footer class="wrap">Community-made, not affiliated with XO Market or Legion. Deposits come from <a href="https://app.legion.cc/app/invest" target="_blank" rel="noopener">Legion</a> (checked every ~10 min), prices from <a href="https://beta.xo.market" target="_blank" rel="noopener">XO</a>. <span id="err" class="err"></span></footer>
+
+<footer><div class="wrap">
+  <div class="fl"><img src="img/logo.svg" alt="">Xo-Jumper · made by the XO community</div>
+  <div class="fr">Data: <a href="https://app.legion.cc/app/invest" target="_blank" rel="noopener">Legion · deposits every ~10 min</a><a href="https://beta.xo.market" target="_blank" rel="noopener">XO · live prices</a></div>
+  <div class="small">Not affiliated with XO Market or Legion. <span id="err" class="err"></span></div>
+</div></footer>
+
 <script>
 const CFG = {
   xoEvent: '3a7a66d0-d123-496a-8fef-b68dc813f19d',
@@ -197,22 +244,30 @@ const $ = id => document.getElementById(id);
 const usd = v => '$' + Math.round(v).toLocaleString('en-US');
 const usdM = v => v >= 1e6 ? '$' + (v / 1e6).toFixed(v >= 1e7 ? 1 : 2) + 'M' : v >= 1e3 ? '$' + (v / 1e3).toFixed(0) + 'K' : '$' + Math.round(v);
 const pct = v => Math.round(v * 100) + '%';
+const cents = v => Math.round(v * 100) + '¢';
 const Hh = ms => ms / 36e5;
 const css = n => getComputedStyle(root).getPropertyValue(n).trim();
 function erf(x) { const s = Math.sign(x); x = Math.abs(x); const t = 1 / (1 + .3275911 * x); return s * (1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - .284496736) * t + .254829592) * t * Math.exp(-x * x)); }
 const Phi = z => .5 * (1 + erf(z / Math.SQRT2));
 
-let HIST = [], LIVE = null, XO = null, MODEL = null;
+let HIST = [], LIVE = null, XO = null, BOOK = null, MODEL = null;
 async function j(u, opt) { const r = await fetch(u, opt); if (!r.ok) throw new Error(u + ' ' + r.status); return r.json(); }
 async function loadHistory() {
   for (const u of CFG.history) { try { const h = await j(u + (u.startsWith('http') ? '?t=' + Math.floor(Date.now() / 60000) : ''), { cache: 'no-store' }); if (Array.isArray(h) && h.length) return h; } catch {} }
   return [];
 }
+// best prices from XO's order book: buying YES costs the lowest YES ask, buying NO the lowest NO ask
+async function loadBook(market) {
+  const tok = i => market.outcomes.find(o => o.index === i).outcomeTokenId;
+  const [y, n] = await Promise.all([0, 1].map(i => j(`https://orderbooks.xo.market/book?token_id=${tok(i)}`, { cache: 'no-store' })));
+  const best = (arr, f) => arr && arr.length ? f(...arr.map(o => +o.price)) : null;
+  return { yesAsk: best(y.asks, Math.min), noAsk: best(n.asks, Math.min) };
+}
 async function refresh() {
   const [h, live, ev] = await Promise.allSettled([loadHistory(), j('/api/legion', { cache: 'no-store' }), j(`https://api-mainnet.xo.market/api/v1/events/${CFG.xoEvent}`)]);
   if (h.status === 'fulfilled') HIST = h.value;
   if (live.status === 'fulfilled' && live.value.deposits) LIVE = live.value;
-  if (ev.status === 'fulfilled') XO = ev.value.data.markets[0].market;
+  if (ev.status === 'fulfilled') { XO = ev.value.data.markets[0].market; try { BOOK = await loadBook(XO); } catch {} }
   $('err').textContent = live.status === 'fulfilled' && live.value.deposits ? '' : 'Legion live data is temporarily unavailable.';
   compute(); render(); draw();
 }
@@ -248,6 +303,8 @@ function compute() {
   MODEL = { pts, now, tNow, k, se, fitted, span, proj, prob, needPace: (CFG.goal - now.d) / Math.max(.01, Hh(CFG.xoClose - now.t)) };
 }
 
+const ARROW_UP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>';
+const ARROW_DN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7l10 10M17 9v8H9"/></svg>';
 let shownDep = 0, animFrom = 0, animT0 = 0;
 function render() {
   const M = MODEL;
@@ -262,24 +319,35 @@ function render() {
   $('needPace').textContent = d >= CFG.goal ? '—' : usdM(M.needPace);
   $('pLate').textContent = pct(M.prob(CFG.lgClose));
   if (!XO) return;
-  const yes = +XO.outcomes.find(o => o.index === 0).currentPrice / 1e6, no = +XO.outcomes.find(o => o.index === 1).currentPrice / 1e6;
-  const pm = M.prob(CFG.xoClose), edge = pm - yes, gap = Math.round(Math.abs(edge) * 100);
-  $('pModel').textContent = pct(pm); $('pXO').textContent = Math.round(yes * 100) + '¢'; $('pxoPct').textContent = pct(yes);
-  $('yesPx').textContent = `Buy YES · ${Math.round(yes * 100)}¢`; $('noPx').textContent = `Buy NO · ${Math.round(no * 100)}¢`;
-  $('yesPay').textContent = `$10 → $${(10 / yes).toFixed(2)} if it passes $35M`;
-  $('noPay').textContent = `$10 → $${(10 / no).toFixed(2)} if it doesn't`;
-  const side = d >= CFG.goal ? 'yes' : Math.abs(edge) < .07 ? 'none' : edge > 0 ? 'yes' : 'no';
+  const mid = +XO.outcomes.find(o => o.index === 0).currentPrice / 1e6;
+  const yesAsk = BOOK && BOOK.yesAsk != null ? BOOK.yesAsk : mid, noAsk = BOOK && BOOK.noAsk != null ? BOOK.noAsk : 1 - mid;
+  const pm = M.prob(CFG.xoClose);
+  $('pModel').textContent = pct(pm); $('pXO').textContent = cents(yesAsk); $('pxoPct').textContent = pct(yesAsk);
+  $('yesPx').textContent = `Buy YES · ${cents(yesAsk)}`; $('noPx').textContent = `Buy NO · ${cents(noAsk)}`;
+  $('yesPay').textContent = `$10 → $${(10 / yesAsk).toFixed(2)} if it passes $35M`;
+  $('noPay').textContent = `$10 → $${(10 / noAsk).toFixed(2)} if it doesn't`;
+  // scale: price marker, forecast marker, the gap between them; labels go on opposite sides when close
+  const lo = Math.min(pm, yesAsk), hi = Math.max(pm, yesAsk);
+  $('mX').style.left = $('tX').style.left = yesAsk * 100 + '%'; $('mF').style.left = $('tF').style.left = pm * 100 + '%';
+  $('tX').textContent = `YES price ${cents(yesAsk)}`; $('tF').textContent = `Our forecast ${pct(pm)}`;
+  $('tF').classList.toggle('below', Math.abs(pm - yesAsk) < .22);
+  const gapEl = $('sgap'); gapEl.style.left = lo * 100 + '%'; gapEl.style.width = (hi - lo) * 100 + '%';
+  gapEl.style.background = pm > yesAsk ? 'color-mix(in srgb,var(--yes) 45%,transparent)' : 'color-mix(in srgb,var(--no) 45%,transparent)';
+  // verdict: compare our chance with what each side costs
+  const edgeYes = pm - yesAsk, edgeNo = (1 - pm) - noAsk;
+  const side = d >= CFG.goal ? 'yes' : edgeYes > .05 ? 'yes' : edgeNo > .05 ? 'no' : 'none';
   $('verdict').className = 'verdict ' + (side === 'none' ? '' : side);
   $('tYes').classList.toggle('pick', side === 'yes'); $('tNo').classList.toggle('pick', side === 'no');
   const px = usdM(M.proj(CFG.xoClose));
-  if (d >= CFG.goal) { $('side').textContent = 'YES ✓'; $('vtext').innerHTML = 'Deposits have <b>already passed $35M</b>.'; }
-  else if (side === 'yes') { $('side').textContent = 'Leaning YES'; $('vtext').innerHTML = `At the current pace deposits reach about <b>${px}</b> before betting closes. Our forecast (${pct(pm)}) is <b>${gap} points higher</b> than XO's price, so YES looks cheap.`; }
-  else if (side === 'no') { $('side').textContent = 'Leaning NO'; $('vtext').innerHTML = `At the current pace deposits reach only about <b>${px}</b> before betting closes. Our forecast (${pct(pm)}) is <b>${gap} points lower</b> than XO's price, so NO looks cheap.`; }
-  else { $('side').textContent = 'No clear side'; $('vtext').innerHTML = `At the current pace deposits reach about <b>${px}</b> before betting closes. Our forecast (${pct(pm)}) and XO's price are close, so neither side looks cheap.`; }
-  const hrs = Math.floor(M.tNow);
-  $('conf').innerHTML = !M.fitted || M.span < 1.2
+  if (d >= CFG.goal) { $('side').innerHTML = ARROW_UP + 'YES ✓'; $('vtext').innerHTML = 'Deposits have <b>already passed $35M</b>.'; }
+  else if (side === 'yes') { $('side').innerHTML = ARROW_UP + 'Leaning YES'; $('vtext').innerHTML = `At the current pace deposits reach about <b>${px}</b> before betting closes. We give it <b>${pct(pm)}</b>, but YES costs only <b>${cents(yesAsk)}</b>, so YES looks cheap.`; }
+  else if (side === 'no') { $('side').innerHTML = ARROW_DN + 'Leaning NO'; $('vtext').innerHTML = `At the current pace deposits reach about <b>${px}</b> before betting closes. We give NO <b>${pct(1 - pm)}</b>, but it costs only <b>${cents(noAsk)}</b>, so NO looks cheap.`; }
+  else { $('side').textContent = 'No clear side'; $('vtext').innerHTML = `At the current pace deposits reach about <b>${px}</b> before betting closes. Our forecast (${pct(pm)}) is close to what YES costs (${cents(yesAsk)}), so neither side looks cheap.`; }
+  const hrs = Math.floor(M.tNow), level = !M.fitted || M.span < 1.2 ? 1 : M.span < 2 ? 2 : 3;
+  [...$('dots').children].forEach((e, i) => e.classList.toggle('on', i < level));
+  $('conf').innerHTML = level === 1
     ? `How sure: <b>low</b>. The sale opened ${hrs < 1 ? 'less than an hour' : hrs + (hrs === 1 ? ' hour' : ' hours')} ago, so there isn't much data yet. The forecast gets better every hour.`
-    : M.span < 2 ? `How sure: <b>medium</b>. Based on ${hrs} hours of deposits.` : `How sure: <b>high</b>. Based on ${hrs} hours of deposits.`;
+    : `How sure: <b>${level === 2 ? 'medium' : 'high'}</b>. Based on ${hrs} hours of real deposits.`;
 }
 function fmtLeft(ms) { ms = Math.max(0, ms); const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60, s = Math.floor(ms / 1e3) % 60; return (d ? d + 'd ' : '') + String(h).padStart(2, '0') + 'h ' + String(m).padStart(2, '0') + 'm ' + String(s).padStart(2, '0') + 's'; }
 function tick() {
@@ -310,10 +378,8 @@ function draw() {
   g.font = '500 12px Figtree'; g.strokeStyle = line; g.lineWidth = 1; g.fillStyle = muted; g.textAlign = 'right'; g.textBaseline = 'middle';
   for (let v = 0; v <= yMax; v += step) { g.beginPath(); g.moveTo(L, Y(v) + .5); g.lineTo(W - R, Y(v) + .5); g.stroke(); g.fillText(v ? '$' + v / 1e6 + 'M' : '$0', L - 8, Y(v)); }
   g.textAlign = 'center'; g.textBaseline = 'top';
-  for (let day = new Date('2026-09-30T00:00:00Z').getTime(); day <= t1; day += 864e5) g.fillText(new Date(day).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' }), X(day), H - B + 9);
-  // betting close line
+  for (let day = Date.parse('2026-09-30T00:00:00Z'); day <= t1; day += 864e5) g.fillText(new Date(day).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' }), X(day), H - B + 9);
   g.save(); g.setLineDash([4, 4]); g.strokeStyle = muted; g.beginPath(); g.moveTo(X(CFG.xoClose) + .5, T); g.lineTo(X(CFG.xoClose) + .5, H - B); g.stroke(); g.restore();
-  // forecast band + line, to the betting close
   if (M.now.t < CFG.xoClose && M.now.d < CFG.goal) {
     const ts = []; for (let i = 0; i <= 60; i++) ts.push(M.now.t + (CFG.xoClose - M.now.t) * i / 60);
     const at = (t, kk) => Math.min(yMax, M.now.d * Math.pow(Hh(t - CFG.open) / M.tNow, kk));
