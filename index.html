@@ -184,7 +184,7 @@ canvas{width:100%;display:block}
     <div class="pscale"><span>$0</span><b>$35M goal</b></div>
     <div class="facts">
       <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M8 12h8"/></svg></div><div><div class="lbl">Still missing</div><div class="v" id="need">—</div></div></div>
-      <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><div class="split"><div><div class="lbl">Needed / hour</div><div class="v" id="needPace">—</div></div><div id="nowBox"><div class="lbl">Now / hour</div><div class="v" id="nowPace">—</div></div></div></div>
+      <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><div class="split"><div><div class="lbl">Needed / hour</div><div class="v" id="needPace">—</div></div><div title="Average per hour until betting closes, if our forecast is right"><div class="lbl">Expected / hour</div><div class="v" id="expPace">—</div></div></div></div>
       <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg></div><div class="split"><div><div class="lbl">XO bets close</div><div class="v" id="cd">—</div></div><div><div class="lbl">Legion sale ends</div><div class="v" id="cdL">—</div></div></div></div>
     </div>
   </section>
@@ -291,10 +291,9 @@ function compute() {
   const proj = T => now.d * Math.pow(Hh(T - CFG.open) / tNow, k);
   const kNeed = T => Math.log(CFG.goal / now.d) / Math.log(Hh(T - CFG.open) / tNow);
   const prob = T => now.d >= CFG.goal ? 1 : T <= now.t ? 0 : 1 - Phi((kNeed(T) - k) / se);
-  // recent pace: from the newest recorded point that is at least 30 min old (falls back to the average since the open)
-  const older = pts.filter(p => now.t - p.t >= 30 * 6e4), ref = older[older.length - 1];
-  const pace = ref ? (now.d - ref.d) / Hh(now.t - ref.t) : now.d / tNow, paceWindow = ref ? Hh(now.t - ref.t) : tNow;
-  MODEL = { pts, now, tNow, k, se, fitted, span, proj, prob, pace, paceWindow, needPace: (CFG.goal - now.d) / Math.max(.01, Hh(CFG.xoClose - now.t)) };
+  // average pace per hour until betting closes: what's needed vs what the forecast expects
+  const hLeft = Math.max(.01, Hh(CFG.xoClose - now.t));
+  MODEL = { pts, now, tNow, k, se, fitted, span, proj, prob, needPace: (CFG.goal - now.d) / hLeft, expPace: Math.max(0, proj(CFG.xoClose) - now.d) / hLeft };
 }
 
 const ARROW_UP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>';
@@ -311,11 +310,9 @@ function render() {
   $('fill').style.width = Math.min(100, d / CFG.goal * 100) + '%';
   $('need').textContent = d >= CFG.goal ? 'Nothing 🎉' : usdM(CFG.goal - d);
   $('needPace').textContent = d >= CFG.goal ? '—' : usdM(M.needPace);
-  const ok = M.pace >= M.needPace, win = M.paceWindow < 1.5 ? 'last hour' : `last ${Math.round(M.paceWindow)} h`;
-  const np = $('nowPace');
-  np.className = 'v ' + (d >= CFG.goal ? '' : ok ? 'up' : 'down');
-  np.textContent = usdM(M.pace);
-  $('nowBox').title = `Real deposit pace, ${win}`;
+  const ep = $('expPace');
+  ep.className = 'v ' + (d >= CFG.goal ? '' : M.expPace >= M.needPace ? 'up' : 'down');
+  ep.textContent = d >= CFG.goal ? '—' : usdM(M.expPace);
   $('pLate').textContent = pct(M.prob(CFG.lgClose));
   if (!XO) return;
   const mid = +XO.outcomes.find(o => o.index === 0).currentPrice / 1e6;
