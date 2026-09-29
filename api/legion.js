@@ -1,5 +1,5 @@
 // Vercel serverless proxy: Legion's API only answers its own origin, so the browser can't call it directly.
-// GET /api/legion → { live, stats, fetchedAt }   (edge-cached 30 s)
+// GET /api/legion → { live, stats, fetchedAt }   (edge-cached 10 s)
 const REPO = 'AndriyShk/xo-jumper';
 
 // GitHub often skips or delays the Action's */10 schedule. With a GH_TOKEN env var (fine-grained, Actions: write on this repo)
@@ -24,7 +24,7 @@ export default async function handler(req, res) {
     ]);
     const sale = (live.items || []).find(s => s.slug === 'jumper') || null;
     const st = (stats.items || [])[0] || null;
-    res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate=60');
+    res.setHeader('Cache-Control', 's-maxage=10, stale-while-revalidate=5');
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.status(200).json({
       fetchedAt: Date.now(),
