@@ -403,7 +403,7 @@ function draw() {
   g.font = '500 12px Figtree'; g.strokeStyle = line; g.lineWidth = 1; g.fillStyle = muted; g.textAlign = 'right'; g.textBaseline = 'middle';
   for (let v = 0; v <= yMax; v += step) { g.beginPath(); g.moveTo(L, Y(v) + .5); g.lineTo(W - R, Y(v) + .5); g.stroke(); g.fillText(v ? '$' + v / 1e6 + 'M' : '$0', L - 8, Y(v)); }
   g.textAlign = 'center'; g.textBaseline = 'top';
-  for (let day = Date.parse('2026-09-30T00:00:00Z'); day <= t1; day += 864e5) g.fillText(new Date(day).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' }), X(day), H - B + 9);
+  for (let day = Date.parse('2026-09-30T00:00:00Z'); day <= t1; day += 864e5) { const txt = new Date(day).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' }), hw = g.measureText(txt).width / 2; g.fillText(txt, Math.min(W - 2 - hw, X(day)), H - B + 9); }
   g.save(); g.setLineDash([4, 4]); g.strokeStyle = muted; g.beginPath(); g.moveTo(X(CFG.xoClose) + .5, T); g.lineTo(X(CFG.xoClose) + .5, H - B); g.stroke(); g.restore();
   if (M.now.t < CFG.xoClose && M.now.d < CFG.goal) {
     const ts = []; for (let i = 0; i <= 60; i++) ts.push(M.now.t + (CFG.xoClose - M.now.t) * i / 60);
@@ -420,8 +420,15 @@ function draw() {
   const gr = g.createLinearGradient(0, T, 0, H - B); gr.addColorStop(0, 'rgba(255,135,166,.32)'); gr.addColorStop(1, 'rgba(255,135,166,0)'); g.fillStyle = gr; g.fill();
   path(); g.strokeStyle = yes; g.lineWidth = 3; g.lineJoin = 'round'; g.stroke();
   const last = pts[pts.length - 1]; g.fillStyle = yes; g.beginPath(); g.arc(X(last.t), Y(last.d), 5.5, 0, 7); g.fill(); g.strokeStyle = css('--card'); g.lineWidth = 2; g.stroke();
-  tag(g, 'now ' + usdM(last.d), X(last.t) + 10, Y(last.d) - 4, { color: css('--yes-ink'), bold: true });
-  if (M.now.t < CFG.xoClose && M.now.d < CFG.goal) { const v = M.proj(CFG.xoClose); if (v <= yMax) { g.fillStyle = lav; g.beginPath(); g.arc(X(CFG.xoClose), Y(v), 5, 0, 7); g.fill(); let ly = Math.max(T + 12, Math.min(H - B - 40, Y(v) - 22)); if (Math.abs(ly - Y(CFG.goal)) < 12) ly = Y(v) + 22; tag(g, 'forecast ' + usdM(v), X(CFG.xoClose) - 8, ly, { align: 'right', color: lav, bold: true }); } }
+  tag(g, 'now ' + usdM(last.d), X(last.t) + 10, Math.min(H - B - 10, Y(last.d) + 18), { color: css('--yes-ink'), bold: true });   // below the dot: the forecast goes up-right
+  if (M.now.t < CFG.xoClose && M.now.d < CFG.goal) { const v = M.proj(CFG.xoClose); if (v <= yMax) { g.fillStyle = lav; g.beginPath(); g.arc(X(CFG.xoClose), Y(v), 5, 0, 7); g.fill(); const f = M.fc(CFG.xoClose), label = 'forecast ' + usdM(v); g.font = '600 12.5px Figtree';
+    // under the range, on empty background: the range's bottom edge is lowest at the label's left end
+    const xl = X(CFG.xoClose) - 8 - g.measureText(label).width, tl = Math.max(M.now.t, t0 + (xl - L) / (W - L - R) * (t1 - t0));
+    let ly = Y(Math.min(yMax, M.fc(tl).lo)) + 16;
+    // on narrow charts it can land on the 'now' label: then put it above the range
+    const nx = X(last.t) + 10, ny = Math.min(H - B - 10, Y(last.d) + 18), nw = g.measureText('now ' + usdM(last.d)).width;
+    if (xl < nx + nw + 6 && Math.abs(ly - ny) < 16) ly = Y(Math.min(yMax, f.hi)) - 14;
+    if (ly > H - B - 30) { ly = Y(Math.min(yMax, f.hi)) - 14; if (Math.abs(ly - Y(CFG.goal)) < 12) ly -= 16; } ly = Math.max(T + 8, ly); tag(g, label, X(CFG.xoClose) - 8, ly, { align: 'right', color: lav, bold: true }); } }
   tag(g, 'betting closes', X(CFG.xoClose) - 6, H - B - 12, { align: 'right' });
 }
 addEventListener('resize', () => draw());
