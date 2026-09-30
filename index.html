@@ -162,7 +162,7 @@ canvas{width:100%;display:block}
       <div class="box f" id="fBox">
         <div class="h"><i></i><span>Our forecast for YES</span></div>
         <div class="v" id="pModel">—</div>
-        <div class="d" id="fDesc">Chance that deposits pass $35M before betting closes, based on how fast money is coming in right now.</div>
+        <div class="d" id="fDesc">Chance that deposits pass $35M by the time the Legion sale ends, based on how fast money is coming in right now.</div>
       </div>
     </div>
     <div class="verdict" id="verdict"><div class="side" id="side">—</div><div class="t" id="vtext">Loading live data…</div></div>
@@ -182,7 +182,7 @@ canvas{width:100%;display:block}
     <div class="pscale"><span>$0</span><b>$35M goal</b></div>
     <div class="facts">
       <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M8 12h8"/></svg></div><div><div class="lbl">Still missing</div><div class="v" id="need">—</div></div></div>
-      <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><div class="split"><div><div class="lbl">Needed / hour</div><div class="v" id="needPace">—</div></div><div title="Average per hour until betting closes, if our forecast is right"><div class="lbl">Expected / hour</div><div class="v" id="expPace">—</div></div></div></div>
+      <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><div class="split"><div><div class="lbl">Needed / hour</div><div class="v" id="needPace">—</div></div><div title="Average per hour until the Legion sale ends, if our forecast is right"><div class="lbl">Expected / hour</div><div class="v" id="expPace">—</div></div></div></div>
       <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg></div><div class="split"><div><div class="lbl">XO bets close</div><div class="v" id="cd">—</div></div><div><div class="lbl">Legion sale ends</div><div class="v" id="cdL">—</div></div></div></div>
     </div>
   </section>
@@ -204,7 +204,7 @@ canvas{width:100%;display:block}
     <h2>Good to know</h2>
     <div class="know">
       <div class="k"><div class="ic" style="background:var(--no-soft)"><svg viewBox="0 0 24 24" style="stroke:var(--no-ink)"><path d="M3 20h18"/><path d="M5 20V10M10 20V4M15 20v-7M20 20v-4"/></svg></div><b>How the forecast works</b><p>We average two views of the real deposits: the sale keeps slowing down the way it has so far, or it keeps the pace of the last 12 hours. The range around it stays wide, because a last-day rush or a whale can change a lot.</p></div>
-      <div class="k"><div class="ic" style="background:var(--warn-soft)"><svg viewBox="0 0 24 24" style="stroke:#d18a00"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div><b>Two deadlines</b><p>Betting on XO closes Oct 1, 23:59 UTC. The Legion sale runs until Oct 2, 13:00 UTC. The rules don't say which one counts. We use the earlier one; with the later one the forecast is <strong id="pLate">—</strong>.</p></div>
+      <div class="k"><div class="ic" style="background:var(--warn-soft)"><svg viewBox="0 0 24 24" style="stroke:#d18a00"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div><b>Two deadlines</b><p>Betting on XO closes Oct 1, 23:59 UTC, but deposits keep coming until the Legion sale ends Oct 2, 13:00 UTC. Our forecast counts to the sale end. If only deposits before betting closes counted, it would be <strong id="pLate">—</strong>.</p></div>
       <div class="k"><div class="ic" style="background:var(--yes-soft)"><svg viewBox="0 0 24 24" style="stroke:var(--yes-ink)"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg></div><b>Not advice</b><p>A whale or a last-minute rush can change everything. Only trade what you can afford to lose.</p></div>
     </div>
   </section>
@@ -221,6 +221,8 @@ const CFG = {
   open: Date.parse('2026-09-29T13:00:00Z'),
   xoClose: Date.parse('2026-10-01T23:59:59Z'),
   lgClose: Date.parse('2026-10-02T13:00:00Z'),
+  // deposits keep coming until the Legion sale ends, so that's the deadline the forecast uses
+  get end() { return this.lgClose; },
 };
 ['tYes', 'tNo'].forEach(id => document.getElementById(id).href = CFG.xoUrl);
 
@@ -313,9 +315,9 @@ function compute() {
     // never 0% or 100% while the sale is running
     return Math.min(.99, Math.max(.01, 1 - Phi(Math.log((CFG.goal - now.d) / f.rem) / f.sigma)));
   };
-  // average pace per hour until betting closes: what's needed vs what the forecast expects
-  const hLeft = Math.max(.01, Hh(CFG.xoClose - now.t));
-  MODEL = { pts, now, tNow, k, se, fitted, span, pace, fc, proj, prob, needPace: (CFG.goal - now.d) / hLeft, expPace: Math.max(0, proj(CFG.xoClose) - now.d) / hLeft };
+  // average pace per hour until the sale ends: what's needed vs what the forecast expects
+  const hLeft = Math.max(.01, Hh(CFG.end - now.t));
+  MODEL = { pts, now, tNow, k, se, fitted, span, pace, fc, proj, prob, needPace: (CFG.goal - now.d) / hLeft, expPace: Math.max(0, proj(CFG.end) - now.d) / hLeft };
 }
 
 const ARROW_UP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>';
@@ -336,11 +338,11 @@ function render() {
   const ep = $('expPace');
   ep.className = 'v ' + (d >= CFG.goal ? '' : M.expPace >= M.needPace ? 'up' : 'down');
   ep.textContent = d >= CFG.goal ? '—' : usdM(M.expPace);
-  $('pLate').textContent = pct(M.prob(CFG.lgClose));
+  $('pLate').textContent = pct(M.prob(CFG.xoClose));
   if (!XO) return;
   const mid = +XO.outcomes.find(o => o.index === 0).currentPrice / 1e6;
   const yesAsk = BOOK && BOOK.yesAsk != null ? BOOK.yesAsk : mid, noAsk = BOOK && BOOK.noAsk != null ? BOOK.noAsk : 1 - mid;
-  const pm = M.prob(CFG.xoClose), yesCost = withFee(yesAsk), noCost = withFee(noAsk);
+  const pm = M.prob(CFG.end), yesCost = withFee(yesAsk), noCost = withFee(noAsk);
   $('yesPx').textContent = `Buy YES · ${cents(yesAsk)}`; $('noPx').textContent = `Buy NO · ${cents(noAsk)}`;
   $('yesPay').textContent = `$10 → $${(10 / yesCost).toFixed(2)} if YES`;
   $('noPay').textContent = `$10 → $${(10 / noCost).toFixed(2)} if NO`;
@@ -353,12 +355,12 @@ function render() {
   const pr = Math.round(pm * 100), tone = pr === 50 ? 'even' : pr < 50 ? 'no' : 'yes';
   $('chartCard').className = 'card fc-' + tone;
   setText('pModel', pct(pm));
-  const px = usdM(M.proj(CFG.xoClose));
+  const px = usdM(M.proj(CFG.end));
   if (d >= CFG.goal) { $('side').innerHTML = ARROW_UP + 'YES ✓'; $('vtext').innerHTML = 'Deposits have <b>already passed $35M</b>.'; }
-  else if (side === 'yes') { $('side').innerHTML = ARROW_UP + 'YES looks cheap'; $('vtext').innerHTML = `At the current pace deposits reach about <b>${px}</b> before betting closes. We give YES <b>${pct(pm)}</b>, but it costs only <b>${cents(yesAsk)}</b>.`; }
-  else if (side === 'no') { $('side').innerHTML = ARROW_DN + 'NO looks cheap'; $('vtext').innerHTML = `At the current pace deposits reach about <b>${px}</b> before betting closes. We give NO <b>${pct(1 - pm)}</b>, but it costs only <b>${cents(noAsk)}</b>.`; }
+  else if (side === 'yes') { $('side').innerHTML = ARROW_UP + 'YES looks cheap'; $('vtext').innerHTML = `At the current pace deposits reach about <b>${px}</b> by the end of the sale. We give YES <b>${pct(pm)}</b>, but it costs only <b>${cents(yesAsk)}</b>.`; }
+  else if (side === 'no') { $('side').innerHTML = ARROW_DN + 'NO looks cheap'; $('vtext').innerHTML = `At the current pace deposits reach about <b>${px}</b> by the end of the sale. We give NO <b>${pct(1 - pm)}</b>, but it costs only <b>${cents(noAsk)}</b>.`; }
   else { $('side').innerHTML = EQUAL + 'Fair price'; $('vtext').innerHTML = `Our forecast (<b>${pct(pm)}</b>) and the XO price of YES (<b>${cents(yesAsk)}</b>) agree, so neither side is cheap right now. Check back later: the price or the deposit pace can change within hours.`; }
-  const sig = M.fc(CFG.xoClose).sigma, hrs = Math.floor(M.tNow), level = !M.fitted || M.tNow < 3 || sig > .5 ? 1 : sig > .38 ? 2 : 3;
+  const sig = M.fc(CFG.end).sigma, hrs = Math.floor(M.tNow), level = !M.fitted || M.tNow < 3 || sig > .5 ? 1 : sig > .38 ? 2 : 3;
   [...$('dots').children].forEach((e, i) => e.classList.toggle('on', i < level));
   $('conf').innerHTML = level === 1
     ? `How sure: <b>low</b>. The sale opened ${hrs < 1 ? 'less than an hour' : hrs + (hrs === 1 ? ' hour' : ' hours')} ago, so there isn't much data yet. The forecast gets better every hour.`
@@ -396,17 +398,19 @@ function draw() {
   const M = MODEL; if (!M) return;
   const [g, W, H] = setup($('chart')), L = 50, R = 14, T = 12, B = 30;
   const ink = css('--ink'), muted = css('--muted'), line = css('--line'), yes = css('--yes'), fcs = getComputedStyle($('chartCard')), lav = fcs.getPropertyValue('--fc-line').trim();
-  const t0 = CFG.open, t1 = CFG.xoClose + 2 * 36e5;
-  const yMax = Math.max(CFG.goal * 1.3, Math.min(M.proj(CFG.xoClose) * 1.15, CFG.goal * 2.2));
+  const t0 = CFG.open, t1 = CFG.end + 2 * 36e5;
+  const yMax = Math.max(CFG.goal * 1.3, Math.min(M.proj(CFG.end) * 1.15, CFG.goal * 2.2));
   const X = t => L + (t - t0) / (t1 - t0) * (W - L - R), Y = v => T + (1 - v / yMax) * (H - T - B);
   const step = [5e6, 1e7, 2e7].find(s => yMax / s <= 6) || 2e7;
   g.font = '500 12px Figtree'; g.strokeStyle = line; g.lineWidth = 1; g.fillStyle = muted; g.textAlign = 'right'; g.textBaseline = 'middle';
   for (let v = 0; v <= yMax; v += step) { g.beginPath(); g.moveTo(L, Y(v) + .5); g.lineTo(W - R, Y(v) + .5); g.stroke(); g.fillText(v ? '$' + v / 1e6 + 'M' : '$0', L - 8, Y(v)); }
   g.textAlign = 'center'; g.textBaseline = 'top';
   for (let day = Date.parse('2026-09-30T00:00:00Z'); day <= t1; day += 864e5) { const txt = new Date(day).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' }), hw = g.measureText(txt).width / 2; g.fillText(txt, Math.min(W - 2 - hw, X(day)), H - B + 9); }
-  g.save(); g.setLineDash([4, 4]); g.strokeStyle = muted; g.beginPath(); g.moveTo(X(CFG.xoClose) + .5, T); g.lineTo(X(CFG.xoClose) + .5, H - B); g.stroke(); g.restore();
-  if (M.now.t < CFG.xoClose && M.now.d < CFG.goal) {
-    const ts = []; for (let i = 0; i <= 60; i++) ts.push(M.now.t + (CFG.xoClose - M.now.t) * i / 60);
+  // two deadlines: betting on XO closes (faint), the Legion sale ends (the forecast's end)
+  g.save(); g.setLineDash([2, 5]); g.strokeStyle = muted; g.globalAlpha = .5; g.lineWidth = 1.5; g.beginPath(); g.moveTo(X(CFG.xoClose) + .5, T); g.lineTo(X(CFG.xoClose) + .5, H - B); g.stroke();
+  g.globalAlpha = 1; g.setLineDash([4, 4]); g.strokeStyle = muted; g.lineWidth = 1; g.beginPath(); g.moveTo(X(CFG.end) + .5, T); g.lineTo(X(CFG.end) + .5, H - B); g.stroke(); g.restore();
+  if (M.now.t < CFG.end && M.now.d < CFG.goal) {
+    const ts = []; for (let i = 0; i <= 60; i++) ts.push(M.now.t + (CFG.end - M.now.t) * i / 60);
     const at = (t, key) => Math.min(yMax, M.fc(t)[key]);
     g.beginPath(); ts.forEach((t, i) => { const y = Y(at(t, 'hi')); i ? g.lineTo(X(t), y) : g.moveTo(X(t), y); }); [...ts].reverse().forEach(t => g.lineTo(X(t), Y(at(t, 'lo')))); g.closePath();
     g.fillStyle = fcs.getPropertyValue('--fc-band').trim(); g.fill();
@@ -421,15 +425,16 @@ function draw() {
   path(); g.strokeStyle = yes; g.lineWidth = 3; g.lineJoin = 'round'; g.stroke();
   const last = pts[pts.length - 1]; g.fillStyle = yes; g.beginPath(); g.arc(X(last.t), Y(last.d), 5.5, 0, 7); g.fill(); g.strokeStyle = css('--card'); g.lineWidth = 2; g.stroke();
   tag(g, 'now ' + usdM(last.d), X(last.t) + 10, Math.min(H - B - 10, Y(last.d) + 18), { color: css('--yes-ink'), bold: true });   // below the dot: the forecast goes up-right
-  if (M.now.t < CFG.xoClose && M.now.d < CFG.goal) { const v = M.proj(CFG.xoClose); if (v <= yMax) { g.fillStyle = lav; g.beginPath(); g.arc(X(CFG.xoClose), Y(v), 5, 0, 7); g.fill(); const f = M.fc(CFG.xoClose), label = 'forecast ' + usdM(v); g.font = '600 12.5px Figtree';
+  if (M.now.t < CFG.end && M.now.d < CFG.goal) { const v = M.proj(CFG.end); if (v <= yMax) { g.fillStyle = lav; g.beginPath(); g.arc(X(CFG.end), Y(v), 5, 0, 7); g.fill(); const f = M.fc(CFG.end), label = 'forecast ' + usdM(v); g.font = '600 12.5px Figtree';
     // under the range, on empty background: the range's bottom edge is lowest at the label's left end
-    const xl = X(CFG.xoClose) - 8 - g.measureText(label).width, tl = Math.max(M.now.t, t0 + (xl - L) / (W - L - R) * (t1 - t0));
+    const xl = X(CFG.end) - 8 - g.measureText(label).width, tl = Math.max(M.now.t, t0 + (xl - L) / (W - L - R) * (t1 - t0));
     let ly = Y(Math.min(yMax, M.fc(tl).lo)) + 16;
     // on narrow charts it can land on the 'now' label: then put it above the range
     const nx = X(last.t) + 10, ny = Math.min(H - B - 10, Y(last.d) + 18), nw = g.measureText('now ' + usdM(last.d)).width;
     if (xl < nx + nw + 6 && Math.abs(ly - ny) < 16) ly = Y(Math.min(yMax, f.hi)) - 14;
-    if (ly > H - B - 30) { ly = Y(Math.min(yMax, f.hi)) - 14; if (Math.abs(ly - Y(CFG.goal)) < 12) ly -= 16; } ly = Math.max(T + 8, ly); tag(g, label, X(CFG.xoClose) - 8, ly, { align: 'right', color: lav, bold: true }); } }
-  tag(g, 'betting closes', X(CFG.xoClose) - 6, H - B - 12, { align: 'right' });
+    if (ly > H - B - 30) { ly = Y(Math.min(yMax, f.hi)) - 14; if (Math.abs(ly - Y(CFG.goal)) < 12) ly -= 16; } ly = Math.max(T + 8, ly); tag(g, label, X(CFG.end) - 8, ly, { align: 'right', color: lav, bold: true }); } }
+  tag(g, 'sale ends', X(CFG.end) - 6, H - B - 12, { align: 'right' });
+  tag(g, 'bets close', X(CFG.xoClose) - 6, T + 6, { align: 'right' });
 }
 addEventListener('resize', () => draw());
 refresh(); setInterval(refresh, 15000); tick(); setInterval(tick, 1000);
