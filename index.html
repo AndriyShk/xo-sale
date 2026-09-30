@@ -203,7 +203,7 @@ canvas{width:100%;display:block}
   <section class="card">
     <h2>Good to know</h2>
     <div class="know">
-      <div class="k"><div class="ic" style="background:var(--no-soft)"><svg viewBox="0 0 24 24" style="stroke:var(--no-ink)"><path d="M3 20h18"/><path d="M5 20V10M10 20V4M15 20v-7M20 20v-4"/></svg></div><b>How the forecast works</b><p>Token sales raise the most money in the first hours and slow down after. We measure that slowdown from the real deposits and extend it to the deadline. It gets more accurate every hour.</p></div>
+      <div class="k"><div class="ic" style="background:var(--no-soft)"><svg viewBox="0 0 24 24" style="stroke:var(--no-ink)"><path d="M3 20h18"/><path d="M5 20V10M10 20V4M15 20v-7M20 20v-4"/></svg></div><b>How the forecast works</b><p>We average two views of the real deposits: the sale keeps slowing down the way it has so far, or it keeps the pace of the last 12 hours. The range around it stays wide, because a last-day rush or a whale can change a lot.</p></div>
       <div class="k"><div class="ic" style="background:var(--warn-soft)"><svg viewBox="0 0 24 24" style="stroke:#d18a00"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div><b>Two deadlines</b><p>Betting on XO closes Oct 1, 23:59 UTC. The Legion sale runs until Oct 2, 13:00 UTC. The rules don't say which one counts. We use the earlier one; with the later one the forecast is <strong id="pLate">—</strong>.</p></div>
       <div class="k"><div class="ic" style="background:var(--yes-soft)"><svg viewBox="0 0 24 24" style="stroke:var(--yes-ink)"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg></div><b>Not advice</b><p>A whale or a last-minute rush can change everything. Only trade what you can afford to lose.</p></div>
     </div>
@@ -286,12 +286,36 @@ function compute() {
       se = Math.max(.05, Math.sqrt(wFit * seF ** 2 + (1 - wFit) * .15 ** 2)); fitted = true;
     }
   }
-  const proj = T => now.d * Math.pow(Hh(T - CFG.open) / tNow, k);
-  const kNeed = T => Math.log(CFG.goal / now.d) / Math.log(Hh(T - CFG.open) / tNow);
-  const prob = T => now.d >= CFG.goal ? 1 : T <= now.t ? 0 : 1 - Phi((kNeed(T) - k) / se);
+  // recent pace: straight-line fit over the last 12 h, or the last half of the sale while it's younger than a day
+  // (so the launch rush doesn't count as the current pace); without enough points: the curve's current pace
+  const winH = Math.min(12, tNow / 2), win = pts.filter(p => now.t - p.t <= winH * 36e5);
+  let pace = k * now.d / tNow;
+  if (win.length >= 2 && Hh(now.t - win[0].t) >= 1) {
+    const mx = win.reduce((a, p) => a + p.t, 0) / win.length, my = win.reduce((a, p) => a + p.d, 0) / win.length;
+    const sxy = win.reduce((a, p) => a + (p.t - mx) * (p.d - my), 0), sxx = win.reduce((a, p) => a + (p.t - mx) ** 2, 0);
+    if (sxx > 0) pace = Math.max(0, sxy / sxx * 36e5);
+  }
+  // money still to come by time T, from two views: the slowing curve (A) and the recent pace held steady (B).
+  // The forecast is their average; the spread is at least ±30% of it (a last-day rush or a whale can move it that much),
+  // wider when the two views disagree or the curve is uncertain.
+  const fc = T => {
+    const L = Math.log(Math.max(1, Hh(T - CFG.open) / tNow));
+    const remA = now.d * (Math.exp(k * L) - 1), remB = pace * Math.max(0, Hh(T - now.t)), rem = (remA + remB) / 2;
+    const gap = remA > 0 && remB > 0 ? Math.log(remA / remB) / 2 : 0;
+    const sigma = Math.sqrt(.3 ** 2 + gap ** 2 + (se * L) ** 2);
+    return { rem, sigma, mid: now.d + rem, lo: now.d + rem * Math.exp(-sigma), hi: now.d + rem * Math.exp(sigma) };
+  };
+  const proj = T => fc(T).mid;
+  const prob = T => {
+    if (now.d >= CFG.goal) return 1;
+    if (T <= now.t) return 0;
+    const f = fc(T); if (f.rem <= 0) return .01;
+    // never 0% or 100% while the sale is running
+    return Math.min(.99, Math.max(.01, 1 - Phi(Math.log((CFG.goal - now.d) / f.rem) / f.sigma)));
+  };
   // average pace per hour until betting closes: what's needed vs what the forecast expects
   const hLeft = Math.max(.01, Hh(CFG.xoClose - now.t));
-  MODEL = { pts, now, tNow, k, se, fitted, span, proj, prob, needPace: (CFG.goal - now.d) / hLeft, expPace: Math.max(0, proj(CFG.xoClose) - now.d) / hLeft };
+  MODEL = { pts, now, tNow, k, se, fitted, span, pace, fc, proj, prob, needPace: (CFG.goal - now.d) / hLeft, expPace: Math.max(0, proj(CFG.xoClose) - now.d) / hLeft };
 }
 
 const ARROW_UP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>';
@@ -334,7 +358,7 @@ function render() {
   else if (side === 'yes') { $('side').innerHTML = ARROW_UP + 'YES looks cheap'; $('vtext').innerHTML = `At the current pace deposits reach about <b>${px}</b> before betting closes. We give YES <b>${pct(pm)}</b>, but it costs only <b>${cents(yesAsk)}</b>.`; }
   else if (side === 'no') { $('side').innerHTML = ARROW_DN + 'NO looks cheap'; $('vtext').innerHTML = `At the current pace deposits reach about <b>${px}</b> before betting closes. We give NO <b>${pct(1 - pm)}</b>, but it costs only <b>${cents(noAsk)}</b>.`; }
   else { $('side').innerHTML = EQUAL + 'Fair price'; $('vtext').innerHTML = `Our forecast (<b>${pct(pm)}</b>) and the XO price of YES (<b>${cents(yesAsk)}</b>) agree, so neither side is cheap right now. Check back later: the price or the deposit pace can change within hours.`; }
-  const hrs = Math.floor(M.tNow), level = !M.fitted || M.span < 1.2 ? 1 : M.span < 2 ? 2 : 3;
+  const sig = M.fc(CFG.xoClose).sigma, hrs = Math.floor(M.tNow), level = !M.fitted || M.tNow < 3 || sig > .5 ? 1 : sig > .38 ? 2 : 3;
   [...$('dots').children].forEach((e, i) => e.classList.toggle('on', i < level));
   $('conf').innerHTML = level === 1
     ? `How sure: <b>low</b>. The sale opened ${hrs < 1 ? 'less than an hour' : hrs + (hrs === 1 ? ' hour' : ' hours')} ago, so there isn't much data yet. The forecast gets better every hour.`
@@ -383,10 +407,10 @@ function draw() {
   g.save(); g.setLineDash([4, 4]); g.strokeStyle = muted; g.beginPath(); g.moveTo(X(CFG.xoClose) + .5, T); g.lineTo(X(CFG.xoClose) + .5, H - B); g.stroke(); g.restore();
   if (M.now.t < CFG.xoClose && M.now.d < CFG.goal) {
     const ts = []; for (let i = 0; i <= 60; i++) ts.push(M.now.t + (CFG.xoClose - M.now.t) * i / 60);
-    const at = (t, kk) => Math.min(yMax, M.now.d * Math.pow(Hh(t - CFG.open) / M.tNow, kk));
-    g.beginPath(); ts.forEach((t, i) => { const y = Y(at(t, M.k + M.se)); i ? g.lineTo(X(t), y) : g.moveTo(X(t), y); }); [...ts].reverse().forEach(t => g.lineTo(X(t), Y(at(t, Math.max(0, M.k - M.se))))); g.closePath();
+    const at = (t, key) => Math.min(yMax, M.fc(t)[key]);
+    g.beginPath(); ts.forEach((t, i) => { const y = Y(at(t, 'hi')); i ? g.lineTo(X(t), y) : g.moveTo(X(t), y); }); [...ts].reverse().forEach(t => g.lineTo(X(t), Y(at(t, 'lo')))); g.closePath();
     g.fillStyle = fcs.getPropertyValue('--fc-band').trim(); g.fill();
-    g.save(); g.setLineDash([6, 5]); g.strokeStyle = lav; g.lineWidth = 2.5; g.beginPath(); ts.forEach((t, i) => { const y = Y(at(t, M.k)); i ? g.lineTo(X(t), y) : g.moveTo(X(t), y); }); g.stroke(); g.restore();
+    g.save(); g.setLineDash([6, 5]); g.strokeStyle = lav; g.lineWidth = 2.5; g.beginPath(); ts.forEach((t, i) => { const y = Y(at(t, 'mid')); i ? g.lineTo(X(t), y) : g.moveTo(X(t), y); }); g.stroke(); g.restore();
   }
   g.save(); g.strokeStyle = ink; g.lineWidth = 1.5; g.setLineDash([8, 6]); g.beginPath(); g.moveTo(L, Y(CFG.goal)); g.lineTo(W - R, Y(CFG.goal)); g.stroke(); g.restore();
   tag(g, '$35M goal', L + 8, Y(CFG.goal) - 14, { color: ink, bold: true });
