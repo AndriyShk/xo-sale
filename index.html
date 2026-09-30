@@ -433,8 +433,10 @@ function draw() {
     const nx = X(last.t) + 10, ny = Math.min(H - B - 10, Y(last.d) + 18), nw = g.measureText('now ' + usdM(last.d)).width;
     if (xl < nx + nw + 6 && Math.abs(ly - ny) < 16) ly = Y(Math.min(yMax, f.hi)) - 14;
     if (ly > H - B - 30) { ly = Y(Math.min(yMax, f.hi)) - 14; if (Math.abs(ly - Y(CFG.goal)) < 12) ly -= 16; } ly = Math.max(T + 8, ly); tag(g, label, X(CFG.end) - 8, ly, { align: 'right', color: lav, bold: true }); } }
-  tag(g, 'sale ends', X(CFG.end) - 6, H - B - 12, { align: 'right' });
-  tag(g, 'bets close', X(CFG.xoClose) - 6, T + 6, { align: 'right' });
+  // both deadline labels at the top; on narrow charts 'bets close' drops one line so they don't overlap
+  g.font = '500 12.5px Figtree'; const saleX = X(CFG.end) - 6 - g.measureText('sale ends').width;
+  tag(g, 'sale ends', X(CFG.end) - 6, T + 6, { align: 'right' });
+  tag(g, 'bets close', X(CFG.xoClose) - 6, saleX < X(CFG.xoClose) + 6 ? T + 22 : T + 6, { align: 'right' });
 }
 addEventListener('resize', () => draw());
 refresh(); setInterval(refresh, 15000); tick(); setInterval(tick, 1000);
