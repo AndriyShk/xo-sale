@@ -83,6 +83,7 @@ h2{font:600 18px Rubik;letter-spacing:-.015em;margin:0}
 .trade{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
 .tb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:13px;border-radius:14px;text-decoration:none;transition:transform .15s}
 .tb:hover{transform:translateY(-1px)}
+.tb.off{pointer-events:none;opacity:.55;filter:saturate(.55);cursor:default}
 .tb.yes{background:var(--yes-soft)}
 .tb.no{background:var(--no-soft)}
 .tb b{font:600 17px Rubik}.tb.yes b{color:var(--yes-ink)}.tb.no b{color:var(--no-ink)}
@@ -155,7 +156,7 @@ canvas{width:100%;display:block}
       <img id="mimg" alt="">
       <div>
         <h1>Will the Jumper sale on Legion.cc raise more than $35M in deposits?</h1>
-        <div class="meta">XO market · betting closes Oct 1, 23:59 UTC</div>
+        <div class="meta" id="meta">XO market · betting closes Oct 1, 23:59 UTC</div>
       </div>
     </div>
     <div class="duo">
@@ -225,6 +226,11 @@ const CFG = {
   get end() { return this.lgClose; },
 };
 ['tYes', 'tNo'].forEach(id => document.getElementById(id).href = CFG.xoUrl);
+// betting on XO is over once the market's expiry has passed (XO keeps the status ACTIVE until someone resolves it by hand,
+// and the order books are empty by then), or as soon as XO reports any status other than ACTIVE
+const xoCloseAt = () => (XO && XO.expiresAt ? Date.parse(XO.expiresAt) : CFG.xoClose);
+const isClosed = () => Date.now() >= xoCloseAt() || !!(XO && XO.status && XO.status !== 'ACTIVE');
+let wasClosed = null;
 
 const root = document.documentElement;
 try { const s = localStorage.getItem('theme'); if (s) root.dataset.theme = s; } catch {}
@@ -341,14 +347,31 @@ function render() {
   $('pLate').textContent = pct(M.prob(CFG.xoClose));
   if (!XO) return;
   const mid = +XO.outcomes.find(o => o.index === 0).currentPrice / 1e6;
+  const closed = isClosed();
+  const hasBook = !!(BOOK && BOOK.yesAsk != null && BOOK.noAsk != null);
   const yesAsk = BOOK && BOOK.yesAsk != null ? BOOK.yesAsk : mid, noAsk = BOOK && BOOK.noAsk != null ? BOOK.noAsk : 1 - mid;
   const pm = M.prob(CFG.end), yesCost = withFee(yesAsk), noCost = withFee(noAsk);
-  $('yesPx').textContent = `Buy YES · ${cents(yesAsk)}`; $('noPx').textContent = `Buy NO · ${cents(noAsk)}`;
-  $('yesPay').textContent = `$10 → $${(10 / yesCost).toFixed(2)} if YES`;
-  $('noPay').textContent = `$10 → $${(10 / noCost).toFixed(2)} if NO`;
-  // verdict: compare our chance with what each side really costs, fee included
+  const saleOver = Date.now() >= CFG.lgClose;
+  $('meta').textContent = closed ? 'XO market · betting is closed' : 'XO market · betting closes Oct 1, 23:59 UTC';
+  ['tYes', 'tNo'].forEach(id => {
+    const a = $(id);
+    a.classList.toggle('off', closed);
+    if (closed) { a.removeAttribute('href'); a.setAttribute('aria-disabled', 'true'); a.tabIndex = -1; }
+    else { a.href = CFG.xoUrl; a.removeAttribute('aria-disabled'); a.tabIndex = 0; }
+  });
+  if (closed) {
+    // nobody can buy any more: show the last traded price, not a price to buy at
+    $('yesPx').textContent = `YES · ${cents(mid)}`; $('noPx').textContent = `NO · ${cents(1 - mid)}`;
+    $('yesPay').textContent = $('noPay').textContent = 'betting closed · last price';
+  } else {
+    // without asks in the book the number is only the last price, so mark it
+    $('yesPx').textContent = `Buy YES · ${yesAsk === mid && !hasBook ? '~' : ''}${cents(yesAsk)}`; $('noPx').textContent = `Buy NO · ${noAsk === 1 - mid && !hasBook ? '~' : ''}${cents(noAsk)}`;
+    $('yesPay').textContent = `$10 → $${(10 / yesCost).toFixed(2)} if YES`;
+    $('noPay').textContent = `$10 → $${(10 / noCost).toFixed(2)} if NO`;
+  }
+  // verdict: compare our chance with what each side really costs, fee included (only while you can still buy)
   const edgeYes = pm - yesCost, edgeNo = (1 - pm) - noCost;
-  const side = d >= CFG.goal ? 'yes' : edgeYes > .05 ? 'yes' : edgeNo > .05 ? 'no' : 'none';
+  const side = closed ? 'none' : d >= CFG.goal ? 'yes' : edgeYes > .05 ? 'yes' : edgeNo > .05 ? 'no' : 'none';
   $('verdict').className = 'verdict ' + (side === 'none' ? '' : side);
   $('tYes').classList.toggle('pick', side === 'yes'); $('tNo').classList.toggle('pick', side === 'no');
   // the forecast box is always the chance of YES (pink); the chart's forecast takes the colour of the side it favours (grey at 50%)
@@ -356,7 +379,10 @@ function render() {
   $('chartCard').className = 'card fc-' + tone;
   setText('pModel', pct(pm));
   const px = usdM(M.proj(CFG.end));
-  if (d >= CFG.goal) { $('side').innerHTML = ARROW_UP + 'YES ✓'; $('vtext').innerHTML = 'Deposits have <b>already passed $35M</b>.'; }
+  const tLeft = fmtLeft(CFG.lgClose - Date.now());
+  if (d >= CFG.goal) { $('side').innerHTML = ARROW_UP + 'YES ✓'; $('vtext').innerHTML = `Deposits have <b>already passed $35M</b>.${closed ? ' Betting is closed; the market resolves once XO confirms.' : ''}`; }
+  else if (closed && saleOver) { $('side').innerHTML = ARROW_DN + 'NO'; $('vtext').innerHTML = `The sale has ended. Latest deposits: <b>${usdM(d)}</b>, short of $35M. Betting is closed; waiting for XO to resolve the market.`; }
+  else if (closed) { $('side').innerHTML = EQUAL + 'Betting closed'; $('vtext').innerHTML = `No more bets on XO. The market resolves after the sale ends (in <b>${tLeft}</b>). Our forecast: YES <b>${pct(pm)}</b>; the last XO price was <b>${cents(mid)}</b>.`; }
   else if (side === 'yes') { $('side').innerHTML = ARROW_UP + 'YES looks cheap'; $('vtext').innerHTML = `At the current pace deposits reach about <b>${px}</b> by the end of the sale. We give YES <b>${pct(pm)}</b>, but it costs only <b>${cents(yesAsk)}</b>.`; }
   else if (side === 'no') { $('side').innerHTML = ARROW_DN + 'NO looks cheap'; $('vtext').innerHTML = `At the current pace deposits reach about <b>${px}</b> by the end of the sale. We give NO <b>${pct(1 - pm)}</b>, but it costs only <b>${cents(noAsk)}</b>.`; }
   else { $('side').innerHTML = EQUAL + 'Fair price'; $('vtext').innerHTML = `Our forecast (<b>${pct(pm)}</b>) and the XO price of YES (<b>${cents(yesAsk)}</b>) agree, so neither side is cheap right now. Check back later: the price or the deposit pace can change within hours.`; }
@@ -382,6 +408,7 @@ function animateDep() {
 }
 // clock-like bits once a second
 function tick() {
+  const c = isClosed(); if (wasClosed !== null && c !== wasClosed && MODEL) render(); wasClosed = c;
   setText('cd', fmtLeft(CFG.xoClose - Date.now())); setText('cdL', fmtLeft(CFG.lgClose - Date.now()));
   const age = LIVE ? Math.round((Date.now() - LIVE.fetchedAt) / 1000) : null;
   $('updW').hidden = age == null;
