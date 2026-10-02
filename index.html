@@ -184,7 +184,7 @@ canvas{width:100%;display:block}
     <div class="pscale"><span>$0</span><b>$35M goal</b></div>
     <div class="facts">
       <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M8 12h8"/></svg></div><div><div class="lbl">Still missing</div><div class="v" id="need">—</div></div></div>
-      <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><div class="split"><div><div class="lbl">Needed / hour</div><div class="v" id="needPace">—</div></div><div title="Average per hour until the Legion sale ends, if our forecast is right"><div class="lbl">Expected / hour</div><div class="v" id="expPace">—</div></div></div></div>
+      <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><div class="split"><div><div class="lbl" id="needLbl">Needed / hour</div><div class="v" id="needPace">—</div></div><div title="Average pace until the Legion sale ends, if our forecast is right"><div class="lbl" id="expLbl">Expected / hour</div><div class="v" id="expPace">—</div></div></div></div>
       <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg></div><div class="split"><div><div class="lbl">XO bets close</div><div class="v" id="cd">—</div></div><div><div class="lbl">Legion sale ends</div><div class="v" id="cdL">—</div></div></div></div>
     </div>
   </section>
@@ -342,10 +342,13 @@ function render() {
   $('fill').style.width = Math.min(100, d / CFG.goal * 100) + '%';
   $('need').textContent = d >= CFG.goal ? 'Nothing 🎉' : usdM(CFG.goal - d);
   // after the sale there is no time left to divide by, so no per-hour figures; once the goal is passed nothing more is needed but the expected pace is still shown
-  $('needPace').textContent = saleOver ? '—' : d >= CFG.goal ? '$0' : usdM(M.needPace);
+  // in the last 6 hours an hourly figure says little, so the pace is shown per minute
+  const perMin = !saleOver && CFG.lgClose - Date.now() < 6 * 36e5, div = perMin ? 60 : 1;
+  setText('needLbl', perMin ? 'Needed / min' : 'Needed / hour'); setText('expLbl', perMin ? 'Expected / min' : 'Expected / hour');
+  $('needPace').textContent = saleOver ? '—' : d >= CFG.goal ? '$0' : usdM(M.needPace / div);
   const ep = $('expPace');
   ep.className = 'v ' + (saleOver ? '' : d >= CFG.goal || M.expPace >= M.needPace ? 'up' : 'down');
-  ep.textContent = saleOver ? '—' : usdM(M.expPace);
+  ep.textContent = saleOver ? '—' : usdM(M.expPace / div);
   $('pLate').textContent = pct(M.prob(CFG.xoClose));
   if (!XO) return;
   const mid = +XO.outcomes.find(o => o.index === 0).currentPrice / 1e6;
@@ -391,9 +394,14 @@ function render() {
   else if (side === 'yes') { $('side').innerHTML = ARROW_UP + 'YES looks cheap'; $('vtext').innerHTML = `At the current pace deposits reach about <b>${px}</b> by the end of the sale. We give YES <b>${pct(pm)}</b>, but it costs only <b>${cents(yesAsk)}</b>.`; }
   else if (side === 'no') { $('side').innerHTML = ARROW_DN + 'NO looks cheap'; $('vtext').innerHTML = `At the current pace deposits reach about <b>${px}</b> by the end of the sale. We give NO <b>${pct(1 - pm)}</b>, but it costs only <b>${cents(noAsk)}</b>.`; }
   else { $('side').innerHTML = EQUAL + 'Fair price'; $('vtext').innerHTML = `Our forecast (<b>${pct(pm)}</b>) and the XO price of YES (<b>${cents(yesAsk)}</b>) agree, so neither side is cheap right now. Check back later: the price or the deposit pace can change within hours.`; }
-  const sig = M.fc(CFG.end).sigma, hrs = Math.floor(M.tNow), level = !M.fitted || M.tNow < 3 || sig > .5 ? 1 : sig > .38 ? 2 : 3;
+  // once the goal is passed the answer is settled, whatever the spread of the final amount
+  const sig = M.fc(CFG.end).sigma, hrs = Math.floor(Math.min(M.tNow, Hh(CFG.lgClose - CFG.open))), early = !M.fitted || M.tNow < 3, level = d >= CFG.goal ? 3 : early || sig > .5 ? 1 : sig > .38 ? 2 : 3;
   [...$('dots').children].forEach((e, i) => e.classList.toggle('on', i < level));
-  $('conf').innerHTML = level === 1
+  $('conf').innerHTML = d >= CFG.goal
+    ? `How sure: <b>high</b>. Deposits are already above $35M${saleOver ? '.' : '; only the final amount is still open.'}`
+    : level === 1 && !early
+    ? `How sure: <b>low</b>. The long-run trend and the pace of the last hours point to very different results right now.`
+    : level === 1
     ? `How sure: <b>low</b>. The sale opened ${hrs < 1 ? 'less than an hour' : hrs + (hrs === 1 ? ' hour' : ' hours')} ago, so there isn't much data yet. The forecast gets better every hour.`
     : `How sure: <b>${level === 2 ? 'medium' : 'high'}</b>. Based on ${hrs} hours of real deposits.`;
 }
