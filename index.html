@@ -5,16 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>XO SALE · 1win Token</title>
 <meta name="description" content="Live tracker for the 1win Token (1W) sale: deposits, oversubscription and a forecast of the final raise.">
-<meta property="og:title" content="XO SALE · 1win Token sale, live">
-<meta property="og:description" content="Deposits, oversubscription and where the raise is heading, updated live.">
+<meta property="og:title" content="XO SALE · Will the 1win sale pass $10M? $20M?">
+<meta property="og:description" content="Live deposits, the XO prices and a forecast: which side looks cheap right now.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://xo-sale.vercel.app/">
 <meta property="og:image" content="https://xo-sale.vercel.app/img/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="XO SALE · 1win Token sale, live">
-<meta name="twitter:description" content="Deposits, oversubscription and where the raise is heading, updated live.">
+<meta name="twitter:title" content="XO SALE · Will the 1win sale pass $10M? $20M?">
+<meta name="twitter:description" content="Live deposits, the XO prices and a forecast: which side looks cheap right now.">
 <meta name="twitter:image" content="https://xo-sale.vercel.app/img/og.png">
 <meta name="theme-color" content="#FF87A6">
 <link rel="icon" type="image/svg+xml" href="img/logo.svg">
@@ -127,6 +127,33 @@ canvas{width:100%;display:block}
 @media (max-width:420px){.fact .ic{display:none}.fact{padding:12px 16px}.split .v{font-size:18px}.split>div+div{padding-left:14px;margin-left:2px}}
 @media (max-width:340px){.split .v{font-size:16px}.split .lbl{font-size:12.5px}.fact{padding:12px 12px}.split>div+div{padding-left:10px}}
 
+.mkts{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-top:20px}
+@media (max-width:860px){.mkts{grid-template-columns:minmax(0,1fr)}}
+.mk{border:1px solid var(--line);border-radius:18px;padding:16px;min-width:0}
+.mk-h{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.mk-h b{font:600 19px Rubik;letter-spacing:-.02em}
+.mk-h span{font:400 13px Rubik;color:var(--muted)}
+.mk-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin-top:12px}
+.mk-row>div{background:var(--soft);border-radius:14px;padding:10px 12px}
+.mk-row .v{font:600 30px/1.1 Inter;letter-spacing:-.025em;font-variant-numeric:tabular-nums;margin-top:2px}
+.mk-row .v.pm{color:var(--no-ink)}
+.need{margin-top:10px;font:400 13.5px/1.5 Rubik;color:var(--muted)}.need b{color:var(--ink);font-weight:600}
+.verdict{margin-top:12px;border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;background:var(--soft)}
+.verdict.yes{background:linear-gradient(100deg,var(--yes-soft),color-mix(in srgb,var(--yes-soft) 30%,var(--card)))}
+.verdict.no{background:linear-gradient(100deg,var(--no-soft),color-mix(in srgb,var(--no-soft) 30%,var(--card)))}
+.verdict .side{display:flex;align-items:center;gap:6px;font:600 19px Rubik;letter-spacing:-.02em;white-space:nowrap}
+.verdict.yes .side{color:var(--yes-ink)}.verdict.no .side{color:var(--no-ink)}
+.verdict .side svg{width:22px;height:22px}
+.verdict .t{font:400 14px/1.5 Rubik}.verdict .t b{font-weight:600}
+.trade{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin-top:10px}
+.tb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:11px 8px;border-radius:14px;text-decoration:none;transition:transform .15s}
+.tb:hover{transform:translateY(-1px)}
+.tb.off{pointer-events:none;opacity:.55;filter:saturate(.55);cursor:default}
+.tb.yes{background:var(--yes-soft)}.tb.no{background:var(--no-soft)}
+.tb b{font:600 16px Rubik;white-space:nowrap}.tb.yes b{color:var(--yes-ink)}.tb.no b{color:var(--no-ink)}
+.tb span{font:500 12px Figtree;color:var(--muted);text-align:center;font-variant-numeric:tabular-nums}
+.duo2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-top:16px}
+@media (max-width:620px){.duo2{grid-template-columns:minmax(0,1fr)}}
 .fill-note{margin-top:14px;border-radius:16px;padding:14px 16px;background:var(--soft);font:400 14.5px/1.5 Rubik}
 .fill-note b{font-weight:600}
 .ptick{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);border-radius:1px}
@@ -145,28 +172,16 @@ canvas{width:100%;display:block}
 </div></header>
 
 <main class="wrap">
-  <!-- 1 · headline numbers -->
+  <!-- 1 · the XO markets -->
   <section class="card">
     <div class="q">
       <img src="img/logo.svg" alt="">
       <div>
-        <h1>1win Token (1W) sale: how much will it raise?</h1>
-        <div class="meta" id="meta">Solana · $0.03 per token · $3.9M target · ends Oct 30, 16:00 UTC</div>
+        <h1>Will the 1win token sale pass $10M? $20M?</h1>
+        <div class="meta" id="meta">Two XO markets on the 1win Token (1W) sale · ends Oct 30, 16:00 UTC</div>
       </div>
     </div>
-    <div class="duo">
-      <div class="box o">
-        <div class="h"><i></i><span>Oversubscribed now</span></div>
-        <div class="v" id="xNow">—</div>
-        <div class="d" id="xDesc">Deposits divided by the $3.9M the sale is selling.</div>
-      </div>
-      <div class="box f">
-        <div class="h"><i></i><span>Our forecast at close</span></div>
-        <div class="v" id="fMid">—</div>
-        <div class="d" id="fDesc">Where deposits are heading by the end of the sale, from how fast money is coming in.</div>
-      </div>
-    </div>
-    <div class="fill-note" id="fillNote">Loading live data…</div>
+    <div class="mkts" id="mkts"><div class="need">Loading live data…</div></div>
     <div class="conf"><span class="dots" id="dots"><i></i><i></i><i></i></span><span id="conf">—</span></div>
   </section>
 
@@ -175,6 +190,19 @@ canvas{width:100%;display:block}
     <h2>Deposited so far</h2>
     <div class="big" id="dep">—</div>
     <div class="sub" id="depLine">—</div>
+    <div class="duo2">
+      <div class="box o">
+        <div class="h"><i></i><span>Oversubscribed now</span></div>
+        <div class="v" id="xNow">—</div>
+        <div class="d" id="xDesc">Deposits divided by the $3.9M the sale is selling.</div>
+      </div>
+      <div class="box f">
+        <div class="h"><i></i><span>Our forecast at close</span></div>
+        <div class="v" id="fMid">—</div>
+        <div class="d" id="fDesc">Where deposits are heading by the end of the sale.</div>
+      </div>
+    </div>
+    <div class="fill-note" id="fillNote">—</div>
     <div class="facts">
       <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5M16 4.5a3.5 3.5 0 010 7M18.5 14.8c1.7.8 2.7 2.5 3 5.2"/></svg></div><div class="split"><div><div class="lbl">People</div><div class="v" id="ppl">—</div></div><div><div class="lbl">Average deposit</div><div class="v" id="avg">—</div></div></div></div>
       <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><div class="split"><div><div class="lbl">Last 24 h</div><div class="v" id="day">—</div></div><div><div class="lbl" id="paceLbl">Pace / hour</div><div class="v" id="pace">—</div></div></div></div>
@@ -189,7 +217,7 @@ canvas{width:100%;display:block}
     <div class="legend">
       <span><i style="background:var(--yes)"></i>Real deposits</span>
       <span><i style="background:var(--fc-line)"></i>Our forecast</span>
-      <span><i style="background:var(--ink)"></i>$3.9M on sale</span>
+      <span><i style="background:var(--ink)"></i>$10M and $20M lines of the XO markets</span>
       <span><i style="background:var(--fc-band);height:10px"></i>Could land anywhere here</span>
     </div>
   </section>
@@ -198,9 +226,9 @@ canvas{width:100%;display:block}
   <section class="card">
     <h2>Good to know</h2>
     <div class="know">
-      <div class="k"><div class="ic" style="background:var(--no-soft)"><svg viewBox="0 0 24 24" style="stroke:var(--no-ink)"><path d="M3 20h18"/><path d="M5 20V10M10 20V4M15 20v-7M20 20v-4"/></svg></div><b>How the forecast works</b><p>We average two views of the real deposits: the sale keeps slowing down the way it has so far, or it keeps the pace of the last day. The range stays wide on purpose: sales often get a rush in their last hours, and one whale can move it a lot.</p></div>
-      <div class="k"><div class="ic" style="background:var(--yes-soft)"><svg viewBox="0 0 24 24" style="stroke:var(--yes-ink)"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg></div><b>Oversubscription</b><p>The sale sells a fixed <strong>130M tokens ($3.9M)</strong>. When more money comes in, tokens are shared out in proportion to deposits, so the higher the multiple at the close, the smaller the share of each deposit that buys tokens.</p></div>
-      <div class="k"><div class="ic" style="background:var(--warn-soft)"><svg viewBox="0 0 24 24" style="stroke:#d18a00"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg></div><b>Where the numbers come from</b><p>Live totals from the <a href="https://1wtoken.com/" target="_blank" rel="noopener">official sale page</a>; the history also from the sale's USDC account <a href="https://solscan.io/account/HciAS69vfU1ZzfWEczqwkAUfLodpbGFVALLpA1wtA5W2" target="_blank" rel="noopener">on Solana</a>. A fan-made tracker by the XO community, not advice.</p></div>
+      <div class="k"><div class="ic" style="background:var(--no-soft)"><svg viewBox="0 0 24 24" style="stroke:var(--no-ink)"><path d="M3 20h18"/><path d="M5 20V10M10 20V4M15 20v-7M20 20v-4"/></svg></div><b>How the forecast works</b><p>We average two views of the real deposits: the sale keeps slowing down the way it has so far, or it keeps the pace of the last day. It can't see what nobody has announced yet: a big 1win promotion or a last-day rush. On the Jumper sale deposits grew <strong>1.9×</strong> in the last 24 hours.</p></div>
+      <div class="k"><div class="ic" style="background:var(--warn-soft)"><svg viewBox="0 0 24 24" style="stroke:#d18a00"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div><b>How the markets resolve</b><p><strong>$10M:</strong> gross commitments as of <strong>Oct 30, 00:00 UTC</strong>, 16 hours before the sale ends. <strong>$20M:</strong> the gross total on the sale page at any time before the close (Oct 30, 16:00 UTC; an extension counts up to Nov 15). Both use the total before refunds, as shown on the sale page.</p></div>
+      <div class="k"><div class="ic" style="background:var(--yes-soft)"><svg viewBox="0 0 24 24" style="stroke:var(--yes-ink)"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg></div><b>Sources, and not advice</b><p>Live totals from the <a href="https://1wintoken.com/" target="_blank" rel="noopener">official sale page</a>; the history also from the sale's USDC account <a href="https://solscan.io/account/HciAS69vfU1ZzfWEczqwkAUfLodpbGFVALLpA1wtA5W2" target="_blank" rel="noopener">on Solana</a>. A fan-made tracker by the XO community. Only trade what you can afford to lose.</p></div>
     </div>
   </section>
 </main>
@@ -212,7 +240,14 @@ const CFG = {
   goal: 3.9e6, // what the sale sells: 130M tokens at $0.03
   open: Date.parse('2026-10-15T15:00:00Z'),
   end: Date.parse('2026-10-30T16:00:00Z'),
+  ref: 'andriy_shkinder',
+  // the XO markets on this sale: what total they need, and the moment it's counted
+  markets: [
+    { slug: 'total-commitments-for-the-1win-1win-public-sale-ab-9330', goal: 10e6, name: 'Above $10M', at: Date.parse('2026-10-30T00:00:00Z'), when: 'counted Oct 30, 00:00 UTC' },
+    { slug: 'will-the-1win-token-sale-get-more-than-20m-in-depo-8761', goal: 20e6, name: 'Above $20M', at: null, when: 'by the sale close, Oct 30, 16:00 UTC' },
+  ],
 };
+const mAt = m => m.at || CFG.end; // null: the sale close, which can move
 
 const root = document.documentElement;
 try { const s = localStorage.getItem('theme'); if (s) root.dataset.theme = s; } catch {}
@@ -223,6 +258,12 @@ const usd = v => '$' + Math.round(v).toLocaleString('en-US');
 const usdM = v => v >= 1e6 ? '$' + (v / 1e6).toFixed(v >= 1e7 ? 1 : 2) + 'M' : v >= 1e3 ? '$' + (v / 1e3).toFixed(v >= 1e4 ? 0 : 1) + 'K' : '$' + Math.round(v);
 const mult = v => '×' + v.toFixed(2);
 const Hh = ms => ms / 36e5;
+const cents = v => (v < .01 ? (v * 100).toFixed(1) : Math.round(v * 100)) + '¢';
+const pct = v => Math.round(v * 100) + '%';
+// XO taker fee per share: 4% × p × (1 − p) (docs.xo.market/product/trading/fees), so one share really costs p + fee
+const withFee = p => p + .04 * p * (1 - p);
+function erf(x) { const s = Math.sign(x); x = Math.abs(x); const t = 1 / (1 + .3275911 * x); return s * (1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - .284496736) * t + .254829592) * t * Math.exp(-x * x)); }
+const Phi = z => .5 * (1 + erf(z / Math.SQRT2));
 const css = n => getComputedStyle(root).getPropertyValue(n).trim();
 
 let HIST = [], LIVE = null, MODEL = null;
@@ -288,7 +329,14 @@ function compute() {
   // deposits over the last 24 hours, read off the recorded line
   const at = t => { let v = null; for (const p of pts) { if (p.t <= t) v = p.d; else break; } return v; };
   const dayAgo = at(now.t - 864e5);
-  MODEL = { pts, now, tNow, k, se, fitted, pace, fc, day: dayAgo == null ? null : now.d - dayAgo };
+  // chance that deposits pass `goal` by time T; never 0% or 100% while it's still open
+  const prob = (goal, T) => {
+    if (now.d > goal) return 1;
+    if (T <= now.t) return 0;
+    const f = fc(T); if (f.rem <= 0) return .01;
+    return Math.min(.99, Math.max(.01, 1 - Phi(Math.log((goal - now.d) / f.rem) / f.sigma)));
+  };
+  MODEL = { pts, now, tNow, k, se, fitted, pace, fc, prob, day: dayAgo == null ? null : now.d - dayAgo };
 }
 
 let shownDep = 0, animFrom = 0, animT0 = 0;
@@ -315,6 +363,7 @@ function render() {
   $('fillNote').innerHTML = over
     ? `The sale closed at <b>${mult(x)}</b>: each $1,000 deposited bought about <b>${usd(1000 / Math.max(1, x))}</b> of 1W at the sale price.`
     : `If the sale closes around <b>${mult(xFinal)}</b>, a <b>$1,000</b> deposit buys about <b>${usd(fill)}</b> of 1W at the sale price (${Math.round(100 / Math.max(1, xFinal))}% of it). Right now it would be ${usd(1000 / Math.max(1, x))}.`;
+  renderMarkets(M, d);
   // how sure: a young sale, or the two views disagreeing a lot, means a wide range
   const sig = f.sigma, hrs = Math.floor(M.tNow), early = !M.fitted || M.tNow < 12, level = over ? 3 : early || sig > .6 ? 1 : sig > .45 ? 2 : 3;
   [...$('dots').children].forEach((e, i) => e.classList.toggle('on', i < level));
@@ -322,7 +371,49 @@ function render() {
   $('conf').innerHTML = over ? 'How sure: <b>certain</b>. The sale is over.'
     : level === 1 && !early ? 'How sure: <b>low</b>. The long-run trend and the pace of the last day point to very different results right now.'
     : level === 1 ? `How sure: <b>low</b>. Only ${hrs} hours of deposits so far.`
-    : `How sure: <b>${level === 2 ? 'medium' : 'high'}</b>. Based on ${days >= 2 ? days + ' days' : hrs + ' hours'} of real deposits, but a last-day rush can still push it past the top of the range.`;
+    : `How sure: <b>${level === 2 ? 'medium' : 'high'}</b> about the trend, from ${days >= 2 ? days + ' days' : hrs + ' hours'} of real deposits. What it can't see is news: a big push from 1win or a last-day rush.`;
+}
+const ARROW_UP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>';
+const ARROW_DN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7l10 10M17 9v8H9"/></svg>';
+const EQUAL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9h12M6 15h12"/></svg>';
+function renderMarkets(M, d) {
+  const xo = (LIVE && LIVE.markets) || [];
+  const html = CFG.markets.map(cfg => {
+    const m = xo.find(x => x.slug === cfg.slug), T = mAt(cfg), url = `https://beta.xo.market/event/${cfg.slug}?r=${CFG.ref}`;
+    const pm = M.prob(cfg.goal, T), hit = d > cfg.goal;
+    // betting is over once the market's expiry has passed or XO reports any status but ACTIVE
+    const closed = !m || Date.now() >= Date.parse(m.expiresAt) || m.status !== 'ACTIVE';
+    const yesAsk = m && m.yes.ask, noAsk = m && m.no.ask, mid = m ? m.last : null;
+    const hLeft = Math.max(.01, Hh(T - M.now.t)), needPace = (cfg.goal - d) / hLeft;
+    const need = hit ? `Deposits are already above ${usdM(cfg.goal)}.`
+      : T <= Date.now() ? `Counting is over: deposits stayed below ${usdM(cfg.goal)}.`
+      : `Needs <b>+${usdM(cfg.goal - d)}</b> more: <b>${usdM(needPace)}</b> an hour on average, against <b>${usdM(M.pace)}</b> an hour now${M.pace > 0 ? ` (${Math.max(1, Math.round(needPace / M.pace))}×)` : ''}.`;
+    // compare our chance with what each side really costs, fee included
+    const yesCost = yesAsk != null ? withFee(yesAsk) : null, noCost = noAsk != null ? withFee(noAsk) : null;
+    const edgeYes = yesCost != null ? pm - yesCost : -1, edgeNo = noCost != null ? (1 - pm) - noCost : -1;
+    const side = closed ? 'none' : hit ? 'yes' : edgeYes > .05 ? 'yes' : edgeNo > .05 ? 'no' : 'none';
+    let verdict;
+    if (closed && m) verdict = `<div class="side">${EQUAL}Betting closed</div><div class="t">Last XO price of YES: <b>${cents(mid)}</b>. Our chance: <b>${pct(pm)}</b>.</div>`;
+    else if (!m) verdict = `<div class="side">${EQUAL}No XO prices</div><div class="t">Couldn't load this market from XO right now.</div>`;
+    else if (hit) verdict = `<div class="side">${ARROW_UP}YES ✓</div><div class="t">Deposits passed ${usdM(cfg.goal)}.</div>`;
+    else if (side === 'no') verdict = `<div class="side">${ARROW_DN}NO looks cheap</div><div class="t">We give NO <b>${pct(1 - pm)}</b>, and it costs <b>${cents(noAsk)}</b>. The XO crowd expects much more money than the deposits show so far.</div>`;
+    else if (side === 'yes') verdict = `<div class="side">${ARROW_UP}YES looks cheap</div><div class="t">We give YES <b>${pct(pm)}</b>, and it costs <b>${cents(yesAsk)}</b>.</div>`;
+    else verdict = `<div class="side">${EQUAL}Fair price</div><div class="t">Our chance and the price to buy are close, so neither side is cheap right now.</div>`;
+    const btn = (k, ask, cost) => {
+      const label = k === 'yes' ? 'YES' : 'NO';
+      if (closed) return `<a class="tb ${k} off" aria-disabled="true"><b>${label}${m ? ' · ' + cents(k === 'yes' ? mid : 1 - mid) : ''}</b><span>closed</span></a>`;
+      return `<a class="tb ${k}" href="${url}" target="_blank" rel="noopener"><b>Buy ${label}${ask != null ? ' · ' + cents(ask) : ''}</b><span>${ask != null ? `$10 → $${(10 / cost).toFixed(2)} if ${label}` : 'no offers right now'}</span></a>`;
+    };
+    return `<div class="mk">
+      <div class="mk-h"><b>${cfg.name}</b><span>${cfg.when}</span></div>
+      <div class="mk-row"><div><div class="lbl">Our chance of YES</div><div class="v pm">${pct(pm)}</div></div><div><div class="lbl">XO price of YES</div><div class="v">${yesAsk != null && !closed ? cents(yesAsk) : mid != null ? cents(mid) : '—'}</div></div></div>
+      <div class="need">${need}</div>
+      <div class="verdict ${side === 'none' ? '' : side}">${verdict}</div>
+      <div class="trade">${btn('yes', yesAsk, yesCost)}${btn('no', noAsk, noCost)}</div>
+    </div>`;
+  }).join('');
+  if ($('mkts').innerHTML !== html) $('mkts').innerHTML = html;
+  setText('meta', `Two XO markets on the 1win Token (1W) sale · ${usdM(d)} deposited so far`);
 }
 function fmtLeft(ms) { ms = Math.max(0, ms); const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60; return (d ? d + 'd ' : '') + h + 'h ' + String(m).padStart(2, '0') + 'm'; }
 // write to the DOM only when the text actually changes
@@ -359,7 +450,8 @@ function draw() {
   const ink = css('--ink'), muted = css('--muted'), line = css('--line'), yes = css('--yes'), fcs = getComputedStyle($('chartCard')), lav = fcs.getPropertyValue('--fc-line').trim();
   const t0 = CFG.open, t1 = CFG.end + 12 * 36e5;
   const f = M.fc(CFG.end);
-  const yMax = Math.max(CFG.goal * 1.3, M.now.d * 1.15, Math.min(f.hi * 1.08, f.mid * 2));
+  const top = Math.max(...CFG.markets.map(m => m.goal));
+  const yMax = Math.max(top * 1.12, M.now.d * 1.15, Math.min(f.hi * 1.08, f.mid * 2));
   const X = t => L + (t - t0) / (t1 - t0) * (W - L - R), Y = v => T + (1 - v / yMax) * (H - T - B);
   const step = [1e6, 2e6, 5e6, 1e7, 2e7, 5e7].find(s => yMax / s <= 6) || 5e7;
   g.font = '500 12px Figtree'; g.strokeStyle = line; g.lineWidth = 1; g.fillStyle = muted; g.textAlign = 'right'; g.textBaseline = 'middle';
@@ -376,19 +468,25 @@ function draw() {
     g.fillStyle = fcs.getPropertyValue('--fc-band').trim(); g.fill();
     g.save(); g.setLineDash([6, 5]); g.strokeStyle = lav; g.lineWidth = 2.5; g.beginPath(); ts.forEach((t, i) => { const y = Y(at(t, 'mid')); i ? g.lineTo(X(t), y) : g.moveTo(X(t), y); }); g.stroke(); g.restore();
   }
-  g.save(); g.strokeStyle = ink; g.lineWidth = 1.5; g.setLineDash([8, 6]); g.beginPath(); g.moveTo(L, Y(CFG.goal)); g.lineTo(W - R, Y(CFG.goal)); g.stroke(); g.restore();
-  tag(g, '$3.9M on sale', X(CFG.open + 864e5 * 1.5), Y(CFG.goal) + 13, { color: ink, bold: true });
+  // each market's line runs to the moment it's counted
+  CFG.markets.forEach(m => {
+    const xe = X(mAt(m));
+    g.save(); g.strokeStyle = ink; g.lineWidth = 1.5; g.setLineDash([8, 6]); g.beginPath(); g.moveTo(L, Y(m.goal)); g.lineTo(xe, Y(m.goal)); g.stroke(); g.restore();
+    tag(g, '$' + m.goal / 1e6 + 'M market', L + 8, Y(m.goal) - 12, { color: ink, bold: true });
+  });
+  if (CFG.markets.some(m => m.at)) { const xc = X(Math.min(...CFG.markets.filter(m => m.at).map(m => m.at)));
+    g.save(); g.setLineDash([2, 5]); g.strokeStyle = muted; g.globalAlpha = .6; g.lineWidth = 1.5; g.beginPath(); g.moveTo(xc + .5, T + 20); g.lineTo(xc + .5, H - B); g.stroke(); g.restore(); }
   const pts = M.pts;
   const path = () => { g.beginPath(); g.moveTo(X(CFG.open), Y(0)); pts.forEach(p => g.lineTo(X(p.t), Y(p.d))); };
   path(); g.lineTo(X(pts[pts.length - 1].t), Y(0)); g.closePath();
   const gr = g.createLinearGradient(0, T, 0, H - B); gr.addColorStop(0, 'rgba(255,135,166,.32)'); gr.addColorStop(1, 'rgba(255,135,166,0)'); g.fillStyle = gr; g.fill();
   path(); g.strokeStyle = yes; g.lineWidth = 3; g.lineJoin = 'round'; g.stroke();
   const last = pts[pts.length - 1]; g.fillStyle = yes; g.beginPath(); g.arc(X(last.t), Y(last.d), 5.5, 0, 7); g.fill(); g.strokeStyle = css('--card'); g.lineWidth = 2; g.stroke();
-  // 'now' label above-left of the dot, where the line has already been; under it when that would run into the axis labels
+  // 'now' label above-left of the dot, where the line has already been; below-right of it when that would run into the axis labels
   const nowTxt = (M.now.t >= CFG.end ? 'final ' : 'now ') + usdM(last.d);
   g.font = '600 12.5px Figtree';
   const roomLeft = X(last.t) - 10 - g.measureText(nowTxt).width > L + 6;
-  tag(g, nowTxt, X(last.t) - 10, roomLeft ? Math.max(T + 30, Y(last.d) - 16) : Y(last.d) + 20, { align: 'right', color: css('--yes-ink'), bold: true });
+  tag(g, nowTxt, X(last.t) + (roomLeft ? -10 : 8), roomLeft ? Math.max(T + 30, Y(last.d) - 16) : Y(last.d) + 20, { align: roomLeft ? 'right' : 'left', color: css('--yes-ink'), bold: true });
   if (M.now.t < CFG.end) {
     const v = f.mid; if (v <= yMax) { g.fillStyle = lav; g.beginPath(); g.arc(X(CFG.end), Y(v), 5, 0, 7); g.fill();
       tag(g, 'forecast ' + usdM(v), X(CFG.end) - 8, Math.max(T + 30, Y(Math.min(yMax, f.hi)) - 14), { align: 'right', color: lav, bold: true }); }
