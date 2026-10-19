@@ -101,14 +101,14 @@ h2{font:600 18px Rubik;letter-spacing:-.015em;margin:0}
 
 .pscale{display:flex;justify-content:space-between;margin-top:7px;font:500 12px Figtree;color:var(--muted)}
 .pscale b{color:var(--ink)}
-.facts{display:grid;grid-template-columns:.8fr 1fr 1.2fr;gap:10px;margin-top:18px}
+.facts{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1.15fr) minmax(0,.85fr);gap:10px;margin-top:18px}
 @media (max-width:900px){.facts{grid-template-columns:minmax(0,1fr)}}
 .split .lbl{white-space:nowrap}
 .fact{display:flex;gap:12px;align-items:center;background:var(--soft);border-radius:14px;padding:12px 14px}
 .fact .ic{width:36px;height:36px;border-radius:10px;background:var(--card);display:grid;place-items:center;flex:none}
 .fact .ic svg{width:18px;height:18px;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .split{display:flex;align-items:center;flex:1;min-width:0}
-.split>div{flex:1;min-width:0}
+.split>div{flex:1 1 auto;min-width:0}
 .split>div+div{border-left:1px solid rgba(128,128,140,.25);padding-left:14px;margin-left:4px}
 .v.up{color:#16a34a}.v.down{color:#dc2626}
 .fact .v{font:600 19px Inter;letter-spacing:-.02em;font-variant-numeric:tabular-nums;white-space:nowrap}
