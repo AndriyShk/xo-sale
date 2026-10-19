@@ -76,18 +76,6 @@ h2{font:600 18px Rubik;letter-spacing:-.015em;margin:0}
 .q .meta{font:400 13.5px Rubik;color:var(--muted);margin-top:3px}
 .duo{margin-top:20px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
 @media (max-width:620px){.duo{grid-template-columns:minmax(0,1fr)}}
-.box{border-radius:18px;padding:18px 18px 16px;border:1px solid var(--line);background:var(--card);position:relative;overflow:hidden}
-.box::before{content:"";position:absolute;inset:0 0 auto 0;height:4px}
-.box.f::before{background:var(--yes)}
-.box.o::before{background:var(--no)}
-.box .h{display:flex;align-items:center;gap:8px;font:600 15px Rubik}
-.box .h i{width:10px;height:10px;border-radius:50%}
-.box.f .h i{background:var(--yes)}
-.box.o .h i{background:var(--no)}
-.box .v{font:600 clamp(44px,6.4vw,60px)/1 Inter;letter-spacing:-.025em;font-variant-numeric:tabular-nums;margin:10px 0 8px}
-.box.f .v{color:var(--yes-ink)}
-.box.o .v{color:var(--no-ink)}
-.box .d{font:400 14px/1.5 Rubik;color:var(--muted)}
 .conf{margin-top:14px;display:flex;align-items:flex-start;gap:10px;font:400 13.5px/1.5 Rubik;color:var(--muted)}
 .conf b{color:var(--ink);font-weight:600}
 .dots{display:inline-flex;gap:3px;flex:none;margin-top:7px}.dots i{width:16px;height:6px;border-radius:3px;background:var(--line)}.dots i.on{background:var(--ink)}
@@ -95,6 +83,10 @@ h2{font:600 18px Rubik;letter-spacing:-.015em;margin:0}
 /* ---------- 2 · progress */
 .big{font:600 clamp(36px,5.6vw,52px)/1 Inter;letter-spacing:-.025em;font-variant-numeric:tabular-nums;margin:8px 0 6px}
 .sub{font:400 14.5px Rubik;color:var(--muted)}.sub b{color:var(--ink);font-weight:600}
+.hl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px}
+.hl>div+div{border-left:1px solid var(--line);padding-left:24px}
+.big.fc{color:var(--yes-ink)}
+@media (max-width:620px){.hl{grid-template-columns:minmax(0,1fr);gap:18px}.hl>div+div{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:18px}}
 .ptrack{height:14px;border-radius:999px;background:var(--soft);position:relative;overflow:hidden;margin-top:18px}
 .pfill{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:linear-gradient(90deg,var(--no),var(--yes));transition:width .8s cubic-bezier(.2,.8,.2,1);overflow:hidden}
 
@@ -166,8 +158,6 @@ a.oc:hover{background:var(--soft)}
 .mk-foot b{color:var(--ink);font-weight:600}
 .mk-foot .vf{color:#5aa9ff}
 .mk-foot .vol{margin-left:auto;white-space:nowrap}
-.duo2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-top:16px}
-@media (max-width:620px){.duo2{grid-template-columns:minmax(0,1fr)}}
 .ptick{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);border-radius:1px}
 .k a{color:var(--no-ink)}
 </style>
@@ -197,19 +187,9 @@ a.oc:hover{background:var(--soft)}
 
   <!-- 2 · progress -->
   <section class="card">
-    <h2>Deposited so far</h2>
-    <div class="big" id="dep">—</div>
-    <div class="duo2">
-      <div class="box o">
-        <div class="h"><i></i><span>Oversubscribed now</span></div>
-        <div class="v" id="xNow">—</div>
-        <div class="d" id="xDesc">Deposits divided by the $3.9M the sale is selling.</div>
-      </div>
-      <div class="box f">
-        <div class="h"><i></i><span>Our forecast at close</span></div>
-        <div class="v" id="fMid">—</div>
-        <div class="d" id="fDesc">Where deposits are heading by the end of the sale.</div>
-      </div>
+    <div class="hl">
+      <div><h2>Deposited so far</h2><div class="big" id="dep">—</div><div class="sub" id="depSub">—</div></div>
+      <div><h2>Our forecast at close</h2><div class="big fc" id="fMid">—</div><div class="sub" id="fDesc">—</div></div>
     </div>
     <div class="facts">
       <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5M16 4.5a3.5 3.5 0 010 7M18.5 14.8c1.7.8 2.7 2.5 3 5.2"/></svg></div><div class="split"><div><div class="lbl">People</div><div class="v" id="ppl">—</div></div><div><div class="lbl">Average deposit</div><div class="v" id="avg">—</div></div></div></div>
@@ -227,6 +207,7 @@ a.oc:hover{background:var(--soft)}
       <span><i style="background:var(--fc-line)"></i>Our forecast</span>
       <span><i style="background:var(--ink)"></i>Lines of the XO markets</span>
       <span><i style="background:var(--fc-band);height:10px"></i>Could land anywhere here</span>
+      <span id="aboveNote" hidden></span>
     </div>
   </section>
 
@@ -275,7 +256,6 @@ document.getElementById('theme').onclick = () => {
 const $ = id => document.getElementById(id);
 const usd = v => '$' + Math.round(v).toLocaleString('en-US');
 const usdM = v => v >= 1e6 ? '$' + (v / 1e6).toFixed(v >= 1e7 ? 1 : 2) + 'M' : v >= 1e3 ? '$' + (v / 1e3).toFixed(v >= 1e4 ? 0 : 1) + 'K' : '$' + Math.round(v);
-const mult = v => '×' + v.toFixed(2);
 const Hh = ms => ms / 36e5;
 const cents = v => (v < .01 ? (v * 100).toFixed(1) : Math.round(v * 100)) + '¢';
 const pct = v => Math.round(v * 100) + '%';
@@ -363,8 +343,7 @@ function render() {
   const M = MODEL; if (!M) return;
   const d = M.now.d, over = Date.now() >= CFG.end;
   if (d !== shownDep) { animFrom = shownDep || d * .97; animT0 = performance.now(); shownDep = d; animateDep(); }
-  const x = d / CFG.goal, parts = (LIVE && LIVE.participants) || (HIST.length ? HIST[HIST.length - 1].participants : null);
-  setText('xNow', mult(x));
+  const parts = (LIVE && LIVE.participants) || (HIST.length ? HIST[HIST.length - 1].participants : null);
   setText('ppl', parts ? parts.toLocaleString('en-US') : '—');
   setText('avg', parts ? usd(d / parts) : '—');
   setText('day', M.day == null ? '—' : '+' + usdM(M.day));
@@ -372,11 +351,11 @@ function render() {
   const perMin = !over && CFG.end - Date.now() < 6 * 36e5;
   setText('paceLbl', perMin ? 'Pace / min' : 'Pace / hour');
   setText('pace', over ? '—' : usdM(M.pace / (perMin ? 60 : 1)));
-  const f = M.fc(CFG.end), xEnd = f.mid / CFG.goal;
+  const f = M.fc(CFG.end);
   const range = `${usdM(Math.max(d, f.lo))}–${usdM(f.hi)}`;
   setText('fMid', over ? usdM(d) : usdM(f.mid));
-  setText('fDesc', over ? 'The sale has ended; this is the final total.' : `Likely ${range}, that is ${mult(Math.max(d, f.lo) / CFG.goal)}–${mult(f.hi / CFG.goal)} the amount on sale.`);
-  setText('xDesc', over ? 'Final deposits divided by the $3.9M the sale sold.' : `Deposits divided by the $3.9M on sale. At the close we expect about ${mult(xEnd)}.`);
+  setText('fDesc', over ? 'The sale has ended: this is the final total.' : `Likely ${range} by Oct 30, 16:00 UTC`);
+  setText('depSub', 'Since the sale opened, Oct 15, 15:00 UTC');
   renderMarkets(M, d);
   // how sure: a young sale, or the two views disagreeing a lot, means a wide range
   const sig = f.sigma, hrs = Math.floor(M.tNow), early = !M.fitted || M.tNow < 12, level = over ? 3 : early || sig > .6 ? 1 : sig > .45 ? 2 : 3;
@@ -488,7 +467,8 @@ function draw() {
   }
   // each market's line runs to the moment it's counted
   const above = CFG.markets.filter(m => m.goal > yMax);
-  if (above.length) tag(g, '↑ ' + above.map(m => '$' + m.goal / 1e6 + 'M').join(', ') + ' market' + (above.length > 1 ? 's' : '') + ' far above', L + (W - L - R) / 2, T + 6, { align: 'center', color: muted });
+  // markets far above the scale are named in the legend, not squeezed onto the chart
+  const an = $('aboveNote'); an.hidden = !above.length; an.textContent = above.length ? '↑ ' + above.map(m => '$' + m.goal / 1e6 + 'M').join(', ') + ' market' + (above.length > 1 ? 's are' : ' is') + ' far above the chart' : '';
   CFG.markets.filter(m => m.goal <= yMax).forEach(m => {
     const xe = X(mAt(m));
     g.save(); g.strokeStyle = ink; g.lineWidth = 1.5; g.setLineDash([8, 6]); g.beginPath(); g.moveTo(L, Y(m.goal)); g.lineTo(xe, Y(m.goal)); g.stroke(); g.restore();
