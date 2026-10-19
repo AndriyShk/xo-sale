@@ -171,8 +171,6 @@ canvas{width:100%;display:block}
 .tb span{font:500 12px Figtree;color:var(--muted);text-align:center;font-variant-numeric:tabular-nums}
 .duo2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-top:16px}
 @media (max-width:620px){.duo2{grid-template-columns:minmax(0,1fr)}}
-.fill-note{margin-top:14px;border-radius:16px;padding:14px 16px;background:var(--soft);font:400 14.5px/1.5 Rubik}
-.fill-note b{font-weight:600}
 .ptick{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);border-radius:1px}
 .k a{color:var(--no-ink)}
 </style>
@@ -218,7 +216,6 @@ canvas{width:100%;display:block}
         <div class="d" id="fDesc">Where deposits are heading by the end of the sale.</div>
       </div>
     </div>
-    <div class="fill-note" id="fillNote">—</div>
     <div class="facts">
       <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5M16 4.5a3.5 3.5 0 010 7M18.5 14.8c1.7.8 2.7 2.5 3 5.2"/></svg></div><div class="split"><div><div class="lbl">People</div><div class="v" id="ppl">—</div></div><div><div class="lbl">Average deposit</div><div class="v" id="avg">—</div></div></div></div>
       <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><div class="split"><div><div class="lbl">Last 24 h</div><div class="v" id="day">—</div></div><div><div class="lbl" id="paceLbl">Pace / hour</div><div class="v" id="pace">—</div></div></div></div>
@@ -384,10 +381,6 @@ function render() {
   setText('fMid', over ? usdM(d) : usdM(f.mid));
   setText('fDesc', over ? 'The sale has ended; this is the final total.' : `Likely ${range}, that is ${mult(Math.max(d, f.lo) / CFG.goal)}–${mult(f.hi / CFG.goal)} the amount on sale.`);
   setText('xDesc', over ? 'Final deposits divided by the $3.9M the sale sold.' : `Deposits divided by the $3.9M on sale. At the close we expect about ${mult(xEnd)}.`);
-  const xFinal = over ? x : xEnd, fill = 1000 / Math.max(1, xFinal);
-  $('fillNote').innerHTML = over
-    ? `The sale closed at <b>${mult(x)}</b>: each $1,000 deposited bought about <b>${usd(1000 / Math.max(1, x))}</b> of 1W at the sale price.`
-    : `If the sale closes around <b>${mult(xFinal)}</b>, a <b>$1,000</b> deposit buys about <b>${usd(fill)}</b> of 1W at the sale price (${Math.round(100 / Math.max(1, xFinal))}% of it). Right now it would be ${usd(1000 / Math.max(1, x))}.`;
   renderMarkets(M, d);
   // how sure: a young sale, or the two views disagreeing a lot, means a wide range
   const sig = f.sigma, hrs = Math.floor(M.tNow), early = !M.fitted || M.tNow < 12, level = over ? 3 : early || sig > .6 ? 1 : sig > .45 ? 2 : 3;
