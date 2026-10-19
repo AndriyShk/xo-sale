@@ -137,8 +137,10 @@ canvas{width:100%;display:block}
 @media (max-width:420px){.fact .ic{display:none}.fact{padding:12px 16px}.split .v{font-size:18px}.split>div+div{padding-left:14px;margin-left:2px}}
 @media (max-width:340px){.split .v{font-size:16px}.split .lbl{font-size:12.5px}.fact{padding:12px 12px}.split>div+div{padding-left:10px}}
 
-.mkts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px;margin-top:20px}
-.mk{border:1px solid var(--line);border-radius:18px;padding:16px;min-width:0}
+.mkts{display:grid;gap:12px;margin-top:20px}
+.mk{border:1px solid var(--line);border-radius:18px;padding:18px;min-width:0;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.05fr) minmax(0,1.1fr);gap:22px;align-items:start}
+.mk>div{min-width:0}
+@media (max-width:900px){.mk{grid-template-columns:minmax(0,1fr);gap:12px;padding:16px}}
 .mk-h{display:flex;gap:12px;align-items:flex-start;text-decoration:none}
 .mk-h img.pic{width:48px;height:48px;border-radius:12px;object-fit:cover;flex:none;background:var(--soft)}
 .mk-h .tt{font:600 16px/1.3 Rubik;letter-spacing:-.015em}
@@ -149,16 +151,17 @@ canvas{width:100%;display:block}
 .by .vf{color:#5aa9ff}
 .mk .note{margin-top:8px;font:400 12.5px/1.45 Rubik;color:var(--muted)}
 .when{display:inline-block;margin-top:10px;font:500 12.5px Figtree;color:var(--muted);background:var(--soft);border-radius:8px;padding:3px 9px}
-.mk-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin-top:12px}
+.mk-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
 .mk-row>div{background:var(--soft);border-radius:14px;padding:10px 12px}
+.mk-row .lbl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mk-row .v{font:600 30px/1.1 Inter;letter-spacing:-.025em;font-variant-numeric:tabular-nums;margin-top:2px}
 .mk-row .v.pm{color:var(--no-ink)}
 .need{margin-top:10px;font:400 13.5px/1.5 Rubik;color:var(--muted)}.need b{color:var(--ink);font-weight:600}
-.verdict{margin-top:12px;border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;background:var(--soft)}
+.verdict{border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;background:var(--soft)}
 .verdict.yes{background:linear-gradient(100deg,var(--yes-soft),color-mix(in srgb,var(--yes-soft) 30%,var(--card)))}
 .verdict.no{background:linear-gradient(100deg,var(--no-soft),color-mix(in srgb,var(--no-soft) 30%,var(--card)))}
 .verdict .side{display:flex;align-items:center;gap:6px;font:600 19px Rubik;letter-spacing:-.02em;white-space:nowrap}
-.verdict.yes .side{color:var(--yes-ink)}.verdict.no .side{color:var(--no-ink)}
+.verdict.yes .side{color:var(--yes-ink)}.verdict.no .side{color:var(--no-ink)}.verdict.warn .side{color:var(--ink)}
 .verdict .side svg{width:22px;height:22px}
 .verdict .t{font:400 14px/1.5 Rubik}.verdict .t b{font-weight:600}
 .trade{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin-top:10px}
@@ -408,7 +411,7 @@ function renderMarkets(M, d) {
     const yesCost = yesAsk != null ? withFee(yesAsk) : null, noCost = noAsk != null ? withFee(noAsk) : null;
     const edgeYes = yesCost != null ? pm - yesCost : -1, edgeNo = noCost != null ? (1 - pm) - noCost : -1;
     const side = closed ? 'none' : hit ? 'yes' : edgeYes > .05 ? 'yes' : edgeNo > .05 ? 'no'
-      : yesCost != null && noCost == null && pm - yesCost < -.05 ? 'no' : noCost != null && yesCost == null && (1 - pm) - noCost < -.05 ? 'yes' : 'none';
+      : (yesCost != null && noCost == null && pm - yesCost < -.05) || (noCost != null && yesCost == null && (1 - pm) - noCost < -.05) ? 'warn' : 'none';
     let verdict;
     if (closed && m) verdict = `<div class="side">${EQUAL}Betting closed</div><div class="t">Last XO price of YES: <b>${cents(mid)}</b>. Our chance: <b>${pct(pm)}</b>.</div>`;
     else if (!m) verdict = `<div class="side">${EQUAL}No XO prices</div><div class="t">Couldn't load this market from XO right now.</div>`;
@@ -426,14 +429,16 @@ function renderMarkets(M, d) {
     };
     const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     const by = m && m.creator ? `<div class="by">${m.kind === 'conviction' ? 'Conviction' : 'Market'} by ${m.creator.avatar ? `<img src="${esc(m.creator.avatar)}" alt="" loading="lazy">` : ''}<span style="white-space:nowrap"><b>@${esc(m.creator.name)}</b>${m.creator.verified ? ' <span class="vf" title="Verified on XO">✓</span>' : ''}</span></div>` : '';
-    return `<div class="mk">
+    return `<div class="mk"><div>
       <a class="mk-h" href="${url}" target="_blank" rel="noopener">${m && m.image ? `<img class="pic" src="${esc(m.image)}" alt="">` : ''}<div><div class="tt">${esc(m ? m.title : cfg.name)}</div>${by}</div></a>
       <span class="when">${cfg.when}</span>${cfg.note ? `<div class="note">${esc(cfg.note)}</div>` : ''}
-      <div class="mk-row"><div><div class="lbl">Our chance of YES</div><div class="v pm">${pct(pm)}</div></div><div><div class="lbl">XO price of YES</div><div class="v">${yesAsk != null && !closed ? cents(yesAsk) : mid != null ? cents(mid) : '—'}</div></div></div>
+      </div><div>
+      <div class="mk-row"><div><div class="lbl">Our YES chance</div><div class="v pm">${pct(pm)}</div></div><div><div class="lbl">XO YES price</div><div class="v">${yesAsk != null && !closed ? cents(yesAsk) : mid != null ? cents(mid) : '—'}</div></div></div>
       <div class="need">${need}</div>
+      </div><div>
       <div class="verdict ${side === 'none' ? '' : side}">${verdict}</div>
       <div class="trade">${btn('yes', yesAsk, yesCost)}${btn('no', noAsk, noCost)}</div>
-    </div>`;
+    </div></div>`;
   }).join('');
   if ($('mkts').innerHTML !== html) $('mkts').innerHTML = html;
   setText('meta', `${CFG.markets.length} XO markets on the 1win Token (1W) sale · ${usdM(d)} deposited so far`);
