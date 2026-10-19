@@ -1,5 +1,5 @@
 name: snapshot
-# Records Legion deposits + the XO price into data/history.json every ~10 minutes (GitHub may delay scheduled runs).
+# Records the 1win sale deposits into data/history.json every ~10 minutes (GitHub may delay scheduled runs).
 on:
   schedule: [{ cron: '*/10 * * * *' }]
   workflow_dispatch:
@@ -16,7 +16,7 @@ jobs:
       - run: node scripts/snapshot.mjs
       - name: commit
         run: |
-          git config user.name "xo-jumper-bot"
+          git config user.name "xo-sale-bot"
           git config user.email "actions@users.noreply.github.com"
           git add data/history.json
           git diff --cached --quiet || (git commit -m "data: snapshot" && git push)

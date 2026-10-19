@@ -1,0 +1,51 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&family=Rubik:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}
+body{width:1200px;height:630px;overflow:hidden;font-family:Rubik,sans-serif;color:#121213;
+  background:radial-gradient(700px 520px at 0% 0%,#ffe1ea,transparent 60%),radial-gradient(700px 520px at 100% 100%,#e6e0ff,transparent 60%),#f6f5f8;position:relative}
+.grid{position:absolute;inset:0;background-image:linear-gradient(rgba(18,18,19,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(18,18,19,.045) 1px,transparent 1px);background-size:40px 40px;-webkit-mask-image:radial-gradient(ellipse at 30% 40%,#000 20%,transparent 75%)}
+.left{position:absolute;left:72px;top:70px;width:520px}
+.brand{display:flex;align-items:center;gap:14px;font:700 28px Rubik;letter-spacing:-.01em}
+.brand img{width:52px;height:52px;border-radius:15px}
+h1{font:700 62px/1.03 Rubik;letter-spacing:-.035em;margin-top:44px}
+h1 span{color:#d23f6b}
+.sub{font:500 22px/1.4 Rubik;color:#5d5d66;margin-top:20px}
+.url{position:absolute;left:72px;bottom:64px;font:600 24px Inter;letter-spacing:-.01em;background:#121213;color:#fff;border-radius:14px;padding:12px 20px}
+.card{position:absolute;right:56px;top:96px;width:520px;background:#fff;border-radius:26px;padding:26px 26px 22px;transform:rotate(-2deg);
+  box-shadow:0 40px 90px -20px rgba(80,40,120,.35),0 10px 30px rgba(18,18,19,.08)}
+.card h2{font:600 19px Rubik;letter-spacing:-.01em}
+.card svg{display:block;margin-top:14px}
+.duo{display:flex;gap:10px;margin-top:14px}
+.duo div{flex:1;text-align:center;border-radius:14px;padding:13px;font:600 18px Rubik}
+.y{background:#ffe9ef;color:#d23f6b}.n{background:#efecff;color:#6553ea}
+.badge{position:absolute;right:40px;top:58px;transform:rotate(4deg);background:#FF87A6;color:#121213;font:700 20px Rubik;padding:10px 18px;border-radius:14px;box-shadow:0 12px 30px -8px rgba(255,135,166,.8)}
+</style></head>
+<body>
+<div class="grid"></div>
+<div class="left">
+  <div class="brand"><img src="../img/logo.svg"><span>XO SALE</span></div>
+  <h1>How big will the <span>1win</span> token sale get?</h1>
+  <div class="sub">Live deposits, oversubscription and a forecast of the final raise.</div>
+</div>
+<div class="url">xo-sale.vercel.app</div>
+<div class="card">
+  <h2>Deposits so far and where they're heading</h2>
+  <svg width="468" height="250" viewBox="0 0 468 250">
+    <g stroke="#ebeaf0" stroke-width="1"><path d="M0 40H468M0 100H468M0 160H468M0 220H468"/></g>
+    <path d="M60 136 C160 100 300 50 440 14 L440 104 C300 116 160 128 60 136Z" fill="#a293ff" opacity=".18"/>
+    <path d="M0 176H468" stroke="#121213" stroke-width="2" stroke-dasharray="8 6"/>
+    <text x="190" y="196" font-family="Inter" font-weight="600" font-size="14" fill="#121213">$3.9M on sale</text>
+    <path d="M440 12V236" stroke="#9d9ca6" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <path d="M2 220 L14 170 L30 150 L44 140 L60 136" fill="none" stroke="#FF87A6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M60 136 C170 110 300 80 440 54" fill="none" stroke="#6553ea" stroke-width="3.5" stroke-dasharray="9 7" stroke-linecap="round"/>
+    <circle cx="60" cy="136" r="7" fill="#FF87A6"/>
+    <circle cx="440" cy="54" r="7" fill="#6553ea"/>
+    <text x="72" y="160" font-family="Inter" font-weight="600" font-size="14" fill="#d23f6b">now</text>
+    <text x="430" y="228" text-anchor="end" font-family="Inter" font-weight="500" font-size="13" fill="#6e6e76">sale ends</text>
+  </svg>
+  <div class="duo"><div class="n">Oversubscribed ×?</div><div class="y">Final raise?</div></div>
+</div>
+<div class="badge">LIVE ⚡</div>
+</body></html>

@@ -1,10 +1,15 @@
-# XO Jumper: Jumper × Legion tracker (XO community)
+# XO Sale: live token sale tracker (XO community)
 
-A live page for the XO market "Will the Jumper sale on Legion.cc surpass $35M in total deposits?".
-It shows Legion deposits, the XO crowd's odds, a projection model and a comparison with past Legion sales.
+A live page for the 1win Token (1W) sale (https://1wtoken.com): deposits, oversubscription, participants and a
+forecast of the final raise, with a chart from the first day of the sale.
 
 - `index.html`: the whole site (static, no build step).
-- `api/legion.js`: Vercel function that proxies Legion's public API. Legion only allows its own origin, so the browser can't call it directly.
-- `scripts/snapshot.mjs` + `.github/workflows/snapshot.yml`: every ~10 min, append deposits + the XO price to `data/history.json`.
+- `api/sale.js`: Vercel function that proxies the sale's API. It only answers its own site, so the browser can't call it directly.
+  With a `GH_TOKEN` env var (fine-grained, Actions: write on this repo) it also restarts the snapshot Action when GitHub skips it.
+- `scripts/snapshot.mjs` + `.github/workflows/snapshot.yml`: every ~10 min, append deposits and participants to `data/history.json`.
+  Gaps (the first run, skipped schedules) are filled from Solana: the balance of the sale's USDC account after each purchase.
 - `vercel.json`: skips redeploys for commits that only touch `data/history.json`. The page reads history from raw.githubusercontent.
 - Local preview: `node dev.mjs` → http://localhost:8769
+
+Reusing it for another sale: change the sale API and vault in `api/sale.js` and `scripts/snapshot.mjs`, and `CFG` and the
+texts in `index.html`.
