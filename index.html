@@ -396,6 +396,8 @@ function draw() {
   tag(g, 'sale ends', X(CFG.end) - 6, T + 6, { align: 'right' });
 }
 addEventListener('resize', () => draw());
+// the canvas can't swap fonts later like the page does: draw again once the web fonts are in
+document.fonts && document.fonts.ready.then(() => draw());
 refresh(); setInterval(refresh, 15000); tick(); setInterval(tick, 1000);
 </script>
 </body>
