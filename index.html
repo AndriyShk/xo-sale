@@ -137,40 +137,35 @@ canvas{width:100%;display:block}
 @media (max-width:420px){.fact .ic{display:none}.fact{padding:12px 16px}.split .v{font-size:18px}.split>div+div{padding-left:14px;margin-left:2px}}
 @media (max-width:340px){.split .v{font-size:16px}.split .lbl{font-size:12.5px}.fact{padding:12px 12px}.split>div+div{padding-left:10px}}
 
-.mkts{display:grid;gap:12px;margin-top:20px}
-.mk{border:1px solid var(--line);border-radius:18px;padding:18px;min-width:0;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.05fr) minmax(0,1.1fr);gap:22px;align-items:start}
-.mk>div{min-width:0}
-@media (max-width:900px){.mk{grid-template-columns:minmax(0,1fr);gap:12px;padding:16px}}
-.mk-h{display:flex;gap:12px;align-items:flex-start;text-decoration:none}
-.mk-h img.pic{width:48px;height:48px;border-radius:12px;object-fit:cover;flex:none;background:var(--soft)}
-.mk-h .tt{font:600 16px/1.3 Rubik;letter-spacing:-.015em}
-.mk-h:hover .tt{text-decoration:underline;text-underline-offset:3px}
-.by{display:flex;align-items:center;gap:6px;margin-top:5px;font:500 12.5px Figtree;color:var(--muted);flex-wrap:wrap}
-.by img{width:18px;height:18px;border-radius:50%;object-fit:cover;background:var(--soft)}
-.by b{color:var(--ink);font-weight:600}
-.by .vf{color:#5aa9ff}
-.mk .note{margin-top:8px;font:400 12.5px/1.45 Rubik;color:var(--muted)}
-.when{display:inline-block;margin-top:10px;font:500 12.5px Figtree;color:var(--muted);background:var(--soft);border-radius:8px;padding:3px 9px}
-.mk-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
-.mk-row>div{background:var(--soft);border-radius:14px;padding:10px 12px}
-.mk-row .lbl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mk-row .v{font:600 30px/1.1 Inter;letter-spacing:-.025em;font-variant-numeric:tabular-nums;margin-top:2px}
-.mk-row .v.pm{color:var(--no-ink)}
-.need{margin-top:10px;font:400 13.5px/1.5 Rubik;color:var(--muted)}.need b{color:var(--ink);font-weight:600}
-.verdict{border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;background:var(--soft)}
-.verdict.yes{background:linear-gradient(100deg,var(--yes-soft),color-mix(in srgb,var(--yes-soft) 30%,var(--card)))}
-.verdict.no{background:linear-gradient(100deg,var(--no-soft),color-mix(in srgb,var(--no-soft) 30%,var(--card)))}
-.verdict .side{display:flex;align-items:center;gap:6px;font:600 19px Rubik;letter-spacing:-.02em;white-space:nowrap}
-.verdict.yes .side{color:var(--yes-ink)}.verdict.no .side{color:var(--no-ink)}.verdict.warn .side{color:var(--ink)}
-.verdict .side svg{width:22px;height:22px}
-.verdict .t{font:400 14px/1.5 Rubik}.verdict .t b{font-weight:600}
-.trade{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin-top:10px}
-.tb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:11px 8px;border-radius:14px;text-decoration:none;transition:transform .15s}
-.tb:hover{transform:translateY(-1px)}
-.tb.off{pointer-events:none;opacity:.55;filter:saturate(.55);cursor:default}
-.tb.yes{background:var(--yes-soft)}.tb.no{background:var(--no-soft)}
-.tb b{font:600 16px Rubik;white-space:nowrap}.tb.yes b{color:var(--yes-ink)}.tb.no b{color:var(--no-ink)}
-.tb span{font:500 12px Figtree;color:var(--muted);text-align:center;font-variant-numeric:tabular-nums}
+.mkts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px;margin-top:20px}
+/* market cards drawn like XO's own: icon and kind, title, end, outcome rows that buy, creator and volume */
+.mk{border:1px solid var(--line);border-radius:16px;padding:14px 16px;min-width:0;display:flex;flex-direction:column;gap:10px;background:var(--card)}
+.mk-top{display:flex;align-items:center;gap:8px;min-width:0}
+.mk-top .ic{width:24px;height:24px;border-radius:6px;object-fit:cover;flex:none;background:var(--soft)}
+.mk-top .cap{font:600 11.5px Figtree;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.chip{margin-left:auto;font:600 12px Figtree;border-radius:7px;padding:3px 8px;white-space:nowrap;background:var(--soft);color:var(--ink)}
+.chip.yes{background:var(--yes-soft);color:var(--yes-ink)}.chip.no{background:var(--no-soft);color:var(--no-ink)}
+.mk-t{font:600 16px/1.3 Rubik;letter-spacing:-.015em;text-decoration:none}
+.mk-t:hover{text-decoration:underline;text-underline-offset:3px}
+.ends{font:500 12.5px/1.45 Figtree;color:var(--muted);margin-top:-6px}
+.ocs{display:flex;flex-direction:column;gap:6px;margin-top:auto;padding-top:4px}
+.oc{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:10px;text-decoration:none;border-radius:10px;padding:5px 6px;margin:0 -6px;transition:background .15s}
+a.oc:hover{background:var(--soft)}
+.oc .nm{font:600 14px Rubik;min-width:0}
+.oc .nm i{display:block;height:2px;border-radius:2px;margin-top:5px;max-width:100%}
+.oc.yes .nm i{background:var(--yes)}.oc.no .nm i{background:var(--no)}
+.oc .mx{font:500 12.5px Figtree;color:var(--muted);font-variant-numeric:tabular-nums}
+.oc .px{font:600 13px Figtree;border-radius:7px;padding:4px 9px;min-width:54px;text-align:center;font-variant-numeric:tabular-nums}
+.oc.yes .px{background:var(--yes-soft);color:var(--yes-ink)}.oc.no .px{background:var(--no-soft);color:var(--no-ink)}
+.oc.pick .px{box-shadow:0 0 0 1.5px currentColor}
+.ours{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:10px;font:500 12.5px Figtree;color:var(--muted)}
+.ours b{font:600 14px Rubik;color:var(--ink)}
+.ours .nd{margin-left:auto}
+.mk-foot{display:flex;align-items:center;gap:6px;font:500 12.5px Figtree;color:var(--muted)}
+.mk-foot img{width:18px;height:18px;border-radius:50%;object-fit:cover;background:var(--soft)}
+.mk-foot b{color:var(--ink);font-weight:600}
+.mk-foot .vf{color:#5aa9ff}
+.mk-foot .vol{margin-left:auto;white-space:nowrap}
 .duo2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-top:16px}
 @media (max-width:620px){.duo2{grid-template-columns:minmax(0,1fr)}}
 .ptick{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);border-radius:1px}
@@ -255,10 +250,10 @@ const CFG = {
   ref: 'andriy_shkinder',
   // the XO markets on this sale: what total they need, and the moment it's counted
   markets: [
-    { slug: 'total-commitments-for-the-1win-1win-public-sale-ab-9330', goal: 10e6, name: 'Above $10M', at: Date.parse('2026-10-30T00:00:00Z'), when: 'Counted Oct 30, 00:00 UTC (16 h before the sale ends)' },
-    { slug: 'will-the-1win-token-sale-get-more-than-20m-in-depo-8761', goal: 20e6, name: 'Above $20M', at: null, when: 'Counted until the sale closes, Oct 30, 16:00 UTC' },
-    { slug: 'will-the-1win-sale-get-more-than-50m-in-deposits-8897', goal: 50e6, name: 'Above $50M', at: null, when: 'Counted until the sale closes, Oct 30, 16:00 UTC',
-      note: 'Resolves from ICO Drops, then Dealroom, not the sale page. ICO Drops shows "Total raised $3.9M" (the cap), which the rules say doesn\'t count.' },
+    { slug: 'total-commitments-for-the-1win-1win-public-sale-ab-9330', goal: 10e6, name: 'Above $10M', at: Date.parse('2026-10-30T00:00:00Z'), when: 'Counted Oct 30, 00:00 UTC, 16 h before the sale ends' },
+    { slug: 'will-the-1win-token-sale-get-more-than-20m-in-depo-8761', goal: 20e6, name: 'Above $20M', at: null, when: 'Counted until the sale ends, Oct 30, 16:00 UTC' },
+    { slug: 'will-the-1win-sale-get-more-than-50m-in-deposits-8897', goal: 50e6, name: 'Above $50M', at: null, when: 'Counted until the sale ends, Oct 30, 16:00 UTC',
+      note: 'Resolves from ICO Drops or Dealroom, not the sale page.' },
   ],
 };
 const mAt = m => m.at || CFG.end; // null: the sale close, which can move
@@ -392,53 +387,47 @@ function render() {
     : level === 1 ? `How sure: <b>low</b>. Only ${hrs} hours of deposits so far.`
     : `How sure: <b>${level === 2 ? 'medium' : 'high'}</b> about the trend, from ${days >= 2 ? days + ' days' : hrs + ' hours'} of real deposits. What it can't see is news: a big push from 1win or a last-day rush.`;
 }
-const ARROW_UP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>';
-const ARROW_DN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7l10 10M17 9v8H9"/></svg>';
-const EQUAL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9h12M6 15h12"/></svg>';
 function renderMarkets(M, d) {
   const xo = (LIVE && LIVE.markets) || [];
+  const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const html = CFG.markets.map(cfg => {
     const m = xo.find(x => x.slug === cfg.slug), T = mAt(cfg), url = `https://beta.xo.market/event/${cfg.slug}?r=${CFG.ref}`;
     const pm = M.prob(cfg.goal, T), hit = d > cfg.goal;
     // betting is over once the market's expiry has passed or XO reports any status but ACTIVE
     const closed = !m || Date.now() >= Date.parse(m.expiresAt) || m.status !== 'ACTIVE';
     const yesAsk = m && m.yes.ask, noAsk = m && m.no.ask, mid = m ? m.last : null;
-    const hLeft = Math.max(.01, Hh(T - M.now.t)), needPace = (cfg.goal - d) / hLeft;
-    const need = hit ? `Deposits are already above ${usdM(cfg.goal)}.`
-      : T <= Date.now() ? `Counting is over: deposits stayed below ${usdM(cfg.goal)}.`
-      : `Needs <b>+${usdM(cfg.goal - d)}</b> more: <b>${usdM(needPace)}</b> an hour on average, against <b>${usdM(M.pace)}</b> an hour now${M.pace > 0 ? ` (${Math.max(1, Math.round(needPace / M.pace))}×)` : ''}.`;
     // compare our chance with what each side really costs, fee included
     const yesCost = yesAsk != null ? withFee(yesAsk) : null, noCost = noAsk != null ? withFee(noAsk) : null;
     const edgeYes = yesCost != null ? pm - yesCost : -1, edgeNo = noCost != null ? (1 - pm) - noCost : -1;
-    const side = closed ? 'none' : hit ? 'yes' : edgeYes > .05 ? 'yes' : edgeNo > .05 ? 'no'
-      : (yesCost != null && noCost == null && pm - yesCost < -.05) || (noCost != null && yesCost == null && (1 - pm) - noCost < -.05) ? 'warn' : 'none';
-    let verdict;
-    if (closed && m) verdict = `<div class="side">${EQUAL}Betting closed</div><div class="t">Last XO price of YES: <b>${cents(mid)}</b>. Our chance: <b>${pct(pm)}</b>.</div>`;
-    else if (!m) verdict = `<div class="side">${EQUAL}No XO prices</div><div class="t">Couldn't load this market from XO right now.</div>`;
-    else if (hit) verdict = `<div class="side">${ARROW_UP}YES ✓</div><div class="t">Deposits passed ${usdM(cfg.goal)}.</div>`;
-    else if (side === 'no' && noCost != null) verdict = `<div class="side">${ARROW_DN}NO looks cheap</div><div class="t">We give NO <b>${pct(1 - pm)}</b>, and it costs <b>${cents(noAsk)}</b>. The XO crowd expects much more money than the deposits show so far.</div>`;
-    else if (side === 'yes' && yesCost != null) verdict = `<div class="side">${ARROW_UP}YES looks cheap</div><div class="t">We give YES <b>${pct(pm)}</b>, and it costs <b>${cents(yesAsk)}</b>.</div>`;
-    // one side overpriced but nobody selling the other: say so, rather than calling the price fair
-    else if (yesCost != null && pm - yesCost < -.05 && noCost == null) verdict = `<div class="side">${ARROW_DN}YES looks expensive</div><div class="t">We give YES <b>${pct(pm)}</b>, but it costs <b>${cents(yesAsk)}</b>. Nobody is selling NO right now: you can place your own NO order on XO.</div>`;
-    else if (noCost != null && (1 - pm) - noCost < -.05 && yesCost == null) verdict = `<div class="side">${ARROW_UP}NO looks expensive</div><div class="t">We give NO <b>${pct(1 - pm)}</b>, but it costs <b>${cents(noAsk)}</b>. Nobody is selling YES right now: you can place your own YES order on XO.</div>`;
-    else verdict = `<div class="side">${EQUAL}Fair price</div><div class="t">Our chance and the price to buy are close, so neither side is cheap right now.</div>`;
-    const btn = (k, ask, cost) => {
-      const label = k === 'yes' ? 'YES' : 'NO';
-      if (closed) return `<a class="tb ${k} off" aria-disabled="true"><b>${label}${m ? ' · ' + cents(k === 'yes' ? mid : 1 - mid) : ''}</b><span>closed</span></a>`;
-      return `<a class="tb ${k}" href="${url}" target="_blank" rel="noopener"><b>Buy ${label}${ask != null ? ' · ' + cents(ask) : ''}</b><span>${ask != null ? `$10 → $${(10 / cost).toFixed(2)} if ${label}` : 'no offers right now'}</span></a>`;
+    let side = 'none', chip = 'Fair price', why = 'Our chance and the price to buy are close.';
+    if (!m) { chip = 'No XO prices'; why = "Couldn't load this market from XO right now."; }
+    else if (hit) { side = 'yes'; chip = 'YES ✓'; why = `Deposits passed ${usdM(cfg.goal)}.`; }
+    else if (closed) { chip = 'Betting closed'; why = 'No more bets on XO.'; }
+    else if (edgeYes > .05) { side = 'yes'; chip = 'YES looks cheap'; why = `We give YES ${pct(pm)}, and it costs ${cents(yesAsk)}.`; }
+    else if (edgeNo > .05) { side = 'no'; chip = 'NO looks cheap'; why = `We give NO ${pct(1 - pm)}, and it costs ${cents(noAsk)}.`; }
+    // one side overpriced but nobody selling the other: a warning, not a pick
+    else if (yesCost != null && pm - yesCost < -.05) { side = 'warn'; chip = 'YES looks pricey'; why = `We give YES ${pct(pm)}, but it costs ${cents(yesAsk)}. Nobody is selling NO right now: you can place your own NO order on XO.`; }
+    else if (noCost != null && (1 - pm) - noCost < -.05) { side = 'warn'; chip = 'NO looks pricey'; why = `We give NO ${pct(1 - pm)}, but it costs ${cents(noAsk)}. Nobody is selling YES right now: you can place your own YES order on XO.`; }
+    // an outcome row: the price to buy it (the last price once betting is over), and what $1 pays back
+    const row = (k, ask, cost) => {
+      const label = k === 'yes' ? 'Yes' : 'No', last = mid == null ? null : k === 'yes' ? mid : 1 - mid;
+      const p = closed ? last : ask, bar = p == null ? 0 : Math.round(p * 100);
+      const inner = `<span class="nm">${label}<i style="width:${bar}%"></i></span><span class="mx">${!closed && cost ? (1 / cost).toFixed(2) + 'x' : ''}</span><span class="px">${p != null ? cents(p) : '—'}</span>`;
+      const tip = closed ? 'Last price; betting is closed' : ask == null ? `Nobody is selling ${label.toUpperCase()} right now` : `Buy ${label.toUpperCase()} at ${cents(ask)}: $10 → $${(10 / cost).toFixed(2)} if ${label.toUpperCase()}`;
+      const cls = `oc ${k}${side === k ? ' pick' : ''}`;
+      return closed ? `<div class="${cls}" title="${tip}">${inner}</div>` : `<a class="${cls}" href="${url}" target="_blank" rel="noopener" title="${tip}">${inner}</a>`;
     };
-    const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-    const by = m && m.creator ? `<div class="by">${m.kind === 'conviction' ? 'Conviction' : 'Market'} by ${m.creator.avatar ? `<img src="${esc(m.creator.avatar)}" alt="" loading="lazy">` : ''}<span style="white-space:nowrap"><b>@${esc(m.creator.name)}</b>${m.creator.verified ? ' <span class="vf" title="Verified on XO">✓</span>' : ''}</span></div>` : '';
-    return `<div class="mk"><div>
-      <a class="mk-h" href="${url}" target="_blank" rel="noopener">${m && m.image ? `<img class="pic" src="${esc(m.image)}" alt="">` : ''}<div><div class="tt">${esc(m ? m.title : cfg.name)}</div>${by}</div></a>
-      <span class="when">${cfg.when}</span>${cfg.note ? `<div class="note">${esc(cfg.note)}</div>` : ''}
-      </div><div>
-      <div class="mk-row"><div><div class="lbl">Our YES chance</div><div class="v pm">${pct(pm)}</div></div><div><div class="lbl">XO YES price</div><div class="v">${yesAsk != null && !closed ? cents(yesAsk) : mid != null ? cents(mid) : '—'}</div></div></div>
-      <div class="need">${need}</div>
-      </div><div>
-      <div class="verdict ${side === 'none' ? '' : side}">${verdict}</div>
-      <div class="trade">${btn('yes', yesAsk, yesCost)}${btn('no', noAsk, noCost)}</div>
-    </div></div>`;
+    const hLeft = Math.max(.01, Hh(T - M.now.t)), times = M.pace > 0 ? Math.max(1, Math.round((cfg.goal - d) / hLeft / M.pace)) : null;
+    const nd = hit ? 'already passed' : T <= Date.now() ? 'counting is over' : times ? `needs ${times}× today's pace` : '';
+    const by = m && m.creator ? `${m.creator.avatar ? `<img src="${esc(m.creator.avatar)}" alt="" loading="lazy">` : ''}<b>${esc(m.creator.name)}</b>${m.creator.verified ? '<span class="vf" title="Verified on XO">✓</span>' : ''}` : '';
+    return `<div class="mk">
+      <div class="mk-top">${m && m.image ? `<img class="ic" src="${esc(m.image)}" alt="">` : ''}<span class="cap">${m && m.kind === 'market' ? 'Market' : 'Conviction'}</span><span class="chip ${side}" title="${esc(why)}">${chip}</span></div>
+      <a class="mk-t" href="${url}" target="_blank" rel="noopener">${esc(m ? m.title : cfg.name)}</a>
+      <div class="ends">${cfg.when}${cfg.note ? `<br>${esc(cfg.note)}` : ''}</div>
+      <div class="ocs">${row('yes', yesAsk, yesCost)}${row('no', noAsk, noCost)}</div>
+      <div class="ours"><span>Our forecast</span><b>YES ${pct(pm)}</b><span class="nd">${nd}</span></div>
+      <div class="mk-foot">${by}<span class="vol">${m ? usd(m.volume) + ' Vol' : ''}</span></div>
+    </div>`;
   }).join('');
   if ($('mkts').innerHTML !== html) $('mkts').innerHTML = html;
   setText('meta', `${CFG.markets.length} XO markets on the 1win Token (1W) sale · ${usdM(d)} deposited so far`);
