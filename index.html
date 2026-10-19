@@ -60,8 +60,6 @@ header .wrap{display:flex;align-items:center;gap:12px;height:62px}
 .live{display:inline-flex;align-items:center;gap:7px;font:500 13px Figtree;color:var(--muted);white-space:nowrap}
 .live i{width:8px;height:8px;border-radius:50%;background:#22c55e;animation:blink 2s ease-in-out infinite}
 @keyframes blink{50%{opacity:.35}}
-.hlink{font:500 13px Figtree;color:var(--muted);text-decoration:none;white-space:nowrap}.hlink:hover{color:var(--ink)}
-@media (max-width:520px){.hlink{display:none}}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:12px;background:var(--ink);color:var(--card);font:600 14px Figtree;text-decoration:none;border:0;cursor:pointer;white-space:nowrap}
 .icon-btn{width:36px;height:36px;border-radius:10px;border:0;background:var(--control);color:var(--ink);display:grid;place-items:center;cursor:pointer;flex:none}
 .icon-btn:hover{background:var(--control-hover)}
@@ -177,15 +175,12 @@ canvas{width:100%;display:block}
 .fill-note b{font-weight:600}
 .ptick{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);border-radius:1px}
 .k a{color:var(--no-ink)}
-.foot{font:400 12.5px Rubik;color:var(--muted);text-align:center;padding:0 0 32px}
-.foot a{color:inherit}
 </style>
 </head>
 <body>
 <header><div class="wrap">
   <a class="brand" href="./"><img src="img/logo.svg" alt=""><b>XO SALE</b></a>
   <span class="sp"></span>
-  <a class="hlink" href="https://beta.xo.market/?r=andriy_shkinder" target="_blank" rel="noopener">XO Market ↗</a>
   <span class="live"><i></i><span><span id="updW" hidden>Updated </span><span id="upd">Updating…</span></span></span>
   <button class="icon-btn" id="theme" aria-label="Switch light / dark theme">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
@@ -253,7 +248,6 @@ canvas{width:100%;display:block}
     </div>
   </section>
 </main>
-<div class="foot">XO community tool · not affiliated with 1win</div>
 
 <script>
 const CFG = {
