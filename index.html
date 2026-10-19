@@ -203,7 +203,6 @@ canvas{width:100%;display:block}
   <section class="card">
     <h2>Deposited so far</h2>
     <div class="big" id="dep">—</div>
-    <div class="sub" id="depLine">—</div>
     <div class="duo2">
       <div class="box o">
         <div class="h"><i></i><span>Oversubscribed now</span></div>
@@ -368,7 +367,6 @@ function render() {
   if (d !== shownDep) { animFrom = shownDep || d * .97; animT0 = performance.now(); shownDep = d; animateDep(); }
   const x = d / CFG.goal, parts = (LIVE && LIVE.participants) || (HIST.length ? HIST[HIST.length - 1].participants : null);
   setText('xNow', mult(x));
-  $('depLine').innerHTML = `<b>${mult(x)}</b> the $3.9M on sale${parts ? ` · from <b>${parts.toLocaleString('en-US')}</b> people` : ''}`;
   setText('ppl', parts ? parts.toLocaleString('en-US') : '—');
   setText('avg', parts ? usd(d / parts) : '—');
   setText('day', M.day == null ? '—' : '+' + usdM(M.day));
