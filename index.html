@@ -16,7 +16,16 @@
 <meta name="twitter:title" content="XO SALE · Will the 1win sale pass $10M? $20M?">
 <meta name="twitter:description" content="Live deposits, the XO prices and a forecast: which side looks cheap right now.">
 <meta name="twitter:image" content="https://xo-sale.vercel.app/img/og.png">
-<meta name="theme-color" content="#FF87A6">
+<meta name="theme-color" content="#f6f5f8">
+<script>
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.dataset.theme = t;
+    document.querySelector('meta[name="theme-color"]').content = t === 'dark' ? '#101012' : '#f6f5f8';
+  })();
+</script>
 <link rel="icon" type="image/svg+xml" href="img/logo.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
@@ -33,9 +42,10 @@
   --bg:#f6f5f8;--card:#ffffff;--ink:#121213;--muted:#6e6e76;--line:#ebeaf0;--soft:#f4f3f7;--warn-soft:#fff4e0;
   --glow1:rgba(255,135,166,.20);--glow2:rgba(162,147,255,.20);
   --shadow:0 1px 2px rgba(18,18,19,.05);
+  --control:#f4f4f5;--control-hover:#ebebeb;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#101012;--card:#19191c;--ink:#f4f4f5;--muted:#9d9ca6;--line:#2a2a30;--soft:#222226;--yes-soft:#3a2129;--no-soft:#28253f;--yes-ink:#ff9bb5;--no-ink:#b8adff;--warn-soft:#382c18;--glow1:rgba(255,135,166,.12);--glow2:rgba(162,147,255,.12);--shadow:0 1px 2px rgba(0,0,0,.3)}}
-:root[data-theme="dark"]{--bg:#101012;--card:#19191c;--ink:#f4f4f5;--muted:#9d9ca6;--line:#2a2a30;--soft:#222226;--yes-soft:#3a2129;--no-soft:#28253f;--yes-ink:#ff9bb5;--no-ink:#b8adff;--warn-soft:#382c18;--glow1:rgba(255,135,166,.12);--glow2:rgba(162,147,255,.12);--shadow:0 1px 2px rgba(0,0,0,.3)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#101012;--card:#19191c;--ink:#f4f4f5;--muted:#9d9ca6;--line:#2a2a30;--soft:#222226;--yes-soft:#3a2129;--no-soft:#28253f;--yes-ink:#ff9bb5;--no-ink:#b8adff;--warn-soft:#382c18;--glow1:rgba(255,135,166,.12);--glow2:rgba(162,147,255,.12);--shadow:0 1px 2px rgba(0,0,0,.3);--control:#222224;--control-hover:#2b2b2e}}
+:root[data-theme="dark"]{--bg:#101012;--card:#19191c;--ink:#f4f4f5;--muted:#9d9ca6;--line:#2a2a30;--soft:#222226;--yes-soft:#3a2129;--no-soft:#28253f;--yes-ink:#ff9bb5;--no-ink:#b8adff;--warn-soft:#382c18;--glow1:rgba(255,135,166,.12);--glow2:rgba(162,147,255,.12);--shadow:0 1px 2px rgba(0,0,0,.3);--control:#222224;--control-hover:#2b2b2e}
 *{box-sizing:border-box}
 html,body{margin:0}
 body{background:radial-gradient(900px 420px at 12% -120px,var(--glow1),transparent 70%),radial-gradient(900px 420px at 88% -120px,var(--glow2),transparent 70%),var(--bg);background-repeat:no-repeat;color:var(--ink);font:400 15px/1.5 Rubik,system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
@@ -53,7 +63,10 @@ header .wrap{display:flex;align-items:center;gap:12px;height:62px}
 .hlink{font:500 13px Figtree;color:var(--muted);text-decoration:none;white-space:nowrap}.hlink:hover{color:var(--ink)}
 @media (max-width:520px){.hlink{display:none}}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:12px;background:var(--ink);color:var(--card);font:600 14px Figtree;text-decoration:none;border:0;cursor:pointer;white-space:nowrap}
-.icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;font-size:16px}
+.icon-btn{width:36px;height:36px;border-radius:10px;border:0;background:var(--control);color:var(--ink);display:grid;place-items:center;cursor:pointer;flex:none}
+.icon-btn:hover{background:var(--control-hover)}
+.icon-btn svg{width:17px;height:17px}
+.theming,.theming *{transition:background-color .3s ease,color .3s ease,border-color .3s ease !important}
 main.wrap{padding-top:40px;padding-bottom:56px;display:flex;flex-direction:column;gap:16px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}
 h2{font:600 18px Rubik;letter-spacing:-.015em;margin:0}
@@ -122,7 +135,7 @@ canvas{width:100%;display:block}
 .k p strong{color:var(--ink);font-weight:600}
 
 .err{color:#dc2626}
-@media (max-width:640px){header .wrap{gap:10px;height:58px}.brand img{width:30px;height:30px;border-radius:9px}.brand b{font-size:16.5px}.live{font-size:12px;gap:6px}.icon-btn{width:36px;height:36px;border-radius:11px;font-size:15px}}
+@media (max-width:640px){header .wrap{gap:10px;height:58px}.brand img{width:30px;height:30px;border-radius:9px}.brand b{font-size:16.5px}.live{font-size:12px;gap:6px}}
 @media (max-width:360px){#updW{display:none}}
 @media (max-width:420px){.fact .ic{display:none}.fact{padding:12px 16px}.split .v{font-size:18px}.split>div+div{padding-left:14px;margin-left:2px}}
 @media (max-width:340px){.split .v{font-size:16px}.split .lbl{font-size:12.5px}.fact{padding:12px 12px}.split>div+div{padding-left:10px}}
@@ -130,9 +143,15 @@ canvas{width:100%;display:block}
 .mkts{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-top:20px}
 @media (max-width:860px){.mkts{grid-template-columns:minmax(0,1fr)}}
 .mk{border:1px solid var(--line);border-radius:18px;padding:16px;min-width:0}
-.mk-h{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
-.mk-h b{font:600 19px Rubik;letter-spacing:-.02em}
-.mk-h span{font:400 13px Rubik;color:var(--muted)}
+.mk-h{display:flex;gap:12px;align-items:flex-start;text-decoration:none}
+.mk-h img.pic{width:48px;height:48px;border-radius:12px;object-fit:cover;flex:none;background:var(--soft)}
+.mk-h .tt{font:600 16px/1.3 Rubik;letter-spacing:-.015em}
+.mk-h:hover .tt{text-decoration:underline;text-underline-offset:3px}
+.by{display:flex;align-items:center;gap:6px;margin-top:5px;font:500 12.5px Figtree;color:var(--muted);flex-wrap:wrap}
+.by img{width:18px;height:18px;border-radius:50%;object-fit:cover;background:var(--soft)}
+.by b{color:var(--ink);font-weight:600}
+.by .vf{color:#5aa9ff}
+.when{display:inline-block;margin-top:10px;font:500 12.5px Figtree;color:var(--muted);background:var(--soft);border-radius:8px;padding:3px 9px}
 .mk-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin-top:12px}
 .mk-row>div{background:var(--soft);border-radius:14px;padding:10px 12px}
 .mk-row .v{font:600 30px/1.1 Inter;letter-spacing:-.025em;font-variant-numeric:tabular-nums;margin-top:2px}
@@ -168,7 +187,9 @@ canvas{width:100%;display:block}
   <span class="sp"></span>
   <a class="hlink" href="https://beta.xo.market/?r=andriy_shkinder" target="_blank" rel="noopener">XO Market ↗</a>
   <span class="live"><i></i><span><span id="updW" hidden>Updated </span><span id="upd">Updating…</span></span></span>
-  <button class="icon-btn" id="theme" title="Toggle theme">◐</button>
+  <button class="icon-btn" id="theme" aria-label="Switch light / dark theme">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
+  </button>
 </div></header>
 
 <main class="wrap">
@@ -243,15 +264,25 @@ const CFG = {
   ref: 'andriy_shkinder',
   // the XO markets on this sale: what total they need, and the moment it's counted
   markets: [
-    { slug: 'total-commitments-for-the-1win-1win-public-sale-ab-9330', goal: 10e6, name: 'Above $10M', at: Date.parse('2026-10-30T00:00:00Z'), when: 'counted Oct 30, 00:00 UTC' },
-    { slug: 'will-the-1win-token-sale-get-more-than-20m-in-depo-8761', goal: 20e6, name: 'Above $20M', at: null, when: 'by the sale close, Oct 30, 16:00 UTC' },
+    { slug: 'total-commitments-for-the-1win-1win-public-sale-ab-9330', goal: 10e6, name: 'Above $10M', at: Date.parse('2026-10-30T00:00:00Z'), when: 'Counted Oct 30, 00:00 UTC (16 h before the sale ends)' },
+    { slug: 'will-the-1win-token-sale-get-more-than-20m-in-depo-8761', goal: 20e6, name: 'Above $20M', at: null, when: 'Counted until the sale closes, Oct 30, 16:00 UTC' },
   ],
 };
 const mAt = m => m.at || CFG.end; // null: the sale close, which can move
 
 const root = document.documentElement;
-try { const s = localStorage.getItem('theme'); if (s) root.dataset.theme = s; } catch {}
-document.getElementById('theme').onclick = () => { const dark = root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches; root.dataset.theme = dark ? 'light' : 'dark'; try { localStorage.setItem('theme', root.dataset.theme); } catch {} draw(); };
+const setTheme = t => { root.dataset.theme = t; document.querySelector('meta[name="theme-color"]').content = t === 'dark' ? '#101012' : '#f6f5f8'; };
+// like Pulse Board: the browser cross-fades a snapshot of the whole page (chart included) where it can; elsewhere the colours ease over
+document.getElementById('theme').onclick = () => {
+  const t = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  const swap = () => { setTheme(t); try { localStorage.setItem('theme', t); } catch {} draw(); };
+  if (document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches && !document.hidden) {
+    const vt = document.startViewTransition(swap);
+    for (const part of [vt.ready, vt.finished, vt.updateCallbackDone]) part.catch(() => {});
+    return;
+  }
+  root.classList.add('theming'); swap(); setTimeout(() => root.classList.remove('theming'), 350);
+};
 
 const $ = id => document.getElementById(id);
 const usd = v => '$' + Math.round(v).toLocaleString('en-US');
@@ -404,8 +435,11 @@ function renderMarkets(M, d) {
       if (closed) return `<a class="tb ${k} off" aria-disabled="true"><b>${label}${m ? ' · ' + cents(k === 'yes' ? mid : 1 - mid) : ''}</b><span>closed</span></a>`;
       return `<a class="tb ${k}" href="${url}" target="_blank" rel="noopener"><b>Buy ${label}${ask != null ? ' · ' + cents(ask) : ''}</b><span>${ask != null ? `$10 → $${(10 / cost).toFixed(2)} if ${label}` : 'no offers right now'}</span></a>`;
     };
+    const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const by = m && m.creator ? `<div class="by">${m.kind === 'conviction' ? 'Conviction' : 'Market'} by ${m.creator.avatar ? `<img src="${esc(m.creator.avatar)}" alt="" loading="lazy">` : ''}<span style="white-space:nowrap"><b>@${esc(m.creator.name)}</b>${m.creator.verified ? ' <span class="vf" title="Verified on XO">✓</span>' : ''}</span></div>` : '';
     return `<div class="mk">
-      <div class="mk-h"><b>${cfg.name}</b><span>${cfg.when}</span></div>
+      <a class="mk-h" href="${url}" target="_blank" rel="noopener">${m && m.image ? `<img class="pic" src="${esc(m.image)}" alt="">` : ''}<div><div class="tt">${esc(m ? m.title : cfg.name)}</div>${by}</div></a>
+      <span class="when">${cfg.when}</span>
       <div class="mk-row"><div><div class="lbl">Our chance of YES</div><div class="v pm">${pct(pm)}</div></div><div><div class="lbl">XO price of YES</div><div class="v">${yesAsk != null && !closed ? cents(yesAsk) : mid != null ? cents(mid) : '—'}</div></div></div>
       <div class="need">${need}</div>
       <div class="verdict ${side === 'none' ? '' : side}">${verdict}</div>

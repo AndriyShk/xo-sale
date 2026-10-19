@@ -17,7 +17,9 @@ async function xoMarket(slug) {
   const m = ev.markets[0].market;
   const tok = (i) => m.outcomes.find((o) => o.index === i);
   const [yes, no] = await Promise.all([0, 1].map((i) => book(tok(i).outcomeTokenId).catch(() => ({ ask: null, bid: null }))));
-  return { slug, title: m.title, expiresAt: m.expiresAt, status: m.status, last: +tok(0).currentPrice / 1e6, volume: +m.totalVolumeInUSD, yes, no };
+  const icon = ((ev.media || []).find((x) => x.role === 'icon') || {}).url || m.imageUrl || null;
+  const by = m.creator && m.creator.username ? { name: m.creator.username, avatar: (m.creator.profilePictureUrl || '').replace('_normal.', '_400x400.') || null, verified: !!m.creator.verified } : null;
+  return { slug, title: m.title, image: icon, creator: by, kind: m.type === 4 ? 'conviction' : 'market', expiresAt: m.expiresAt, status: m.status, last: +tok(0).currentPrice / 1e6, volume: +m.totalVolumeInUSD, yes, no };
 }
 
 // GitHub often skips or delays the Action's */10 schedule. With a GH_TOKEN env var (fine-grained, Actions: write on this repo)
