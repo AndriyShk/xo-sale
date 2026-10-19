@@ -1,4 +1,4 @@
-# XO Sale: live token sale tracker (XO community)
+# Xo Sale: live token sale tracker (XO community)
 
 A live page for the 1win Token (1W) sale (https://1wtoken.com): deposits, oversubscription, participants and a
 forecast of the final raise, with a chart from the first day of the sale, set against the two XO markets on it

@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>XO SALE · 1win Token</title>
+<title>Xo Sale · 1win Token</title>
 <meta name="description" content="Live tracker for the 1win Token (1W) sale: deposits, oversubscription and a forecast of the final raise.">
-<meta property="og:title" content="XO SALE · Will the 1win sale pass $10M? $20M? $50M?">
+<meta property="og:title" content="Xo Sale · Will the 1win sale pass $10M? $20M? $50M?">
 <meta property="og:description" content="Live deposits, the XO prices and a forecast: which side looks cheap right now.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://xo-sale.vercel.app/">
@@ -13,7 +13,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="XO SALE · Will the 1win sale pass $10M? $20M? $50M?">
+<meta name="twitter:title" content="Xo Sale · Will the 1win sale pass $10M? $20M? $50M?">
 <meta name="twitter:description" content="Live deposits, the XO prices and a forecast: which side looks cheap right now.">
 <meta name="twitter:image" content="https://xo-sale.vercel.app/img/og.png">
 <meta name="theme-color" content="#f6f5f8">
@@ -36,6 +36,7 @@
 <script defer src="/_vercel/insights/script.js"></script>
 <style>
 @font-face{font-family:Rubik;src:url(fonts/Rubik.woff2) format("woff2");font-weight:300 900;font-display:swap}
+@font-face{font-family:"Open Runde";src:url(fonts/open-runde-latin-700-normal.woff2) format("woff2");font-weight:700;font-display:swap}
 @font-face{font-family:Figtree;src:url(fonts/Figtree.woff2) format("woff2");font-weight:300 900;font-display:swap}
 :root{
   --yes:#FF87A6;--yes-ink:#d23f6b;--yes-soft:#ffe9ef;--no:#a293ff;--no-ink:#6553ea;--no-soft:#efecff;
@@ -51,11 +52,10 @@ html,body{margin:0}
 body{background:radial-gradient(900px 420px at 12% -120px,var(--glow1),transparent 70%),radial-gradient(900px 420px at 88% -120px,var(--glow2),transparent 70%),var(--bg);background-repeat:no-repeat;color:var(--ink);font:400 15px/1.5 Rubik,system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
 a{color:inherit}
 .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
-header{background:var(--bg);border-bottom:1px solid var(--line)}
-header .wrap{display:flex;align-items:center;gap:12px;height:62px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
-.brand img{width:34px;height:34px;border-radius:10px}
-.brand b{font:600 18px Rubik;letter-spacing:-.02em;white-space:nowrap}
+header{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;gap:12px;height:56px}
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none;font:700 17px "Open Runde",Rubik,system-ui,sans-serif;letter-spacing:-.01em;white-space:nowrap}
+.brand img{width:26px;height:26px;flex:none}
 .sp{flex:1}
 .live{display:inline-flex;align-items:center;gap:7px;font:500 13px Figtree;color:var(--muted);white-space:nowrap}
 .live i{width:8px;height:8px;border-radius:50%;background:#22c55e;animation:blink 2s ease-in-out infinite}
@@ -133,7 +133,7 @@ canvas{width:100%;display:block}
 .k p strong{color:var(--ink);font-weight:600}
 
 .err{color:#dc2626}
-@media (max-width:640px){header .wrap{gap:10px;height:58px}.brand img{width:30px;height:30px;border-radius:9px}.brand b{font-size:16.5px}.live{font-size:12px;gap:6px}}
+@media (max-width:640px){header .wrap{gap:10px}.live{font-size:12px;gap:6px}}
 @media (max-width:360px){#updW{display:none}}
 @media (max-width:420px){.fact .ic{display:none}.fact{padding:12px 16px}.split .v{font-size:18px}.split>div+div{padding-left:14px;margin-left:2px}}
 @media (max-width:340px){.split .v{font-size:16px}.split .lbl{font-size:12.5px}.fact{padding:12px 12px}.split>div+div{padding-left:10px}}
@@ -177,7 +177,7 @@ canvas{width:100%;display:block}
 </head>
 <body>
 <header><div class="wrap">
-  <a class="brand" href="./"><img src="img/logo.svg" alt=""><b>XO SALE</b></a>
+  <a class="brand" href="./" aria-label="Xo Sale home"><img src="img/logo.svg" alt="">Xo Sale</a>
   <span class="sp"></span>
   <span class="live"><i></i><span><span id="updW" hidden>Updated </span><span id="upd">Updating…</span></span></span>
   <button class="icon-btn" id="theme" aria-label="Switch light / dark theme">
