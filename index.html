@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>XO SALE · 1win Token</title>
 <meta name="description" content="Live tracker for the 1win Token (1W) sale: deposits, oversubscription and a forecast of the final raise.">
-<meta property="og:title" content="XO SALE · Will the 1win sale pass $10M? $20M?">
+<meta property="og:title" content="XO SALE · Will the 1win sale pass $10M? $20M? $50M?">
 <meta property="og:description" content="Live deposits, the XO prices and a forecast: which side looks cheap right now.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://xo-sale.vercel.app/">
@@ -13,7 +13,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="XO SALE · Will the 1win sale pass $10M? $20M?">
+<meta name="twitter:title" content="XO SALE · Will the 1win sale pass $10M? $20M? $50M?">
 <meta name="twitter:description" content="Live deposits, the XO prices and a forecast: which side looks cheap right now.">
 <meta name="twitter:image" content="https://xo-sale.vercel.app/img/og.png">
 <meta name="theme-color" content="#f6f5f8">
@@ -138,8 +138,7 @@ canvas{width:100%;display:block}
 @media (max-width:420px){.fact .ic{display:none}.fact{padding:12px 16px}.split .v{font-size:18px}.split>div+div{padding-left:14px;margin-left:2px}}
 @media (max-width:340px){.split .v{font-size:16px}.split .lbl{font-size:12.5px}.fact{padding:12px 12px}.split>div+div{padding-left:10px}}
 
-.mkts{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-top:20px}
-@media (max-width:860px){.mkts{grid-template-columns:minmax(0,1fr)}}
+.mkts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px;margin-top:20px}
 .mk{border:1px solid var(--line);border-radius:18px;padding:16px;min-width:0}
 .mk-h{display:flex;gap:12px;align-items:flex-start;text-decoration:none}
 .mk-h img.pic{width:48px;height:48px;border-radius:12px;object-fit:cover;flex:none;background:var(--soft)}
@@ -149,6 +148,7 @@ canvas{width:100%;display:block}
 .by img{width:18px;height:18px;border-radius:50%;object-fit:cover;background:var(--soft)}
 .by b{color:var(--ink);font-weight:600}
 .by .vf{color:#5aa9ff}
+.mk .note{margin-top:8px;font:400 12.5px/1.45 Rubik;color:var(--muted)}
 .when{display:inline-block;margin-top:10px;font:500 12.5px Figtree;color:var(--muted);background:var(--soft);border-radius:8px;padding:3px 9px}
 .mk-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin-top:12px}
 .mk-row>div{background:var(--soft);border-radius:14px;padding:10px 12px}
@@ -191,8 +191,8 @@ canvas{width:100%;display:block}
     <div class="q">
       <img src="img/logo.svg" alt="">
       <div>
-        <h1>Will the 1win token sale pass $10M? $20M?</h1>
-        <div class="meta" id="meta">Two XO markets on the 1win Token (1W) sale · ends Oct 30, 16:00 UTC</div>
+        <h1>Will the 1win token sale pass $10M? $20M? $50M?</h1>
+        <div class="meta" id="meta">XO markets on the 1win Token (1W) sale · ends Oct 30, 16:00 UTC</div>
       </div>
     </div>
     <div class="mkts" id="mkts"><div class="need">Loading live data…</div></div>
@@ -229,7 +229,7 @@ canvas{width:100%;display:block}
     <div class="legend">
       <span><i style="background:var(--yes)"></i>Real deposits</span>
       <span><i style="background:var(--fc-line)"></i>Our forecast</span>
-      <span><i style="background:var(--ink)"></i>$10M and $20M lines of the XO markets</span>
+      <span><i style="background:var(--ink)"></i>Lines of the XO markets</span>
       <span><i style="background:var(--fc-band);height:10px"></i>Could land anywhere here</span>
     </div>
   </section>
@@ -239,7 +239,7 @@ canvas{width:100%;display:block}
     <h2>Good to know</h2>
     <div class="know">
       <div class="k"><div class="ic" style="background:var(--no-soft)"><svg viewBox="0 0 24 24" style="stroke:var(--no-ink)"><path d="M3 20h18"/><path d="M5 20V10M10 20V4M15 20v-7M20 20v-4"/></svg></div><b>How the forecast works</b><p>We average two views of the real deposits: the sale keeps slowing down the way it has so far, or it keeps the pace of the last day. It can't see what nobody has announced yet: a big 1win promotion or a last-day rush. On the Jumper sale deposits grew <strong>1.9×</strong> in the last 24 hours.</p></div>
-      <div class="k"><div class="ic" style="background:var(--warn-soft)"><svg viewBox="0 0 24 24" style="stroke:#d18a00"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div><b>How the markets resolve</b><p><strong>$10M:</strong> gross commitments as of <strong>Oct 30, 00:00 UTC</strong>, 16 hours before the sale ends. <strong>$20M:</strong> the gross total on the sale page at any time before the close (Oct 30, 16:00 UTC; an extension counts up to Nov 15). Both use the total before refunds, as shown on the sale page.</p></div>
+      <div class="k"><div class="ic" style="background:var(--warn-soft)"><svg viewBox="0 0 24 24" style="stroke:#d18a00"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div><b>How the markets resolve</b><p><strong>$10M:</strong> gross commitments as of <strong>Oct 30, 00:00 UTC</strong>, 16 hours before the sale ends. <strong>$20M:</strong> the gross total on the sale page at any time before the close (Oct 30, 16:00 UTC; an extension counts up to Nov 15). <strong>$50M:</strong> gross deposits by the close, as reported by ICO Drops, else Dealroom. All count deposits before refunds.</p></div>
       <div class="k"><div class="ic" style="background:var(--yes-soft)"><svg viewBox="0 0 24 24" style="stroke:var(--yes-ink)"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg></div><b>Sources, and not advice</b><p>Live totals from the <a href="https://1wintoken.com/" target="_blank" rel="noopener">official sale page</a>; the history also from the sale's USDC account <a href="https://solscan.io/account/HciAS69vfU1ZzfWEczqwkAUfLodpbGFVALLpA1wtA5W2" target="_blank" rel="noopener">on Solana</a>. A fan-made tracker by the XO community. Only trade what you can afford to lose.</p></div>
     </div>
   </section>
@@ -256,6 +256,8 @@ const CFG = {
   markets: [
     { slug: 'total-commitments-for-the-1win-1win-public-sale-ab-9330', goal: 10e6, name: 'Above $10M', at: Date.parse('2026-10-30T00:00:00Z'), when: 'Counted Oct 30, 00:00 UTC (16 h before the sale ends)' },
     { slug: 'will-the-1win-token-sale-get-more-than-20m-in-depo-8761', goal: 20e6, name: 'Above $20M', at: null, when: 'Counted until the sale closes, Oct 30, 16:00 UTC' },
+    { slug: 'will-the-1win-sale-get-more-than-50m-in-deposits-8897', goal: 50e6, name: 'Above $50M', at: null, when: 'Counted until the sale closes, Oct 30, 16:00 UTC',
+      note: 'Resolves from ICO Drops, then Dealroom, not the sale page. ICO Drops shows "Total raised $3.9M" (the cap), which the rules say doesn\'t count.' },
   ],
 };
 const mAt = m => m.at || CFG.end; // null: the sale close, which can move
@@ -407,13 +409,17 @@ function renderMarkets(M, d) {
     // compare our chance with what each side really costs, fee included
     const yesCost = yesAsk != null ? withFee(yesAsk) : null, noCost = noAsk != null ? withFee(noAsk) : null;
     const edgeYes = yesCost != null ? pm - yesCost : -1, edgeNo = noCost != null ? (1 - pm) - noCost : -1;
-    const side = closed ? 'none' : hit ? 'yes' : edgeYes > .05 ? 'yes' : edgeNo > .05 ? 'no' : 'none';
+    const side = closed ? 'none' : hit ? 'yes' : edgeYes > .05 ? 'yes' : edgeNo > .05 ? 'no'
+      : yesCost != null && noCost == null && pm - yesCost < -.05 ? 'no' : noCost != null && yesCost == null && (1 - pm) - noCost < -.05 ? 'yes' : 'none';
     let verdict;
     if (closed && m) verdict = `<div class="side">${EQUAL}Betting closed</div><div class="t">Last XO price of YES: <b>${cents(mid)}</b>. Our chance: <b>${pct(pm)}</b>.</div>`;
     else if (!m) verdict = `<div class="side">${EQUAL}No XO prices</div><div class="t">Couldn't load this market from XO right now.</div>`;
     else if (hit) verdict = `<div class="side">${ARROW_UP}YES ✓</div><div class="t">Deposits passed ${usdM(cfg.goal)}.</div>`;
-    else if (side === 'no') verdict = `<div class="side">${ARROW_DN}NO looks cheap</div><div class="t">We give NO <b>${pct(1 - pm)}</b>, and it costs <b>${cents(noAsk)}</b>. The XO crowd expects much more money than the deposits show so far.</div>`;
-    else if (side === 'yes') verdict = `<div class="side">${ARROW_UP}YES looks cheap</div><div class="t">We give YES <b>${pct(pm)}</b>, and it costs <b>${cents(yesAsk)}</b>.</div>`;
+    else if (side === 'no' && noCost != null) verdict = `<div class="side">${ARROW_DN}NO looks cheap</div><div class="t">We give NO <b>${pct(1 - pm)}</b>, and it costs <b>${cents(noAsk)}</b>. The XO crowd expects much more money than the deposits show so far.</div>`;
+    else if (side === 'yes' && yesCost != null) verdict = `<div class="side">${ARROW_UP}YES looks cheap</div><div class="t">We give YES <b>${pct(pm)}</b>, and it costs <b>${cents(yesAsk)}</b>.</div>`;
+    // one side overpriced but nobody selling the other: say so, rather than calling the price fair
+    else if (yesCost != null && pm - yesCost < -.05 && noCost == null) verdict = `<div class="side">${ARROW_DN}YES looks expensive</div><div class="t">We give YES <b>${pct(pm)}</b>, but it costs <b>${cents(yesAsk)}</b>. Nobody is selling NO right now: you can place your own NO order on XO.</div>`;
+    else if (noCost != null && (1 - pm) - noCost < -.05 && yesCost == null) verdict = `<div class="side">${ARROW_UP}NO looks expensive</div><div class="t">We give NO <b>${pct(1 - pm)}</b>, but it costs <b>${cents(noAsk)}</b>. Nobody is selling YES right now: you can place your own YES order on XO.</div>`;
     else verdict = `<div class="side">${EQUAL}Fair price</div><div class="t">Our chance and the price to buy are close, so neither side is cheap right now.</div>`;
     const btn = (k, ask, cost) => {
       const label = k === 'yes' ? 'YES' : 'NO';
@@ -424,7 +430,7 @@ function renderMarkets(M, d) {
     const by = m && m.creator ? `<div class="by">${m.kind === 'conviction' ? 'Conviction' : 'Market'} by ${m.creator.avatar ? `<img src="${esc(m.creator.avatar)}" alt="" loading="lazy">` : ''}<span style="white-space:nowrap"><b>@${esc(m.creator.name)}</b>${m.creator.verified ? ' <span class="vf" title="Verified on XO">✓</span>' : ''}</span></div>` : '';
     return `<div class="mk">
       <a class="mk-h" href="${url}" target="_blank" rel="noopener">${m && m.image ? `<img class="pic" src="${esc(m.image)}" alt="">` : ''}<div><div class="tt">${esc(m ? m.title : cfg.name)}</div>${by}</div></a>
-      <span class="when">${cfg.when}</span>
+      <span class="when">${cfg.when}</span>${cfg.note ? `<div class="note">${esc(cfg.note)}</div>` : ''}
       <div class="mk-row"><div><div class="lbl">Our chance of YES</div><div class="v pm">${pct(pm)}</div></div><div><div class="lbl">XO price of YES</div><div class="v">${yesAsk != null && !closed ? cents(yesAsk) : mid != null ? cents(mid) : '—'}</div></div></div>
       <div class="need">${need}</div>
       <div class="verdict ${side === 'none' ? '' : side}">${verdict}</div>
@@ -432,7 +438,7 @@ function renderMarkets(M, d) {
     </div>`;
   }).join('');
   if ($('mkts').innerHTML !== html) $('mkts').innerHTML = html;
-  setText('meta', `Two XO markets on the 1win Token (1W) sale · ${usdM(d)} deposited so far`);
+  setText('meta', `${CFG.markets.length} XO markets on the 1win Token (1W) sale · ${usdM(d)} deposited so far`);
 }
 function fmtLeft(ms) { ms = Math.max(0, ms); const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60; return (d ? d + 'd ' : '') + h + 'h ' + String(m).padStart(2, '0') + 'm'; }
 // write to the DOM only when the text actually changes
@@ -469,7 +475,8 @@ function draw() {
   const ink = css('--ink'), muted = css('--muted'), line = css('--line'), yes = css('--yes'), fcs = getComputedStyle($('chartCard')), lav = fcs.getPropertyValue('--fc-line').trim();
   const t0 = CFG.open, t1 = CFG.end + 12 * 36e5;
   const f = M.fc(CFG.end);
-  const top = Math.max(...CFG.markets.map(m => m.goal));
+  // the scale reaches the markets near the deposits; ones far above (more than 4× the forecast) would flatten the line
+  const near = CFG.markets.filter(m => m.goal <= Math.max(M.now.d, f.hi) * 4), top = Math.max(...(near.length ? near : CFG.markets).map(m => m.goal));
   const yMax = Math.max(top * 1.12, M.now.d * 1.15, Math.min(f.hi * 1.08, f.mid * 2));
   const X = t => L + (t - t0) / (t1 - t0) * (W - L - R), Y = v => T + (1 - v / yMax) * (H - T - B);
   const step = [1e6, 2e6, 5e6, 1e7, 2e7, 5e7].find(s => yMax / s <= 6) || 5e7;
@@ -488,7 +495,9 @@ function draw() {
     g.save(); g.setLineDash([6, 5]); g.strokeStyle = lav; g.lineWidth = 2.5; g.beginPath(); ts.forEach((t, i) => { const y = Y(at(t, 'mid')); i ? g.lineTo(X(t), y) : g.moveTo(X(t), y); }); g.stroke(); g.restore();
   }
   // each market's line runs to the moment it's counted
-  CFG.markets.forEach(m => {
+  const above = CFG.markets.filter(m => m.goal > yMax);
+  if (above.length) tag(g, '↑ ' + above.map(m => '$' + m.goal / 1e6 + 'M').join(', ') + ' market' + (above.length > 1 ? 's' : '') + ' far above', L + (W - L - R) / 2, T + 6, { align: 'center', color: muted });
+  CFG.markets.filter(m => m.goal <= yMax).forEach(m => {
     const xe = X(mAt(m));
     g.save(); g.strokeStyle = ink; g.lineWidth = 1.5; g.setLineDash([8, 6]); g.beginPath(); g.moveTo(L, Y(m.goal)); g.lineTo(xe, Y(m.goal)); g.stroke(); g.restore();
     tag(g, '$' + m.goal / 1e6 + 'M market', L + 8, Y(m.goal) - 12, { color: ink, bold: true });
