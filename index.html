@@ -406,16 +406,14 @@ function renderMarkets(M, d) {
     const yesAsk = m && m.yes.ask, noAsk = m && m.no.ask, mid = m ? m.last : null;
     // compare our chance with what each side really costs, fee included
     const yesCost = yesAsk != null ? withFee(yesAsk) : null, noCost = noAsk != null ? withFee(noAsk) : null;
-    const edgeYes = yesCost != null ? pm - yesCost : -1, edgeNo = noCost != null ? (1 - pm) - noCost : -1;
-    let side = 'none', chip = 'Fair price', why = 'Our chance and the price to buy are close.';
+    // the verdict is always about YES: cheap, expensive or fair against our chance (fee included)
+    let side = 'none', chip = 'Fair price', why = `We give YES ${pct(pm)}, close to its price.`;
     if (!m) { chip = 'No XO prices'; why = "Couldn't load this market from XO right now."; }
     else if (hit) { side = 'yes'; chip = 'YES ✓'; why = `Deposits passed ${usdM(cfg.goal)}.`; }
     else if (closed) { chip = 'Betting closed'; why = 'No more bets on XO.'; }
-    else if (edgeYes > .05) { side = 'yes'; chip = 'YES looks cheap'; why = `We give YES ${pct(pm)}, and it costs ${cents(yesAsk)}.`; }
-    else if (edgeNo > .05) { side = 'no'; chip = 'NO looks cheap'; why = `We give NO ${pct(1 - pm)}, and it costs ${cents(noAsk)}.`; }
-    // one side overpriced but nobody selling the other: a warning, not a pick
-    else if (yesCost != null && pm - yesCost < -.05) { side = 'warn'; chip = 'YES looks pricey'; why = `We give YES ${pct(pm)}, but it costs ${cents(yesAsk)}. Nobody is selling NO right now: you can place your own NO order on XO.`; }
-    else if (noCost != null && (1 - pm) - noCost < -.05) { side = 'warn'; chip = 'NO looks pricey'; why = `We give NO ${pct(1 - pm)}, but it costs ${cents(noAsk)}. Nobody is selling YES right now: you can place your own YES order on XO.`; }
+    else if (yesCost == null) { chip = 'No YES offers'; why = 'Nobody is selling YES right now.'; }
+    else if (pm - yesCost > .05) { side = 'yes'; chip = 'YES looks cheap'; why = `We give YES ${pct(pm)}, and it costs ${cents(yesAsk)}.`; }
+    else if (yesCost - pm > .05) { side = 'warn'; chip = 'YES looks expensive'; why = `We give YES ${pct(pm)}, but it costs ${cents(yesAsk)}.`; }
     // an outcome row: the price to buy it (the last price once betting is over), and what $1 pays back
     const row = (k, ask, cost) => {
       const label = k === 'yes' ? 'Yes' : 'No', last = mid == null ? null : k === 'yes' ? mid : 1 - mid;
