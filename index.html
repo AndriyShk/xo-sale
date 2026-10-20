@@ -160,6 +160,29 @@ a.oc:hover{background:var(--soft)}
 .mk-foot .vol{margin-left:auto;white-space:nowrap}
 .ptick{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);border-radius:1px}
 .k a{color:var(--no-ink)}
+
+/* ---------- motion (Pulse Board's; all of it off for people who ask for less) ---------- */
+:root{--good:#16a34a;--bad:#dc2626}
+:root[data-theme="dark"]{--good:#4ade80;--bad:#f87171}
+@keyframes enter{from{opacity:0;transform:translateY(14px)}}
+main>section{animation:enter .55s cubic-bezier(.2,.8,.2,1) both}
+main>section:nth-child(2){animation-delay:.08s}main>section:nth-child(3){animation-delay:.16s}main>section:nth-child(4){animation-delay:.24s}
+/* placeholders while the first data loads */
+@keyframes shimmer{to{background-position:-200% 0}}
+.sk,.sk-card,canvas.sk{background:linear-gradient(90deg,var(--soft) 25%,var(--line) 50%,var(--soft) 75%);background-size:200% 100%;animation:shimmer 1.3s linear infinite}
+.sk{color:transparent!important;border-radius:10px;user-select:none}
+.sk-card{border-radius:16px;min-height:300px}
+canvas.sk{border-radius:14px}
+#dep,#fMid{display:inline-block}
+/* a number that just changed: green when it went up, red when it went down; deposits also float the difference */
+@keyframes flUp{0%,30%{color:var(--good)}}@keyframes flDown{0%,30%{color:var(--bad)}}
+@keyframes flPx{0%,35%{box-shadow:0 0 0 2px currentColor}}
+.fl-up{animation:flUp 1.6s ease-out}.fl-down{animation:flDown 1.6s ease-out}.fl-px{animation:flPx 1.6s ease-out}
+.hl>div{position:relative}
+.delta{position:absolute;font:600 16px/1 Inter;color:var(--good);white-space:nowrap;pointer-events:none;animation:floatUp 2.6s ease-out forwards}
+@keyframes floatUp{0%{opacity:0;transform:translateY(8px)}12%{opacity:1;transform:none}70%{opacity:1}100%{opacity:0;transform:translateY(-18px)}}
+.oc .nm i{transition:width .9s cubic-bezier(.2,.8,.2,1)}
+@media (prefers-reduced-motion:reduce){main>section,.sk,.sk-card,canvas.sk,.delta,.fl-up,.fl-down,.fl-px{animation:none!important}.oc .nm i{transition:none}}
 </style>
 </head>
 <body>
@@ -181,19 +204,19 @@ a.oc:hover{background:var(--soft)}
         <div class="meta" id="meta">XO markets on the 1win Token (1W) sale · ends Oct 30, 16:00 UTC</div>
       </div>
     </div>
-    <div class="mkts" id="mkts"><div class="need">Loading live data…</div></div>
+    <div class="mkts" id="mkts"><div class="sk-card"></div><div class="sk-card"></div><div class="sk-card"></div></div>
     <div class="conf"><span class="dots" id="dots"><i></i><i></i><i></i></span><span id="conf">—</span></div>
   </section>
 
   <!-- 2 · progress -->
   <section class="card">
     <div class="hl">
-      <div><h2>Deposited so far</h2><div class="big" id="dep">—</div><div class="sub" id="depSub">—</div></div>
-      <div><h2>Our forecast at close</h2><div class="big fc" id="fMid">—</div><div class="sub" id="fDesc">—</div></div>
+      <div><h2>Deposited so far</h2><div class="big sk" id="dep">$5,000,000</div><div class="sub" id="depSub"><span class="sk">Since the sale opened, Oct 15</span></div></div>
+      <div><h2>Our forecast at close</h2><div class="big fc sk" id="fMid">$6.00M</div><div class="sub" id="fDesc"><span class="sk">Likely $6.00M–$6.00M by Oct 30</span></div></div>
     </div>
     <div class="facts">
-      <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5M16 4.5a3.5 3.5 0 010 7M18.5 14.8c1.7.8 2.7 2.5 3 5.2"/></svg></div><div class="split"><div><div class="lbl">People</div><div class="v" id="ppl">—</div></div><div><div class="lbl">Average deposit</div><div class="v" id="avg">—</div></div></div></div>
-      <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><div class="split"><div><div class="lbl">Last 24 h</div><div class="v" id="day">—</div></div><div><div class="lbl" id="paceLbl">Pace / hour</div><div class="v" id="pace">—</div></div></div></div>
+      <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5M16 4.5a3.5 3.5 0 010 7M18.5 14.8c1.7.8 2.7 2.5 3 5.2"/></svg></div><div class="split"><div><div class="lbl">People</div><div class="v sk" id="ppl">$0,000</div></div><div><div class="lbl">Average deposit</div><div class="v sk" id="avg">$0,000</div></div></div></div>
+      <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div><div class="split"><div><div class="lbl">Last 24 h</div><div class="v sk" id="day">$0,000</div></div><div><div class="lbl" id="paceLbl">Pace / hour</div><div class="v sk" id="pace">$0,000</div></div></div></div>
       <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg></div><div><div class="lbl" id="cdLbl">Sale ends in</div><div class="v" id="cd">—</div></div></div>
     </div>
   </section>
@@ -201,7 +224,7 @@ a.oc:hover{background:var(--soft)}
   <!-- 3 · chart -->
   <section class="card fc-yes" id="chartCard">
     <h2>Deposits so far and where they're heading</h2>
-    <canvas id="chart" height="340" style="margin-top:14px"></canvas>
+    <canvas id="chart" class="sk" height="340" style="margin-top:14px"></canvas>
     <div class="legend">
       <span><i style="background:var(--yes)"></i>Real deposits</span>
       <span><i style="background:var(--fc-line)"></i>Our forecast</span>
@@ -278,7 +301,11 @@ async function refresh() {
     LIVE = live.value;
     if (LIVE.close) CFG.end = Date.parse(LIVE.close); // the sale can be extended
   }
-  compute(); render(); draw();
+  const was = MODEL && MODEL.now;
+  compute(); render();
+  if (!anim.ran) { chartIntro(); if (!anim.ran) draw(); }
+  else if (was && MODEL && (was.t !== MODEL.now.t || was.d !== MODEL.now.d)) chartGlide(was);
+  else draw();
 }
 
 // forecast: deposits ∝ time^k, fitted to the recorded deposits in log-log space
@@ -338,22 +365,23 @@ function compute() {
   MODEL = { pts, now, tNow, k, se, fitted, pace, fc, prob, day: dayAgo == null ? null : now.d - dayAgo };
 }
 
-let shownDep = 0, animFrom = 0, animT0 = 0;
 function render() {
   const M = MODEL; if (!M) return;
+  // the first data replaces the placeholders
+  document.querySelectorAll('main .sk').forEach(el => { el.classList.remove('sk'); if (el.tagName === 'SPAN' && el.parentElement.classList.contains('sub')) el.replaceWith(el.textContent); });
   const d = M.now.d, over = Date.now() >= CFG.end;
-  if (d !== shownDep) { animFrom = shownDep || d * .97; animT0 = performance.now(); shownDep = d; animateDep(); }
+  setNum('dep', 'dep', d, usd, { eps: .5, intro: 1400, delta: x => '+' + usd(x) });
   const parts = (LIVE && LIVE.participants) || (HIST.length ? HIST[HIST.length - 1].participants : null);
-  setText('ppl', parts ? parts.toLocaleString('en-US') : '—');
-  setText('avg', parts ? usd(d / parts) : '—');
-  setText('day', M.day == null ? '—' : '+' + usdM(M.day));
+  setNum('ppl', 'ppl', parts || null, v => Math.round(v).toLocaleString('en-US'), { eps: .5 });
+  setNum('avg', 'avg', parts ? d / parts : null, usd, { eps: .5, flash: false });
+  setNum('day', 'day', M.day, v => '+' + usdM(v), { eps: 1 });
   // in the last 6 hours an hourly figure says little, so the pace is shown per minute
   const perMin = !over && CFG.end - Date.now() < 6 * 36e5;
   setText('paceLbl', perMin ? 'Pace / min' : 'Pace / hour');
-  setText('pace', over ? '—' : usdM(M.pace / (perMin ? 60 : 1)));
+  setNum('pace', 'pace' + perMin, over ? null : M.pace / (perMin ? 60 : 1), usdM, { eps: .5 });
   const f = M.fc(CFG.end);
   const range = `${usdM(Math.max(d, f.lo))}–${usdM(f.hi)}`;
-  setText('fMid', over ? usdM(d) : usdM(f.mid));
+  setNum('fMid', 'fMid', over ? d : f.mid, usdM, { eps: 500 });
   setText('fDesc', over ? 'The sale has ended: this is the final total.' : `Likely ${range} by Oct 30, 16:00 UTC`);
   setText('depSub', 'Since the sale opened, Oct 15, 15:00 UTC');
   renderMarkets(M, d);
@@ -366,6 +394,7 @@ function render() {
     : level === 1 ? `How sure: <b>low</b>. Only ${hrs} hours of deposits so far.`
     : `How sure: <b>${level === 2 ? 'medium' : 'high'}</b> about the trend, from ${days >= 2 ? days + ' days' : hrs + ' hours'} of real deposits. What it can't see is news: a big push from 1win or a last-day rush.`;
 }
+let lastMk = '';
 function renderMarkets(M, d) {
   const xo = (LIVE && LIVE.markets) || [];
   const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -391,7 +420,7 @@ function renderMarkets(M, d) {
     const row = (k, ask, cost) => {
       const label = k === 'yes' ? 'Yes' : 'No', last = mid == null ? null : k === 'yes' ? mid : 1 - mid;
       const p = closed ? last : ask, bar = p == null ? 0 : Math.round(p * 100);
-      const inner = `<span class="nm">${label}<i style="width:${bar}%"></i></span><span class="mx">${!closed && cost ? (1 / cost).toFixed(2) + 'x' : ''}</span><span class="px">${p != null ? cents(p) : '—'}</span>`;
+      const inner = `<span class="nm">${label}<i data-k="${cfg.slug}|${k}|bar" data-w="${bar}" style="width:${bar}%"></i></span><span class="mx">${!closed && cost ? (1 / cost).toFixed(2) + 'x' : ''}</span><span class="px" data-k="${cfg.slug}|${k}|px" data-v="${p ?? ''}" data-f="cents">${p != null ? cents(p) : '—'}</span>`;
       const tip = closed ? 'Last price; betting is closed' : ask == null ? `Nobody is selling ${label.toUpperCase()} right now` : `Buy ${label.toUpperCase()} at ${cents(ask)}: $10 → $${(10 / cost).toFixed(2)} if ${label.toUpperCase()}`;
       const cls = `oc ${k}${side === k ? ' pick' : ''}`;
       return closed ? `<div class="${cls}" title="${tip}">${inner}</div>` : `<a class="${cls}" href="${url}" target="_blank" rel="noopener" title="${tip}">${inner}</a>`;
@@ -404,26 +433,74 @@ function renderMarkets(M, d) {
       <a class="mk-t" href="${url}" target="_blank" rel="noopener">${esc(m ? m.title : cfg.name)}</a>
       <div class="ends">${cfg.when}${cfg.note ? `<br>${esc(cfg.note)}` : ''}</div>
       <div class="ocs">${row('yes', yesAsk, yesCost)}${row('no', noAsk, noCost)}</div>
-      <div class="ours"><span>Our forecast</span><b>YES ${pct(pm)}</b><span class="nd">${nd}</span></div>
+      <div class="ours"><span>Our forecast</span><b data-k="${cfg.slug}|pm" data-v="${pm}" data-f="yes">YES ${pct(pm)}</b><span class="nd">${nd}</span></div>
       <div class="mk-foot">${by}<span class="vol">${m ? usd(m.volume) + ' Vol' : ''}</span></div>
     </div>`;
   }).join('');
-  if ($('mkts').innerHTML !== html) $('mkts').innerHTML = html;
+  if (html !== lastMk) {
+    lastMk = html;
+    $('mkts').innerHTML = html;
+    // bars grow from where they were (from 0 the first time); prices and our chance roll and flash when they changed
+    const F = { cents, yes: v => 'YES ' + pct(v) };
+    for (const el of $('mkts').querySelectorAll('[data-k]')) {
+      const k = el.dataset.k, prev = shown.get(k);
+      if ('w' in el.dataset) {
+        const w = +el.dataset.w, from = prev == null ? 0 : prev; shown.set(k, w);
+        if (from !== w && !calm()) { el.style.transition = 'none'; el.style.width = from + '%'; void el.offsetWidth; el.style.transition = ''; el.style.width = w + '%'; }
+        continue;
+      }
+      const v = el.dataset.v === '' ? null : +el.dataset.v; shown.set(k, v);
+      if (prev == null || v == null || prev === v) continue;
+      tween(el, prev, v, F[el.dataset.f], 700);
+      flash(el, v > prev, el.classList.contains('px') ? 'fl-px' : null);
+    }
+  }
   setText('meta', `${CFG.markets.length} XO markets on the 1win Token (1W) sale · ${usdM(d)} deposited so far`);
 }
 function fmtLeft(ms) { ms = Math.max(0, ms); const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60; return (d ? d + 'd ' : '') + h + 'h ' + String(m).padStart(2, '0') + 'm'; }
 // write to the DOM only when the text actually changes
 const setText = (id, v) => { const el = $(id); if (el.textContent !== v) el.textContent = v; };
-// count-up of the deposit number: runs for 1.2 s after new data, then stops
-let animating = false;
-function animateDep() {
-  if (animating) return; animating = true;
-  const step = () => {
-    const p = Math.min(1, (performance.now() - animT0) / 1200), e = 1 - Math.pow(1 - p, 3);
-    setText('dep', usd(animFrom + (shownDep - animFrom) * e));
-    if (p < 1) requestAnimationFrame(step); else animating = false;
+// ---------- motion ----------
+const lessMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const calm = () => lessMotion.matches || document.hidden; // no animation nobody would see
+const shown = new Map(); // key -> the number last put on screen, so the next one can roll from it
+// roll a number from one value to another; a newer roll on the same element takes over
+function tween(el, from, to, f, ms) {
+  if (calm()) { el.textContent = f(to); return; }
+  const id = (el._tw = (el._tw || 0) + 1), t0 = performance.now();
+  el._run = true;
+  const step = t => {
+    if (el._tw !== id) return;
+    const p = Math.min(1, (t - t0) / ms), e = 1 - Math.pow(1 - p, 3);
+    el.textContent = f(from + (to - from) * e);
+    if (p < 1) requestAnimationFrame(step); else el._run = false;
   };
   requestAnimationFrame(step);
+}
+function flash(el, up, cls) {
+  if (calm()) return;
+  el.classList.remove('fl-up', 'fl-down', 'fl-px'); void el.offsetWidth;
+  el.classList.add(cls || (up ? 'fl-up' : 'fl-down'));
+}
+// "+$2,500" rising beside a number that grew
+function floatDelta(el, text) {
+  if (calm()) return;
+  const s = document.createElement('span');
+  s.className = 'delta'; s.textContent = text;
+  s.style.left = el.offsetLeft + el.offsetWidth + 12 + 'px'; s.style.top = el.offsetTop + 8 + 'px';
+  el.parentElement.appendChild(s);
+  s.addEventListener('animationend', () => s.remove());
+}
+// a number on the page: counts up from 0 the first time, then rolls, flashes and (opt.delta) floats the difference
+function setNum(id, key, v, f, opt = {}) {
+  const el = $(id), prev = shown.get(key);
+  if (v == null || !Number.isFinite(v)) { shown.delete(key); el._tw = (el._tw || 0) + 1; el.textContent = '—'; return; }
+  shown.set(key, v);
+  if (prev == null) return tween(el, 0, v, f, opt.intro || 1200);
+  if (Math.abs(v - prev) < (opt.eps || 1e-9)) { if (el.textContent !== f(v) && !el._run) el.textContent = f(v); return; }
+  tween(el, prev, v, f, 800);
+  if (opt.flash !== false) flash(el, v > prev);
+  if (opt.delta && v - prev >= 1) floatDelta(el, opt.delta(v - prev));
 }
 // clock-like bits once a second
 function tick() {
@@ -440,8 +517,30 @@ function tag(g, text, x, y, { align = 'left', color, bold = false } = {}) {
   g.font = `${bold ? 600 : 500} 12.5px Figtree`; g.textAlign = align; g.textBaseline = 'middle';
   g.fillStyle = color || css('--muted'); g.fillText(text, x, y);
 }
+// intro: the deposits line draws from left to right, then the forecast fades in (once, when the chart comes into view)
+// update: the last point glides from where it was to the new one
+const anim = { p: 1, ran: false, seen: false, from: null, m0: 0 };
+const ease = x => 1 - Math.pow(1 - Math.min(1, Math.max(0, x)), 3);
+function chartIntro() {
+  if (anim.ran || !MODEL || !anim.seen) return;
+  anim.ran = true;
+  if (calm()) return draw();
+  const t0 = performance.now();
+  anim.p = 0;
+  const step = t => { anim.p = Math.min(1, (t - t0) / 1800); draw(); if (anim.p < 1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+function chartGlide(from) {
+  if (!anim.ran || calm() || anim.p < 1) return;
+  anim.from = from; anim.m0 = performance.now();
+  const step = t => { draw(); if (t - anim.m0 < 800) requestAnimationFrame(step); else { anim.from = null; draw(); } };
+  requestAnimationFrame(step);
+}
+new IntersectionObserver(([en]) => { if (en.isIntersecting) { anim.seen = true; chartIntro(); } }, { threshold: .25 }).observe($('chartCard'));
 function draw() {
   const M = MODEL; if (!M) return;
+  $('chart').classList.remove('sk');
+  const lp = ease(anim.p / .7), fa = ease((anim.p - .55) / .45); // line progress, forecast opacity
   const [g, W, H] = setup($('chart')), L = 54, R = 14, T = 12, B = 30;
   const ink = css('--ink'), muted = css('--muted'), line = css('--line'), yes = css('--yes'), fcs = getComputedStyle($('chartCard')), lav = fcs.getPropertyValue('--fc-line').trim();
   const t0 = CFG.open, t1 = CFG.end + 12 * 36e5;
@@ -458,6 +557,7 @@ function draw() {
   const lw = g.measureText('30 Oct').width + 14, perDay = (W - L - R) / Hh(t1 - t0) * 24, every = Math.max(1, Math.ceil(lw / perDay));
   for (let day = Date.parse('2026-10-16T00:00:00Z'), i = 0; day <= t1; day += 864e5, i++) { if (i % every) continue; const txt = new Date(day).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' }), hw = g.measureText(txt).width / 2; g.fillText(txt, Math.min(W - 2 - hw, X(day)), H - B + 9); }
   g.save(); g.setLineDash([4, 4]); g.strokeStyle = muted; g.lineWidth = 1; g.beginPath(); g.moveTo(X(CFG.end) + .5, T); g.lineTo(X(CFG.end) + .5, H - B); g.stroke(); g.restore();
+  g.save(); g.globalAlpha = fa;
   if (M.now.t < CFG.end) {
     const ts = []; for (let i = 0; i <= 60; i++) ts.push(M.now.t + (CFG.end - M.now.t) * i / 60);
     const at = (t, key) => Math.min(yMax, M.fc(t)[key]);
@@ -465,6 +565,7 @@ function draw() {
     g.fillStyle = fcs.getPropertyValue('--fc-band').trim(); g.fill();
     g.save(); g.setLineDash([6, 5]); g.strokeStyle = lav; g.lineWidth = 2.5; g.beginPath(); ts.forEach((t, i) => { const y = Y(at(t, 'mid')); i ? g.lineTo(X(t), y) : g.moveTo(X(t), y); }); g.stroke(); g.restore();
   }
+  g.restore();
   // each market's line runs to the moment it's counted
   const above = CFG.markets.filter(m => m.goal > yMax);
   // markets far above the scale are named in the legend, not squeezed onto the chart
@@ -476,21 +577,32 @@ function draw() {
   });
   if (CFG.markets.some(m => m.at)) { const xc = X(Math.min(...CFG.markets.filter(m => m.at).map(m => m.at)));
     g.save(); g.setLineDash([2, 5]); g.strokeStyle = muted; g.globalAlpha = .6; g.lineWidth = 1.5; g.beginPath(); g.moveTo(xc + .5, T + 20); g.lineTo(xc + .5, H - B); g.stroke(); g.restore(); }
-  const pts = M.pts;
+  let pts = M.pts;
+  if (anim.from) { // gliding to the newest point
+    const e = ease((performance.now() - anim.m0) / 800), to = pts[pts.length - 1];
+    pts = [...pts.slice(0, -1), { t: anim.from.t + (to.t - anim.from.t) * e, d: anim.from.d + (to.d - anim.from.d) * e }];
+  }
   const path = () => { g.beginPath(); g.moveTo(X(CFG.open), Y(0)); pts.forEach(p => g.lineTo(X(p.t), Y(p.d))); };
+  const last = pts[pts.length - 1];
+  g.save(); g.beginPath(); g.rect(0, 0, L + (X(last.t) - L) * lp + 4, H); g.clip();
   path(); g.lineTo(X(pts[pts.length - 1].t), Y(0)); g.closePath();
   const gr = g.createLinearGradient(0, T, 0, H - B); gr.addColorStop(0, 'rgba(255,135,166,.32)'); gr.addColorStop(1, 'rgba(255,135,166,0)'); g.fillStyle = gr; g.fill();
   path(); g.strokeStyle = yes; g.lineWidth = 3; g.lineJoin = 'round'; g.stroke();
-  const last = pts[pts.length - 1]; g.fillStyle = yes; g.beginPath(); g.arc(X(last.t), Y(last.d), 5.5, 0, 7); g.fill(); g.strokeStyle = css('--card'); g.lineWidth = 2; g.stroke();
+  g.restore();
+  g.save(); g.globalAlpha = ease((lp - .9) / .1);
+  g.fillStyle = yes; g.beginPath(); g.arc(X(last.t), Y(last.d), 5.5, 0, 7); g.fill(); g.strokeStyle = css('--card'); g.lineWidth = 2; g.stroke();
   // 'now' label above-left of the dot, where the line has already been; below-right of it when that would run into the axis labels
   const nowTxt = (M.now.t >= CFG.end ? 'final ' : 'now ') + usdM(last.d);
   g.font = '600 12.5px Figtree';
   const roomLeft = X(last.t) - 10 - g.measureText(nowTxt).width > L + 6;
   tag(g, nowTxt, X(last.t) + (roomLeft ? -10 : 8), roomLeft ? Math.max(T + 30, Y(last.d) - 16) : Y(last.d) + 20, { align: roomLeft ? 'right' : 'left', color: css('--yes-ink'), bold: true });
+  g.restore();
+  g.globalAlpha = fa;
   if (M.now.t < CFG.end) {
     const v = f.mid; if (v <= yMax) { g.fillStyle = lav; g.beginPath(); g.arc(X(CFG.end), Y(v), 5, 0, 7); g.fill();
       tag(g, 'forecast ' + usdM(v), X(CFG.end) - 8, Math.max(T + 30, Y(Math.min(yMax, f.hi)) - 14), { align: 'right', color: lav, bold: true }); }
   }
+  g.globalAlpha = 1;
   tag(g, 'sale ends', X(CFG.end) - 6, T + 6, { align: 'right' });
 }
 addEventListener('resize', () => draw());
