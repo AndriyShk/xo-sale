@@ -26,12 +26,16 @@ async function xoMarket(slug) {
 // every cache miss checks when the snapshot Action last ran and starts it again after 10 minutes.
 async function nudgeSnapshot() {
   const token = process.env.GH_TOKEN;
-  if (!token) return;
+  // why nothing started goes to the function log, never to the visitor
+  if (!token) { console.log('nudge: GH_TOKEN is not set in this deployment'); return; }
   const gh = (path, opt = {}) => fetch(`https://api.github.com/repos/${REPO}${path}`, { ...opt, headers: { authorization: `Bearer ${token}`, accept: 'application/vnd.github+json', 'user-agent': 'xo-sale' }, signal: AbortSignal.timeout(4000) });
-  const runs = await (await gh('/actions/workflows/snapshot.yml/runs?per_page=1')).json();
+  const list = await gh('/actions/workflows/snapshot.yml/runs?per_page=1');
+  if (!list.ok) console.log(`nudge: listing runs answered ${list.status} (token needs Actions: read and write on ${REPO})`);
+  const runs = list.ok ? await list.json() : {};
   const last = runs.workflow_runs && runs.workflow_runs[0];
   if (last && Date.now() - Date.parse(last.created_at) < 10 * 6e4) return;
-  await gh('/actions/workflows/snapshot.yml/dispatches', { method: 'POST', body: JSON.stringify({ ref: 'main' }) });
+  const r = await gh('/actions/workflows/snapshot.yml/dispatches', { method: 'POST', body: JSON.stringify({ ref: 'main' }) });
+  if (!r.ok) console.log(`nudge: starting the snapshot answered ${r.status}`);
 }
 
 export default async function handler(req, res) {
@@ -39,7 +43,7 @@ export default async function handler(req, res) {
     const [r, markets] = await Promise.all([
       fetch('https://1wtoken.com/api/v1/token-api/token/sale/state', { method: 'POST', headers: { 'content-type': 'application/json', 'user-agent': 'Mozilla/5.0 xo-sale-tracker' }, body: '{}', signal: AbortSignal.timeout(8000) }),
       Promise.all(XO_MARKETS.map((slug) => xoMarket(slug).catch((e) => { console.error('xo market', slug, e); return null; }))),
-      nudgeSnapshot().catch(() => {}),
+      nudgeSnapshot().catch((e) => console.log('nudge failed:', e.message)),
     ]);
     if (!r.ok) throw new Error(`sale API ${r.status}`);
     const { state, stats } = await r.json();
