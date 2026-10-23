@@ -1,5 +1,7 @@
 name: snapshot
-# Records the 1win sale deposits into data/history.json every ~10 minutes (GitHub may delay scheduled runs).
+# Records the 1win sale deposits every ~10 minutes and publishes history.json to the `data` branch (one commit,
+# force-pushed, so the history never grows). The page reads it from there, so a data update never redeploys the site.
+# GitHub often delays or skips scheduled runs; api/sale.js starts this workflow again when the last run is old.
 on:
   schedule: [{ cron: '*/10 * * * *' }]
   workflow_dispatch:
@@ -9,14 +11,25 @@ concurrency: { group: snapshot, cancel-in-progress: false }
 jobs:
   snap:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
-      - run: node scripts/snapshot.mjs
-      - name: commit
+      - name: Restore the last published history
         run: |
+          if git fetch --depth=1 origin data 2>/dev/null; then
+            git show FETCH_HEAD:history.json > data/history.json
+          fi
+      - run: node scripts/snapshot.mjs
+      - name: Publish to the data branch
+        run: |
+          mkdir -p out && cp data/history.json out/ && cd out
+          git init -q -b data
           git config user.name "xo-sale-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/history.json
-          git diff --cached --quiet || (git commit -m "data: snapshot" && git push)
+          # Vercel reads vercel.json from the branch it is about to deploy; this one tells it not to deploy data pushes
+          echo '{"git":{"deploymentEnabled":false}}' > vercel.json
+          git add history.json vercel.json
+          git commit -q -m "data: snapshot"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" data

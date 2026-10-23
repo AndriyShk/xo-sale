@@ -247,7 +247,8 @@ canvas.sk{border-radius:14px}
 
 <script>
 const CFG = {
-  history: ['https://raw.githubusercontent.com/AndriyShk/xo-sale/main/data/history.json', 'data/history.json'],
+  // the `data` branch through /api/data (fresh within seconds), else its raw file (cached 5 min), else the copy in the repo
+  history: ['/api/data', 'https://raw.githubusercontent.com/AndriyShk/xo-sale/data/history.json', 'data/history.json'],
   goal: 3.9e6, // what the sale sells: 130M tokens at $0.03
   open: Date.parse('2026-10-15T15:00:00Z'),
   end: Date.parse('2026-10-30T16:00:00Z'),
