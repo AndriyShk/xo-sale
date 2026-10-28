@@ -359,6 +359,12 @@ function compute() {
   // deposits over the last 24 hours, read off the recorded line
   const at = t => { let v = null; for (const p of pts) { if (p.t <= t) v = p.d; else break; } return v; };
   const dayAgo = at(now.t - 864e5);
+  // deposits at time t, between the two recorded points around it (snapshots are ~10 min apart); now's total for the future
+  const dAt = t => {
+    if (t >= now.t) return now.d;
+    let i = pts.findIndex(p => p.t > t); if (i <= 0) return i ? now.d : 0;
+    const a = pts[i - 1], b = pts[i]; return a.d + (b.d - a.d) * (t - a.t) / (b.t - a.t);
+  };
   // chance that deposits pass `goal` by time T; never 0% or 100% while it's still open
   const prob = (goal, T) => {
     if (now.d > goal) return 1;
@@ -366,7 +372,7 @@ function compute() {
     const f = fc(T); if (f.rem <= 0) return .01;
     return Math.min(.99, Math.max(.01, 1 - Phi(Math.log((goal - now.d) / f.rem) / f.sigma)));
   };
-  MODEL = { pts, now, tNow, k, se, fitted, pace, fc, prob, day: dayAgo == null ? null : now.d - dayAgo };
+  MODEL = { pts, now, tNow, k, se, fitted, pace, fc, prob, dAt, day: dayAgo == null ? null : now.d - dayAgo };
 }
 
 function render() {
@@ -404,7 +410,9 @@ function renderMarkets(M, d) {
   const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const html = CFG.markets.map(cfg => {
     const m = xo.find(x => x.slug === cfg.slug), T = mAt(cfg), url = `https://beta.xo.market/event/${cfg.slug}?r=${CFG.ref}`;
-    const pm = M.prob(cfg.goal, T), hit = d > cfg.goal;
+    // a market counted at a set moment (the $10M one) goes by the deposits then, not by what came in after
+    const counted = cfg.at && T <= M.now.t, dT = counted ? M.dAt(T) : d, hit = dT > cfg.goal;
+    const pm = counted ? (hit ? 1 : 0) : M.prob(cfg.goal, T);
     // betting is over once the market's expiry has passed or XO reports any status but ACTIVE
     const closed = !m || Date.now() >= Date.parse(m.expiresAt) || m.status !== 'ACTIVE';
     const yesAsk = m && m.yes.ask, noAsk = m && m.no.ask, mid = m ? m.last : null;
@@ -413,7 +421,8 @@ function renderMarkets(M, d) {
     // the verdict is always about YES: cheap, expensive or fair against our chance (fee included)
     let side = 'none', chip = 'Fair price', why = `We give YES ${pct(pm)}, close to its price.`;
     if (!m) { chip = 'No XO prices'; why = "Couldn't load this market from XO right now."; }
-    else if (hit) { side = 'yes'; chip = 'YES ✓'; why = `Deposits passed ${usdM(cfg.goal)}.`; }
+    else if (hit) { side = 'yes'; chip = 'YES ✓'; why = counted ? `Deposits were ${usdM(dT)} when it was counted.` : `Deposits passed ${usdM(cfg.goal)}.`; }
+    else if (counted) { side = 'no'; chip = 'NO ✓'; why = `Deposits were ${usdM(dT)} when it was counted, under $${cfg.goal / 1e6}M.`; }
     else if (closed) { chip = 'Betting closed'; why = 'No more bets on XO.'; }
     else if (yesCost == null) { chip = 'No YES offers'; why = 'Nobody is selling YES right now.'; }
     else if (pm - yesCost > .05) { side = 'yes'; chip = 'YES looks cheap'; why = `We give YES ${pct(pm)}, and it costs ${cents(yesAsk)}.`; }
@@ -428,7 +437,7 @@ function renderMarkets(M, d) {
       return closed ? `<div class="${cls}" title="${tip}">${inner}</div>` : `<a class="${cls}" href="${url}" target="_blank" rel="noopener" title="${tip}">${inner}</a>`;
     };
     const hLeft = Math.max(.01, Hh(T - M.now.t)), times = M.pace > 0 ? Math.max(1, Math.round((cfg.goal - d) / hLeft / M.pace)) : null;
-    const nd = hit ? 'already passed' : T <= Date.now() ? 'counting is over' : times ? `needs ${times}× today's pace` : '';
+    const nd = counted ? `${usdM(dT)} when counted` : hit ? 'already passed' : T <= Date.now() ? 'counting is over' : times ? `needs ${times}× today's pace` : '';
     const by = m && m.creator ? `${m.creator.avatar ? `<img src="${esc(m.creator.avatar)}" alt="" loading="lazy">` : ''}<b>${esc(m.creator.name)}</b>${m.creator.verified ? '<span class="vf" title="Verified on XO">✓</span>' : ''}` : '';
     return `<div class="mk">
       <div class="mk-top">${m && m.image ? `<img class="ic" src="${esc(m.image)}" alt="">` : ''}<span class="cap">${m && m.kind === 'market' ? 'Market' : 'Conviction'}</span><span class="chip ${side}" title="${esc(why)}">${chip}</span></div>
