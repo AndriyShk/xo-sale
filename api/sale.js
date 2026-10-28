@@ -2,7 +2,7 @@
 // GET /api/sale → { fetchedAt, deposits, participants, oversub, price, supply, open, close, phase, markets }   (edge-cached 10 s)
 // `markets`: the XO markets on this sale with their best prices. XO's order books only answer XO's own site, so they come from here too.
 const REPO = 'AndriyShk/xo-sale';
-const XO_MARKETS = ['total-commitments-for-the-1win-1win-public-sale-ab-9330', 'will-the-1win-token-sale-get-more-than-20m-in-depo-8761', 'will-the-1win-sale-get-more-than-50m-in-deposits-8897'];
+const XO_MARKETS = ['total-commitments-for-the-1win-1win-public-sale-ab-9330', 'will-the-1win-token-sale-get-more-than-20m-in-depo-8761', 'total-commitments-for-the-1win-1win-public-sale-ab-2425', 'will-the-1win-sale-get-more-than-50m-in-deposits-8897'];
 
 const getJson = async (url) => { const r = await fetch(url, { headers: { 'user-agent': 'Mozilla/5.0 xo-sale-tracker' }, signal: AbortSignal.timeout(6000) }); if (!r.ok) throw new Error(`${url} ${r.status}`); return r.json(); };
 // best ask (cheapest to buy) and best bid of one outcome token

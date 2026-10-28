@@ -1,8 +1,8 @@
 # Xo Sale: live token sale tracker (XO community)
 
 A live page for the 1win Token (1W) sale (https://1wtoken.com): deposits, oversubscription, participants and a
-forecast of the final raise, with a chart from the first day of the sale, set against the two XO markets on it
-(above $10M by Oct 30 00:00 UTC, above $20M by the close): our chance vs the price to buy each side.
+forecast of the final raise, with a chart from the first day of the sale, set against the XO markets on it
+(above $10M by Oct 30 00:00 UTC; above $20M, $30M and $50M by the close): our chance vs the price to buy each side.
 
 - `index.html`: the whole site (static, no build step).
 - `api/sale.js`: Vercel function that proxies the sale's API. It only answers its own site, so the browser can't call it directly.

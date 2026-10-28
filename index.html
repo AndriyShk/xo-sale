@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Xo Sale</title>
 <meta name="description" content="Live tracker for the 1win Token (1W) sale: deposits, oversubscription and a forecast of the final raise.">
-<meta property="og:title" content="Xo Sale · Will the 1win sale pass $10M? $20M? $50M?">
+<meta property="og:title" content="Xo Sale · Will the 1win sale pass $10M? $20M? $30M? $50M?">
 <meta property="og:description" content="Live deposits, the XO prices and a forecast: which side looks cheap right now.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://xo-sale.vercel.app/">
@@ -13,7 +13,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Xo Sale · Will the 1win sale pass $10M? $20M? $50M?">
+<meta name="twitter:title" content="Xo Sale · Will the 1win sale pass $10M? $20M? $30M? $50M?">
 <meta name="twitter:description" content="Live deposits, the XO prices and a forecast: which side looks cheap right now.">
 <meta name="twitter:image" content="https://xo-sale.vercel.app/img/og.png?v=3">
 <meta name="theme-color" content="#f6f5f8">
@@ -129,7 +129,9 @@ canvas{width:100%;display:block}
 @media (max-width:420px){.fact .ic{display:none}.fact{padding:12px 16px}.split .v{font-size:18px}.split>div+div{padding-left:14px;margin-left:2px}}
 @media (max-width:340px){.split .v{font-size:16px}.split .lbl{font-size:12.5px}.fact{padding:12px 12px}.split>div+div{padding-left:10px}}
 
-.mkts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:12px;margin-top:20px}
+.mkts{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;margin-top:20px}
+/* four markets: 2×2 (a row of four is too narrow for the verdict chip, and three would leave one alone) */
+@media(min-width:600px){.mkts{grid-template-columns:repeat(2,minmax(0,1fr))}}
 /* market cards drawn like XO's own: icon and kind, title, end, outcome rows that buy, creator and volume */
 .mk{border:1px solid var(--line);border-radius:16px;padding:14px 16px;min-width:0;display:flex;flex-direction:column;gap:10px;background:var(--card)}
 .mk-top{display:flex;align-items:center;gap:8px;min-width:0}
@@ -200,7 +202,7 @@ canvas.sk{border-radius:14px}
   <section class="card">
     <div class="q">
       <div>
-        <h1>Will the 1win token sale pass $10M? $20M? $50M?</h1>
+        <h1>Will the 1win token sale pass $10M? $20M? $30M? $50M?</h1>
         <div class="meta" id="meta">XO markets on the 1win Token (1W) sale · ends Oct 30, 16:00 UTC</div>
       </div>
     </div>
@@ -239,7 +241,7 @@ canvas.sk{border-radius:14px}
     <h2>Good to know</h2>
     <div class="know">
       <div class="k"><div class="ic" style="background:var(--no-soft)"><svg viewBox="0 0 24 24" style="stroke:var(--no-ink)"><path d="M3 20h18"/><path d="M5 20V10M10 20V4M15 20v-7M20 20v-4"/></svg></div><b>How the forecast works</b><p>We average two views of the real deposits: the sale keeps slowing down the way it has so far, or it keeps the pace of the last day. It can't see what nobody has announced yet: a big 1win promotion or a last-day rush. On the Jumper sale deposits grew <strong>1.9×</strong> in the last 24 hours.</p></div>
-      <div class="k"><div class="ic" style="background:var(--warn-soft)"><svg viewBox="0 0 24 24" style="stroke:#d18a00"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div><b>How the markets resolve</b><p><strong>$10M:</strong> gross commitments as of <strong>Oct 30, 00:00 UTC</strong>, 16 hours before the sale ends. <strong>$20M:</strong> the gross total on the sale page at any time before the close (Oct 30, 16:00 UTC; an extension counts up to Nov 15). <strong>$50M:</strong> gross deposits by the close, as reported by ICO Drops, else Dealroom. All count deposits before refunds.</p></div>
+      <div class="k"><div class="ic" style="background:var(--warn-soft)"><svg viewBox="0 0 24 24" style="stroke:#d18a00"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div><b>How the markets resolve</b><p><strong>$10M:</strong> gross commitments as of <strong>Oct 30, 00:00 UTC</strong>, 16 hours before the sale ends. <strong>$20M:</strong> the gross total on the sale page at any time before the close (Oct 30, 16:00 UTC; an extension counts up to Nov 15). <strong>$30M:</strong> the same gross total at any time before Nov 3, 03:59 UTC. <strong>$50M:</strong> gross deposits by the close, as reported by ICO Drops, else Dealroom. All count deposits before refunds.</p></div>
       <div class="k"><div class="ic" style="background:var(--yes-soft)"><svg viewBox="0 0 24 24" style="stroke:var(--yes-ink)"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg></div><b>Sources, and not advice</b><p>Live totals from the <a href="https://1wintoken.com/" target="_blank" rel="noopener">official sale page</a>; the history also from the sale's USDC account <a href="https://solscan.io/account/HciAS69vfU1ZzfWEczqwkAUfLodpbGFVALLpA1wtA5W2" target="_blank" rel="noopener">on Solana</a>. A fan-made tracker by the XO community. Only trade what you can afford to lose.</p></div>
     </div>
   </section>
@@ -257,6 +259,7 @@ const CFG = {
   markets: [
     { slug: 'total-commitments-for-the-1win-1win-public-sale-ab-9330', goal: 10e6, name: 'Above $10M', at: Date.parse('2026-10-30T00:00:00Z'), when: 'Counted Oct 30, 00:00 UTC, 16 h before the sale ends' },
     { slug: 'will-the-1win-token-sale-get-more-than-20m-in-depo-8761', goal: 20e6, name: 'Above $20M', at: null, when: 'Counted until the sale ends, Oct 30, 16:00 UTC' },
+    { slug: 'total-commitments-for-the-1win-1win-public-sale-ab-2425', goal: 30e6, name: 'Above $30M', at: null, when: 'Counted until the sale ends, Oct 30, 16:00 UTC' },
     { slug: 'will-the-1win-sale-get-more-than-50m-in-deposits-8897', goal: 50e6, name: 'Above $50M', at: null, when: 'Counted until the sale ends, Oct 30, 16:00 UTC',
       note: 'Resolves from ICO Drops or Dealroom, not the sale page.' },
   ],
