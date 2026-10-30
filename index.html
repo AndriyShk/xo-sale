@@ -366,11 +366,11 @@ function compute() {
   const pace1 = Hh(CFG.end - now.t) <= 6 ? slope(1, .5) : null;
   if (pace1 != null) pace = pace1;
   // the slowing curve's say: half while the real pace is near the curve's own, none once it runs 6× ahead of it
-  // (a last-day rush, which the curve can't bend to: on the 1win sale it promised ~$18K an hour against ~$400K)
+  // (a last-day rush, which the curve can't bend to: on one past sale it promised ~$18K an hour against ~$400K)
   const ratio = pace / Math.max(1e-9, k * now.d / tNow);
   const wA = ratio <= 1.5 ? .5 : Math.max(0, .5 * (1 - Math.log(ratio / 1.5) / Math.log(4)));
   // money still to come by time T from two views, the slowing curve (A) and the recent pace held (B), weighted as above.
-  // The spread is at least ±35% of it: the Jumper sale taught us a last-day rush can double what's left.
+  // The spread is at least ±35% of it: past sales taught us a last-day rush can double what's left.
   const fc = T => {
     const L = Math.log(Math.max(1, Hh(T - CFG.open) / tNow));
     const remA = now.d * (Math.exp(k * L) - 1), remB = pace * Math.max(0, Hh(T - now.t)), rem = wA * remA + (1 - wA) * remB;
