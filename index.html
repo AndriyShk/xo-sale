@@ -535,8 +535,9 @@ function tick() {
 
 // chart: the CSS height comes from the markup once (data-h); the backing store is retina-scaled
 function setup(cv) { if (!cv.dataset.h) cv.dataset.h = cv.getAttribute('height'); const h = +cv.dataset.h, dpr = devicePixelRatio || 1; cv.style.height = h + 'px'; const r = cv.getBoundingClientRect(); cv.width = Math.round(r.width * dpr); cv.height = Math.round(h * dpr); const g = cv.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0); return [g, r.width, h]; }
-function tag(g, text, x, y, { align = 'left', color, bold = false } = {}) {
+function tag(g, text, x, y, { align = 'left', color, bold = false, halo = false } = {}) {
   g.font = `${bold ? 600 : 500} 12.5px Figtree`; g.textAlign = align; g.textBaseline = 'middle';
+  if (halo) { g.save(); g.strokeStyle = css('--card'); g.lineWidth = 5; g.lineJoin = 'round'; g.setLineDash([]); g.strokeText(text, x, y); g.restore(); }
   g.fillStyle = color || css('--muted'); g.fillText(text, x, y);
 }
 // intro: the deposits line draws from left to right, then the forecast fades in (once, when the chart comes into view)
@@ -592,8 +593,18 @@ function draw() {
   const above = CFG.markets.filter(m => m.goal > yMax);
   // markets far above the scale are named in the legend, not squeezed onto the chart
   const an = $('aboveNote'); an.hidden = !above.length; an.textContent = above.length ? '↑ ' + above.map(m => '$' + m.goal / 1e6 + 'M').join(', ') + ' market' + (above.length > 1 ? 's are' : ' is') + ' far above the chart' : '';
+  // labels: each takes the first of its spots inside the plot and clear of the labels and dots already placed,
+  // best also clear of the market lines (crossing one is allowed: the text has a halo)
+  const boxes = [], rules = [], pad = 3;
+  const box = (x, y, w, h) => ({ x0: x - pad, y0: y - pad, x1: x + w + pad, y1: y + h + pad });
+  const hit = b => o => b.x0 < o.x1 && o.x0 < b.x1 && b.y0 < o.y1 && o.y0 < b.y1;
+  const free = b => !(b.x0 < L || b.x1 > W || b.y0 < T - 4 || b.y1 > H - B) && !boxes.some(hit(b));
+  const boxOf = (texts, x, y, align, bold) => { g.font = `${bold ? 600 : 500} 12.5px Figtree`; const w = Math.max(...[].concat(texts).map(t => g.measureText(t).width)); return box(align === 'right' ? x - w : x, y - 8, w, 16 + 18 * ([].concat(texts).length - 1)); };
+  const spot = (texts, spots) => { const c = spots.map(([x, y, align = 'right']) => ({ x, y, align, b: boxOf(texts, x, y, align, true) })); const s = c.find(s => free(s.b) && !rules.some(hit(s.b))) || c.find(s => free(s.b)) || c[0]; boxes.push(s.b); return s; };
+  boxes.push(boxOf('sale ends', X(CFG.end) - 6, T + 6, 'right'));
   CFG.markets.filter(m => m.goal <= yMax).forEach(m => {
     const xe = X(mAt(m));
+    boxes.push(boxOf('$' + m.goal / 1e6 + 'M market', L + 8, Y(m.goal) - 12, 'left', true)); rules.push({ x0: L, y0: Y(m.goal) - 1, x1: xe, y1: Y(m.goal) + 1 });
     g.save(); g.strokeStyle = ink; g.lineWidth = 1.5; g.setLineDash([8, 6]); g.beginPath(); g.moveTo(L, Y(m.goal)); g.lineTo(xe, Y(m.goal)); g.stroke(); g.restore();
     tag(g, '$' + m.goal / 1e6 + 'M market', L + 8, Y(m.goal) - 12, { color: ink, bold: true });
   });
@@ -611,21 +622,29 @@ function draw() {
   const gr = g.createLinearGradient(0, T, 0, H - B); gr.addColorStop(0, 'rgba(255,135,166,.32)'); gr.addColorStop(1, 'rgba(255,135,166,0)'); g.fillStyle = gr; g.fill();
   path(); g.strokeStyle = yes; g.lineWidth = 3; g.lineJoin = 'round'; g.stroke();
   g.restore();
+  const nx = X(last.t), ny = Y(last.d), fx = X(CFG.end), fy = Y(f.mid), fcOn = M.now.t < CFG.end && f.mid <= yMax;
+  boxes.push(box(nx - 6, ny - 6, 12, 12)); if (fcOn) boxes.push(box(fx - 5, fy - 5, 10, 10));
+  // the forecast beside its dot at the close; 'now' above-left of its dot, where the line has already been.
+  // Near the close the two dots meet, and the labels stack beside them, the forecast (the higher one) on top
+  const nowTxt = (M.now.t >= CFG.end ? 'final ' : 'now ') + usdM(last.d), fcTxt = 'forecast ' + usdM(f.mid);
+  let fcAt = null, nowAt;
+  if (fcOn && Math.abs(fx - nx) < 40 && Math.abs(fy - ny) < 40) {
+    const x = Math.min(fx, nx) - 14, y0 = Math.min(fy, ny), y1 = Math.max(fy, ny), mid = (y0 + y1) / 2 - 9;
+    const s = spot([fcTxt, nowTxt], [[x, mid], [x, mid - 18], [x, mid + 18], [x, y0 - 34], [x, y1 + 18], [x, y0 - 52], [x, y1 + 36]]);
+    fcAt = s; nowAt = { ...s, y: s.y + 18 };
+  } else {
+    fcAt = fcOn && spot(fcTxt, [[fx - 10, fy - 16], [fx - 14, fy], [fx - 10, fy - 34], [fx - 10, fy + 18], [fx - 10, fy - 52], [fx - 10, fy + 36]]);
+    nowAt = spot(nowTxt, [[nx - 10, ny - 16], [nx - 14, ny], [nx - 10, ny + 18], [nx - 10, ny + 36], [nx + 8, ny + 20, 'left'], [nx + 10, ny - 16, 'left'], [nx - 10, ny - 34]]);
+  }
   g.save(); g.globalAlpha = ease((lp - .9) / .1);
   g.fillStyle = yes; g.beginPath(); g.arc(X(last.t), Y(last.d), 5.5, 0, 7); g.fill(); g.strokeStyle = css('--card'); g.lineWidth = 2; g.stroke();
-  // 'now' label above-left of the dot, where the line has already been; below-right of it when that would run into the axis labels
-  const nowTxt = (M.now.t >= CFG.end ? 'final ' : 'now ') + usdM(last.d);
-  g.font = '600 12.5px Figtree';
-  const roomLeft = X(last.t) - 10 - g.measureText(nowTxt).width > L + 6;
-  tag(g, nowTxt, X(last.t) + (roomLeft ? -10 : 8), roomLeft ? Math.max(T + 30, Y(last.d) - 16) : Y(last.d) + 20, { align: roomLeft ? 'right' : 'left', color: css('--yes-ink'), bold: true });
+  tag(g, nowTxt, nowAt.x, nowAt.y, { align: nowAt.align, color: css('--yes-ink'), bold: true, halo: true });
   g.restore();
   g.globalAlpha = fa;
-  if (M.now.t < CFG.end) {
-    const v = f.mid; if (v <= yMax) { g.fillStyle = lav; g.beginPath(); g.arc(X(CFG.end), Y(v), 5, 0, 7); g.fill();
-      tag(g, 'forecast ' + usdM(v), X(CFG.end) - 8, Math.max(T + 30, Y(Math.min(yMax, f.hi)) - 14), { align: 'right', color: lav, bold: true }); }
-  }
+  if (fcAt) { g.fillStyle = lav; g.beginPath(); g.arc(fx, fy, 5, 0, 7); g.fill();
+    tag(g, fcTxt, fcAt.x, fcAt.y, { align: fcAt.align, color: lav, bold: true, halo: true }); }
   g.globalAlpha = 1;
-  tag(g, 'sale ends', X(CFG.end) - 6, T + 6, { align: 'right' });
+  tag(g, 'sale ends', X(CFG.end) - 6, T + 6, { align: 'right', halo: true });
 }
 addEventListener('resize', () => draw());
 // the canvas can't swap fonts later like the page does: draw again once the web fonts are in
