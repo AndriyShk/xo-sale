@@ -213,8 +213,8 @@ canvas.sk{border-radius:14px}
   <!-- 2 · progress -->
   <section class="card">
     <div class="hl">
-      <div><h2>Deposited so far</h2><div class="big sk" id="dep">$5,000,000</div><div class="sub" id="depSub"><span class="sk">Since the sale opened, Oct 15</span></div></div>
-      <div><h2>Our forecast at close</h2><div class="big fc sk" id="fMid">$6.00M</div><div class="sub" id="fDesc"><span class="sk">Likely $6.00M–$6.00M by Oct 30</span></div></div>
+      <div><h2 id="depLbl">Deposited so far</h2><div class="big sk" id="dep">$5,000,000</div><div class="sub" id="depSub"><span class="sk">Since the sale opened, Oct 15</span></div></div>
+      <div><h2 id="fLbl">Our forecast at close</h2><div class="big fc sk" id="fMid">$6.00M</div><div class="sub" id="fDesc"><span class="sk">Likely $6.00M–$6.00M by Oct 30</span></div></div>
     </div>
     <div class="facts">
       <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5M16 4.5a3.5 3.5 0 010 7M18.5 14.8c1.7.8 2.7 2.5 3 5.2"/></svg></div><div class="split"><div><div class="lbl">People</div><div class="v sk" id="ppl">$0,000</div></div><div><div class="lbl">Average deposit</div><div class="v sk" id="avg">$0,000</div></div></div></div>
@@ -225,7 +225,7 @@ canvas.sk{border-radius:14px}
 
   <!-- 3 · chart -->
   <section class="card fc-yes" id="chartCard">
-    <h2>Deposits so far and where they're heading</h2>
+    <h2 id="chartLbl">Deposits so far and where they're heading</h2>
     <canvas id="chart" class="sk" height="340" style="margin-top:14px"></canvas>
     <div class="legend">
       <span><i style="background:var(--yes)"></i>Real deposits</span>
@@ -316,7 +316,10 @@ async function refresh() {
 function series() {
   const pts = HIST.map(r => ({ t: r.t * 1000, d: r.deposits }));
   if (LIVE && LIVE.deposits) { const last = pts[pts.length - 1]; if (!last || LIVE.fetchedAt > last.t) pts.push({ t: LIVE.fetchedAt, d: LIVE.deposits }); }
-  return pts.filter(p => p.t > CFG.open && p.d > 0).sort((a, b) => a.t - b.t);
+  const out = pts.filter(p => p.t > CFG.open && p.d > 0).sort((a, b) => a.t - b.t);
+  // after the close the total only counts up: refunds come off it later, and the markets count deposits before them
+  let top = 0; for (const p of out) { if (p.t >= CFG.end) p.d = Math.max(p.d, top); top = Math.max(top, p.d); }
+  return out;
 }
 function compute() {
   const pts = series(); if (!pts.length) { MODEL = null; return; }
@@ -405,6 +408,9 @@ function render() {
   setNum('fMid', 'fMid', over ? d : f.mid, usdM, { eps: 500 });
   setText('fDesc', over ? 'The sale has ended: this is the final total.' : `Likely ${range} by Oct 30, 16:00 UTC`);
   setText('depSub', 'Since the sale opened, Oct 15, 15:00 UTC');
+  setText('depLbl', over ? 'Deposited in total' : 'Deposited so far');
+  setText('fLbl', over ? 'Final total' : 'Our forecast at close');
+  setText('chartLbl', over ? 'How the deposits came in' : "Deposits so far and where they're heading");
   renderMarkets(M, d);
   // how sure: a young sale, or the two views disagreeing a lot, means a wide range
   const sig = f.sigma, hrs = Math.floor(M.tNow), early = !M.fitted || M.tNow < 12, level = over ? 3 : early || sig > .6 ? 1 : sig > .45 ? 2 : 3;
@@ -477,7 +483,7 @@ function renderMarkets(M, d) {
       flash(el, v > prev, el.classList.contains('px') ? 'fl-px' : null);
     }
   }
-  setText('meta', `${CFG.markets.length} XO markets on the 1win Token (1W) sale · ${usdM(d)} deposited so far`);
+  setText('meta', `${CFG.markets.length} XO markets on the 1win Token (1W) sale · ${usdM(d)} deposited${Date.now() >= CFG.end ? '' : ' so far'}`);
 }
 function fmtLeft(ms) { ms = Math.max(0, ms); const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60; return (d ? d + 'd ' : '') + h + 'h ' + String(m).padStart(2, '0') + 'm'; }
 // write to the DOM only when the text actually changes
