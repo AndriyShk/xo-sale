@@ -1,7 +1,8 @@
 // Local preview: static files + the same /api/legion handler as on Vercel.   node dev.mjs  → http://localhost:8769
 import http from 'node:http'; import { readFile, stat } from 'node:fs/promises'; import path from 'node:path'; import { fileURLToPath } from 'node:url';
-import handler from './api/sale.js';
 const root = path.dirname(fileURLToPath(import.meta.url));
+process.chdir(root); // the function reads sale.json from the working directory, as on Vercel
+const { default: handler } = await import('./api/sale.js');
 const MIME = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.json': 'application/json', '.otf': 'font/otf', '.woff2': 'font/woff2', '.svg': 'image/svg+xml', '.png': 'image/png' };
 http.createServer(async (req, res) => {
   const url = req.url.split('?')[0];

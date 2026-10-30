@@ -4,18 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Xo Sale</title>
-<meta name="description" content="Live tracker for the 1win Token (1W) sale: deposits, oversubscription and a forecast of the final raise.">
-<meta property="og:title" content="Xo Sale · Will the 1win sale pass $10M? $20M? $30M? $50M?">
+<meta name="description" content="Live tracker for token sales with XO markets: deposits, a forecast of the final raise and the XO prices.">
+<meta property="og:title" content="Xo Sale · Will the token sale pass the line?">
 <meta property="og:description" content="Live deposits, the XO prices and a forecast: which side looks cheap right now.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://xo-sale.vercel.app/">
-<meta property="og:image" content="https://xo-sale.vercel.app/img/og.png?v=4">
+<meta property="og:image" content="https://xo-sale.vercel.app/img/og.png?v=5">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Xo Sale · Will the 1win sale pass $10M? $20M? $30M? $50M?">
+<meta name="twitter:title" content="Xo Sale · Will the token sale pass the line?">
 <meta name="twitter:description" content="Live deposits, the XO prices and a forecast: which side looks cheap right now.">
-<meta name="twitter:image" content="https://xo-sale.vercel.app/img/og.png?v=4">
+<meta name="twitter:image" content="https://xo-sale.vercel.app/img/og.png?v=5">
 <meta name="theme-color" content="#f6f5f8">
 <script>
   (function () {
@@ -185,6 +185,11 @@ canvas.sk{border-radius:14px}
 @keyframes floatUp{0%{opacity:0;transform:translateY(8px)}12%{opacity:1;transform:none}70%{opacity:1}100%{opacity:0;transform:translateY(-18px)}}
 .oc .nm i{transition:width .9s cubic-bezier(.2,.8,.2,1)}
 @media (prefers-reduced-motion:reduce){main>section,.sk,.sk-card,canvas.sk,.delta,.fl-up,.fl-down,.fl-px{animation:none!important}.oc .nm i{transition:none}}
+main[hidden],.live[hidden]{display:none}
+.idle{margin-top:40px;text-align:center;padding:56px 24px}
+.idle h1{margin-bottom:10px}
+.idle p{max-width:460px;margin:0 auto 22px;color:var(--muted);line-height:1.5}
+.idle-btn{display:inline-block;padding:12px 20px;border-radius:12px;background:var(--yes);color:#fff;font-weight:600;text-decoration:none}
 </style>
 </head>
 <body>
@@ -197,13 +202,22 @@ canvas.sk{border-radius:14px}
   </button>
 </div></header>
 
-<main class="wrap">
+<!-- no sale in sale.json: the page waits for the next one -->
+<main class="wrap" id="idle" hidden>
+  <section class="card idle">
+    <h1>No sale to track right now</h1>
+    <p>The next token sale with XO markets shows up here: live deposits, a forecast of the final raise, and the XO prices set against it.</p>
+    <a class="idle-btn" id="idleLink" target="_blank" rel="noopener">Browse markets on XO ↗</a>
+  </section>
+</main>
+
+<main class="wrap" id="sale" hidden>
   <!-- 1 · the XO markets -->
   <section class="card">
     <div class="q">
       <div>
-        <h1>Will the 1win token sale pass $10M? $20M? $30M? $50M?</h1>
-        <div class="meta" id="meta">XO markets on the 1win Token (1W) sale · ends Oct 30, 16:00 UTC</div>
+        <h1 id="headline"></h1>
+        <div class="meta" id="meta"></div>
       </div>
     </div>
     <div class="mkts" id="mkts"><div class="sk-card"></div><div class="sk-card"></div><div class="sk-card"></div></div>
@@ -213,8 +227,8 @@ canvas.sk{border-radius:14px}
   <!-- 2 · progress -->
   <section class="card">
     <div class="hl">
-      <div><h2 id="depLbl">Deposited so far</h2><div class="big sk" id="dep">$5,000,000</div><div class="sub" id="depSub"><span class="sk">Since the sale opened, Oct 15</span></div></div>
-      <div><h2 id="fLbl">Our forecast at close</h2><div class="big fc sk" id="fMid">$6.00M</div><div class="sub" id="fDesc"><span class="sk">Likely $6.00M–$6.00M by Oct 30</span></div></div>
+      <div><h2 id="depLbl">Deposited so far</h2><div class="big sk" id="dep">$5,000,000</div><div class="sub" id="depSub"><span class="sk">Since the sale opened</span></div></div>
+      <div><h2 id="fLbl">Our forecast at close</h2><div class="big fc sk" id="fMid">$6.00M</div><div class="sub" id="fDesc"><span class="sk">Likely $6.00M–$6.00M by the close</span></div></div>
     </div>
     <div class="facts">
       <div class="fact"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5M16 4.5a3.5 3.5 0 010 7M18.5 14.8c1.7.8 2.7 2.5 3 5.2"/></svg></div><div class="split"><div><div class="lbl">People</div><div class="v sk" id="ppl">$0,000</div></div><div><div class="lbl">Average deposit</div><div class="v sk" id="avg">$0,000</div></div></div></div>
@@ -240,30 +254,24 @@ canvas.sk{border-radius:14px}
   <section class="card">
     <h2>Good to know</h2>
     <div class="know">
-      <div class="k"><div class="ic" style="background:var(--no-soft)"><svg viewBox="0 0 24 24" style="stroke:var(--no-ink)"><path d="M3 20h18"/><path d="M5 20V10M10 20V4M15 20v-7M20 20v-4"/></svg></div><b>How the forecast works</b><p>We average two views of the real deposits: the sale keeps slowing down the way it has so far, or it keeps its recent pace. When deposits run far ahead of the slowdown, as in a last-day rush, only the recent pace counts, and in the last 6 hours that is the pace of the last hour. It can't see what nobody has announced yet: a big 1win promotion or a last-day rush. On the Jumper sale deposits grew <strong>1.9×</strong> in the last 24 hours.</p></div>
-      <div class="k"><div class="ic" style="background:var(--warn-soft)"><svg viewBox="0 0 24 24" style="stroke:#d18a00"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div><b>How the markets resolve</b><p><strong>$10M:</strong> gross commitments as of <strong>Oct 30, 00:00 UTC</strong>, 16 hours before the sale ends. <strong>$20M:</strong> the gross total on the sale page at any time before the close (Oct 30, 16:00 UTC; an extension counts up to Nov 15). <strong>$30M:</strong> the same gross total at any time before Nov 3, 03:59 UTC. <strong>$50M:</strong> gross deposits by the close, as reported by ICO Drops, else Dealroom. All count deposits before refunds.</p></div>
-      <div class="k"><div class="ic" style="background:var(--yes-soft)"><svg viewBox="0 0 24 24" style="stroke:var(--yes-ink)"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg></div><b>Sources, and not advice</b><p>Live totals from the <a href="https://1wintoken.com/" target="_blank" rel="noopener">official sale page</a>; the history also from the sale's USDC account <a href="https://solscan.io/account/HciAS69vfU1ZzfWEczqwkAUfLodpbGFVALLpA1wtA5W2" target="_blank" rel="noopener">on Solana</a>. A fan-made tracker by the XO community. Only trade what you can afford to lose.</p></div>
+      <div class="k"><div class="ic" style="background:var(--no-soft)"><svg viewBox="0 0 24 24" style="stroke:var(--no-ink)"><path d="M3 20h18"/><path d="M5 20V10M10 20V4M15 20v-7M20 20v-4"/></svg></div><b>How the forecast works</b><p>We average two views of the real deposits: the sale keeps slowing down the way it has so far, or it keeps its recent pace. When deposits run far ahead of the slowdown, as in a last-day rush, only the recent pace counts, and in the last 6 hours that is the pace of the last hour. It can't see what nobody has announced yet: a big promotion or a last-day rush. On past sales deposits grew <strong>1.9× to 6×</strong> in the last 24 hours.</p></div>
+      <div class="k"><div class="ic" style="background:var(--warn-soft)"><svg viewBox="0 0 24 24" style="stroke:#d18a00"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div><b>How the markets resolve</b><p id="kResolve"></p></div>
+      <div class="k"><div class="ic" style="background:var(--yes-soft)"><svg viewBox="0 0 24 24" style="stroke:var(--yes-ink)"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg></div><b>Sources, and not advice</b><p>Live totals from the <a id="kSite" target="_blank" rel="noopener">official sale page</a><span id="kChain" hidden>; the history also from the sale's USDC account <a id="kVault" target="_blank" rel="noopener">on Solana</a></span>. A fan-made tracker by the XO community. Only trade what you can afford to lose.</p></div>
     </div>
   </section>
 </main>
 
 <script>
+// The sale itself comes from sale.json, the one file to change for a new sale (see the README). With no sale in it the page waits.
 const CFG = {
   // the `data` branch through /api/data (fresh within seconds), else its raw file (cached 5 min), else the copy in the repo
   history: ['/api/data', 'https://raw.githubusercontent.com/AndriyShk/xo-sale/data/history.json', 'data/history.json'],
-  goal: 3.9e6, // what the sale sells: 130M tokens at $0.03
-  open: Date.parse('2026-10-15T15:00:00Z'),
-  end: Date.parse('2026-10-30T16:00:00Z'),
   ref: 'andriy_shkinder',
-  // the XO markets on this sale: what total they need, and the moment it's counted
-  markets: [
-    { slug: 'total-commitments-for-the-1win-1win-public-sale-ab-9330', goal: 10e6, name: 'Above $10M', at: Date.parse('2026-10-30T00:00:00Z'), when: 'Counted Oct 30, 00:00 UTC, 16 h before the sale ends' },
-    { slug: 'will-the-1win-token-sale-get-more-than-20m-in-depo-8761', goal: 20e6, name: 'Above $20M', at: null, when: 'Counted until the sale ends, Oct 30, 16:00 UTC' },
-    { slug: 'total-commitments-for-the-1win-1win-public-sale-ab-2425', goal: 30e6, name: 'Above $30M', at: null, when: 'Counted until the sale ends, Oct 30, 16:00 UTC' },
-    { slug: 'will-the-1win-sale-get-more-than-50m-in-deposits-8897', goal: 50e6, name: 'Above $50M', at: null, when: 'Counted until the sale ends, Oct 30, 16:00 UTC',
-      note: 'Resolves from ICO Drops or Dealroom, not the sale page.' },
-  ],
+  short: '', open: 0, end: 0,
+  markets: [], // the XO markets on this sale: what total they need, and the moment it's counted
 };
+const utc = t => new Date(t).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: 'UTC' }) + ' UTC';
+const whenOf = m => m.at ? `Counted ${utc(m.at)}, ${Math.round((CFG.end - m.at) / 36e5)} h before the sale ends` : `Counted until the sale ends, ${utc(CFG.end)}`;
 const mAt = m => m.at || CFG.end; // null: the sale close, which can move
 
 const root = document.documentElement;
@@ -406,8 +414,8 @@ function render() {
   const f = M.fc(CFG.end);
   const range = `${usdM(Math.max(d, f.lo))}–${usdM(f.hi)}`;
   setNum('fMid', 'fMid', over ? d : f.mid, usdM, { eps: 500 });
-  setText('fDesc', over ? 'The sale has ended: this is the final total.' : `Likely ${range} by Oct 30, 16:00 UTC`);
-  setText('depSub', 'Since the sale opened, Oct 15, 15:00 UTC');
+  setText('fDesc', over ? 'The sale has ended: this is the final total.' : `Likely ${range} by ${utc(CFG.end)}`);
+  setText('depSub', `Since the sale opened, ${utc(CFG.open)}`);
   setText('depLbl', over ? 'Deposited in total' : 'Deposited so far');
   setText('fLbl', over ? 'Final total' : 'Our forecast at close');
   setText('chartLbl', over ? 'How the deposits came in' : "Deposits so far and where they're heading");
@@ -419,7 +427,7 @@ function render() {
   $('conf').innerHTML = over ? 'How sure: <b>certain</b>. The sale is over.'
     : level === 1 && !early ? 'How sure: <b>low</b>. The long-run trend and the pace of the last day point to very different results right now.'
     : level === 1 ? `How sure: <b>low</b>. Only ${hrs} hours of deposits so far.`
-    : `How sure: <b>${level === 2 ? 'medium' : 'high'}</b> about the trend, from ${days >= 2 ? days + ' days' : hrs + ' hours'} of real deposits. What it can't see is news: a big push from 1win or a last-day rush.`;
+    : `How sure: <b>${level === 2 ? 'medium' : 'high'}</b> about the trend, from ${days >= 2 ? days + ' days' : hrs + ' hours'} of real deposits. What it can't see is news: a big push from ${CFG.short} or a last-day rush.`;
 }
 let lastMk = '';
 function renderMarkets(M, d) {
@@ -459,7 +467,7 @@ function renderMarkets(M, d) {
     return `<div class="mk">
       <div class="mk-top">${m && m.image ? `<img class="ic" src="${esc(m.image)}" alt="">` : ''}<span class="cap">${m && m.kind === 'market' ? 'Market' : 'Conviction'}</span><span class="chip ${side}" title="${esc(why)}">${chip}</span></div>
       <a class="mk-t" href="${url}" target="_blank" rel="noopener">${esc(m ? m.title : cfg.name)}</a>
-      <div class="ends">${cfg.when}${cfg.note ? `<br>${esc(cfg.note)}` : ''}</div>
+      <div class="ends">${whenOf(cfg)}${cfg.note ? `<br>${esc(cfg.note)}` : ''}</div>
       <div class="ocs">${row('yes', yesAsk, yesCost)}${row('no', noAsk, noCost)}</div>
       <div class="ours"><span>Our forecast</span><b data-k="${cfg.slug}|pm" data-v="${pm}" data-f="yes">YES ${pct(pm)}</b><span class="nd">${nd}</span></div>
       <div class="mk-foot">${by}<span class="vol">${m ? usd(m.volume) + ' Vol' : ''}</span></div>
@@ -483,7 +491,7 @@ function renderMarkets(M, d) {
       flash(el, v > prev, el.classList.contains('px') ? 'fl-px' : null);
     }
   }
-  setText('meta', `${CFG.markets.length} XO markets on the 1win Token (1W) sale · ${usdM(d)} deposited${Date.now() >= CFG.end ? '' : ' so far'}`);
+  setText('meta', `${CFG.markets.length} XO markets on the ${CFG.name} sale · ${usdM(d)} deposited${Date.now() >= CFG.end ? '' : ' so far'}`);
 }
 function fmtLeft(ms) { ms = Math.max(0, ms); const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60; return (d ? d + 'd ' : '') + h + 'h ' + String(m).padStart(2, '0') + 'm'; }
 // write to the DOM only when the text actually changes
@@ -584,7 +592,7 @@ function draw() {
   // date labels: every day when they fit, else every 2nd or 3rd day
   g.textAlign = 'center'; g.textBaseline = 'top';
   const lw = g.measureText('30 Oct').width + 14, perDay = (W - L - R) / Hh(t1 - t0) * 24, every = Math.max(1, Math.ceil(lw / perDay));
-  for (let day = Date.parse('2026-10-16T00:00:00Z'), i = 0; day <= t1; day += 864e5, i++) { if (i % every) continue; const txt = new Date(day).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' }), hw = g.measureText(txt).width / 2; g.fillText(txt, Math.min(W - 2 - hw, X(day)), H - B + 9); }
+  for (let day = Math.ceil(CFG.open / 864e5) * 864e5, i = 0; day <= t1; day += 864e5, i++) { if (i % every) continue; const txt = new Date(day).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' }), hw = g.measureText(txt).width / 2; g.fillText(txt, Math.min(W - 2 - hw, X(day)), H - B + 9); }
   g.save(); g.setLineDash([4, 4]); g.strokeStyle = muted; g.lineWidth = 1; g.beginPath(); g.moveTo(X(CFG.end) + .5, T); g.lineTo(X(CFG.end) + .5, H - B); g.stroke(); g.restore();
   g.save(); g.globalAlpha = fa;
   if (M.now.t < CFG.end) {
@@ -655,7 +663,24 @@ function draw() {
 addEventListener('resize', () => draw());
 // the canvas can't swap fonts later like the page does: draw again once the web fonts are in
 if (document.fonts) Promise.all(['500 12px Figtree', '600 12.5px Figtree'].map(f => document.fonts.load(f))).then(() => draw(), () => {});
-refresh(); setInterval(refresh, 15000); tick(); setInterval(tick, 1000);
+(async function boot() {
+  const { sale } = await j('sale.json', { cache: 'no-store' }).catch(() => ({}));
+  if (!sale) {
+    $('idle').hidden = false; $('idleLink').href = `https://beta.xo.market/?r=${CFG.ref}`;
+    document.querySelector('.live').hidden = true; // nothing is updating
+    return;
+  }
+  Object.assign(CFG, { name: sale.name, short: sale.short || sale.name, open: Date.parse(sale.open), end: Date.parse(sale.end) });
+  CFG.markets = sale.markets.map(m => ({ ...m, name: `Above $${m.goal / 1e6}M`, at: m.at ? Date.parse(m.at) : null }));
+  document.title = `Xo Sale · ${CFG.short}`;
+  $('headline').textContent = `Will the ${CFG.short} sale pass ${CFG.markets.map(m => `$${m.goal / 1e6}M?`).join(' ')}`;
+  $('meta').textContent = `XO markets on the ${CFG.name} sale · ends ${utc(CFG.end)}`;
+  $('kResolve').innerHTML = sale.resolve || 'See each market on XO for how it resolves. All count deposits before refunds.';
+  $('kSite').href = sale.site;
+  if (sale.vault) { $('kChain').hidden = false; $('kVault').href = `https://solscan.io/account/${sale.vault}`; }
+  $('sale').hidden = false;
+  refresh(); setInterval(refresh, 15000); tick(); setInterval(tick, 1000);
+})();
 </script>
 </body>
 </html>

@@ -1,0 +1,46 @@
+{
+  "sale": {
+    "name": "1win Token (1W)",
+    "short": "1win",
+    "site": "https://1wintoken.com/",
+    "open": "2026-10-15T15:00:00Z",
+    "end": "2026-10-30T16:00:00Z",
+    "source": {
+      "url": "https://1wtoken.com/api/v1/token-api/token/sale/state",
+      "method": "POST",
+      "body": {},
+      "fields": {
+        "deposits": "stats.totalMoneySpent",
+        "participants": "stats.totalUserAmount",
+        "oversub": "stats.multiplicator",
+        "price": "state.usdcPrice",
+        "supply": "state.emission",
+        "close": "state.saleEndDate",
+        "phase": "state.phase",
+        "paused": "state.paused"
+      }
+    },
+    "vault": "HciAS69vfU1ZzfWEczqwkAUfLodpbGFVALLpA1wtA5W2",
+    "markets": [
+      {
+        "slug": "total-commitments-for-the-1win-1win-public-sale-ab-9330",
+        "goal": 10000000,
+        "at": "2026-10-30T00:00:00Z"
+      },
+      {
+        "slug": "will-the-1win-token-sale-get-more-than-20m-in-depo-8761",
+        "goal": 20000000
+      },
+      {
+        "slug": "total-commitments-for-the-1win-1win-public-sale-ab-2425",
+        "goal": 30000000
+      },
+      {
+        "slug": "will-the-1win-sale-get-more-than-50m-in-deposits-8897",
+        "goal": 50000000,
+        "note": "Resolves from ICO Drops or Dealroom, not the sale page."
+      }
+    ],
+    "resolve": "<strong>$10M:</strong> gross commitments as of <strong>Oct 30, 00:00 UTC</strong>, 16 hours before the sale ends. <strong>$20M:</strong> the gross total on the sale page at any time before the close (Oct 30, 16:00 UTC; an extension counts up to Nov 15). <strong>$30M:</strong> the same gross total at any time before Nov 3, 03:59 UTC. <strong>$50M:</strong> gross deposits by the close, as reported by ICO Drops, else Dealroom. All count deposits before refunds."
+  }
+}

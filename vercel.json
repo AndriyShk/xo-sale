@@ -1,0 +1,3 @@
+{
+  "functions": { "api/sale.js": { "includeFiles": "sale.json" } }
+}

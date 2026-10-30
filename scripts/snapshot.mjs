@@ -1,13 +1,15 @@
-// Append one snapshot of the 1win token sale to data/history.json: deposits and participants from the sale's own API.
-// Any gap in the history (the first run, or hours the scheduler skipped) is filled from the Solana chain:
-// every purchase moves USDC into the sale vault, and the vault's balance after a purchase is the running total.
+// Append one snapshot of the sale in sale.json to data/history.json: deposits and participants from the sale's own API,
+// or the balance of its Solana account when it has no API. Rows from before the sale opened (the previous sale) are dropped.
+// Any gap in the history (the first run, or hours the scheduler skipped) is filled from the Solana chain when the sale has
+// a `vault`: every purchase moves USDC into it, and its balance after a purchase is the running total.
 // Runs locally or in the GitHub Action. No keys needed.
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 const FILE = new URL('../data/history.json', import.meta.url);
-const SALE_API = 'https://1wtoken.com/api/v1/token-api/token/sale/state';
+const { sale: SALE } = JSON.parse(readFileSync(new URL('../sale.json', import.meta.url), 'utf8'));
+if (!SALE) { console.log('no sale in sale.json'); process.exit(0); }
 const RPC = 'https://api.mainnet-beta.solana.com';
-const VAULT = 'HciAS69vfU1ZzfWEczqwkAUfLodpbGFVALLpA1wtA5W2'; // the sale's USDC account
-const OPEN = Date.parse('2026-10-15T15:00:00Z') / 1000;
+const VAULT = SALE.vault; // the sale's USDC account
+const OPEN = Date.parse(SALE.open) / 1000;
 const STEP = 15 * 60; // one chain point per 15 minutes is plenty for the chart
 const UA = { 'user-agent': 'Mozilla/5.0 xo-sale-tracker' };
 
@@ -47,16 +49,22 @@ async function fromChain(from, to) {
   return rows;
 }
 
-const hist = existsSync(FILE) ? JSON.parse(readFileSync(FILE, 'utf8')) : [];
-const r = await fetch(SALE_API, { method: 'POST', headers: { 'content-type': 'application/json', ...UA }, body: '{}' });
-if (!r.ok) throw new Error(`sale API ${r.status}`);
-const { state, stats } = await r.json();
+const hist = (existsSync(FILE) ? JSON.parse(readFileSync(FILE, 'utf8')) : []).filter((r) => r.t > OPEN);
+const field = (o, path) => (path || '').split('.').reduce((x, k) => (x == null ? x : x[k]), o);
+let n;
+if (SALE.source) {
+  const src = SALE.source;
+  const r = await fetch(src.url, { method: src.method || 'GET', headers: { 'content-type': 'application/json', ...UA }, ...(src.body ? { body: JSON.stringify(src.body) } : {}) });
+  if (!r.ok) throw new Error(`sale API ${r.status}`);
+  const d = await r.json();
+  n = { deposits: field(d, src.fields.deposits), participants: field(d, src.fields.participants), close: field(d, src.fields.close) };
+} else n = { deposits: (await rpc('getTokenAccountBalance', [VAULT])).value.uiAmount };
 const now = Math.floor(Date.now() / 1000);
-const end = Math.floor(Date.parse(state.saleEndDate) / 1000);
+const end = Math.floor(Date.parse(n.close || SALE.end) / 1000);
 
 // fill a gap longer than half an hour from the chain (before the sale closes; afterwards refunds may move the vault)
 const lastT = hist.length ? hist[hist.length - 1].t : OPEN;
-if (now - lastT > 1800 && lastT < end) {
+if (VAULT && now - lastT > 1800 && lastT < end) {
   try {
     const rows = await fromChain(lastT, Math.min(now, end));
     hist.push(...rows);
@@ -64,7 +72,7 @@ if (now - lastT > 1800 && lastT < end) {
   } catch (e) { console.log('chain fill skipped:', e.message); }
 }
 
-const row = { t: now, deposits: Math.round(+stats.totalMoneySpent * 100) / 100, participants: stats.totalUserAmount };
+const row = { t: now, deposits: Math.round(+n.deposits * 100) / 100, participants: n.participants };
 const prev = hist[hist.length - 1];
 if (!prev || prev.deposits !== row.deposits || row.t - prev.t >= 1800) hist.push(row); // skip unchanged within 30 min
 hist.sort((a, b) => a.t - b.t);

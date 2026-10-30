@@ -1,8 +1,13 @@
-// Vercel serverless proxy: the 1win sale API only answers its own site, so the browser can't call it directly.
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+// Vercel serverless proxy: a sale's API often only answers its own site, so the browser can't call it directly.
+// The sale comes from sale.json; with none in it the answer is { idle: true }.
 // GET /api/sale → { fetchedAt, deposits, participants, oversub, price, supply, open, close, phase, markets }   (edge-cached 10 s)
 // `markets`: the XO markets on this sale with their best prices. XO's order books only answer XO's own site, so they come from here too.
 const REPO = 'AndriyShk/xo-sale';
-const XO_MARKETS = ['total-commitments-for-the-1win-1win-public-sale-ab-9330', 'will-the-1win-token-sale-get-more-than-20m-in-depo-8761', 'total-commitments-for-the-1win-1win-public-sale-ab-2425', 'will-the-1win-sale-get-more-than-50m-in-deposits-8897'];
+const { sale: SALE } = JSON.parse(readFileSync(join(process.cwd(), 'sale.json'), 'utf8'));
+const RPC = 'https://api.mainnet-beta.solana.com';
+const field = (o, path) => (path || '').split('.').reduce((x, k) => (x == null ? x : x[k]), o);
 
 const getJson = async (url) => { const r = await fetch(url, { headers: { 'user-agent': 'Mozilla/5.0 xo-sale-tracker' }, signal: AbortSignal.timeout(6000) }); if (!r.ok) throw new Error(`${url} ${r.status}`); return r.json(); };
 // best ask (cheapest to buy) and best bid of one outcome token
@@ -38,28 +43,44 @@ async function nudgeSnapshot() {
   if (!r.ok) console.log(`nudge: starting the snapshot answered ${r.status}`);
 }
 
+// the sale's own numbers: its API when it has one (`source`, read through `fields`), else the balance of its Solana account
+async function saleNumbers() {
+  const src = SALE.source;
+  if (src) {
+    const r = await fetch(src.url, { method: src.method || 'GET', headers: { 'content-type': 'application/json', 'user-agent': 'Mozilla/5.0 xo-sale-tracker' }, ...(src.body ? { body: JSON.stringify(src.body) } : {}), signal: AbortSignal.timeout(8000) });
+    if (!r.ok) throw new Error(`sale API ${r.status}`);
+    const d = await r.json();
+    return Object.fromEntries(Object.entries(src.fields).map(([k, path]) => [k, field(d, path)]));
+  }
+  const r = await fetch(RPC, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'getTokenAccountBalance', params: [SALE.vault] }), signal: AbortSignal.timeout(8000) });
+  if (!r.ok) throw new Error(`Solana RPC ${r.status}`);
+  return { deposits: (await r.json()).result.value.uiAmount };
+}
+
 export default async function handler(req, res) {
+  if (!SALE) {
+    res.setHeader('Cache-Control', 's-maxage=60');
+    return res.status(200).json({ idle: true });
+  }
   try {
-    const [r, markets] = await Promise.all([
-      fetch('https://1wtoken.com/api/v1/token-api/token/sale/state', { method: 'POST', headers: { 'content-type': 'application/json', 'user-agent': 'Mozilla/5.0 xo-sale-tracker' }, body: '{}', signal: AbortSignal.timeout(8000) }),
-      Promise.all(XO_MARKETS.map((slug) => xoMarket(slug).catch((e) => { console.error('xo market', slug, e); return null; }))),
+    const [n, markets] = await Promise.all([
+      saleNumbers(),
+      Promise.all(SALE.markets.map(({ slug }) => xoMarket(slug).catch((e) => { console.error('xo market', slug, e); return null; }))),
       nudgeSnapshot().catch((e) => console.log('nudge failed:', e.message)),
     ]);
-    if (!r.ok) throw new Error(`sale API ${r.status}`);
-    const { state, stats } = await r.json();
     res.setHeader('Cache-Control', 's-maxage=10, stale-while-revalidate=5');
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.status(200).json({
       fetchedAt: Date.now(),
-      deposits: +stats.totalMoneySpent,
-      participants: stats.totalUserAmount,
-      oversub: +stats.multiplicator,
-      price: +state.usdcPrice,
-      supply: +state.emission,
-      open: state.saleStartDate,
-      close: state.saleEndDate,
-      phase: state.phase,
-      paused: !!state.paused,
+      deposits: +n.deposits,
+      participants: n.participants,
+      oversub: n.oversub != null ? +n.oversub : null,
+      price: n.price != null ? +n.price : null,
+      supply: n.supply != null ? +n.supply : null,
+      open: SALE.open,
+      close: n.close || SALE.end,
+      phase: n.phase || null,
+      paused: !!n.paused,
       markets: markets.filter(Boolean),
     });
   } catch (e) {

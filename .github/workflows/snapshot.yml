@@ -1,5 +1,5 @@
 name: snapshot
-# Records the 1win sale deposits every ~10 minutes and publishes history.json to the `data` branch (one commit,
+# Records the deposits of the sale in sale.json every ~10 minutes (with no sale in it, nothing runs) and publishes history.json to the `data` branch (one commit,
 # force-pushed, so the history never grows). The page reads it from there, so a data update never redeploys the site.
 # GitHub often delays or skips scheduled runs; api/sale.js starts this workflow again when the last run is old.
 on:
@@ -16,13 +16,19 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
+      - name: Is there a sale?
+        id: sale
+        run: node -e "console.log('active=' + !!JSON.parse(require('fs').readFileSync('sale.json')).sale)" >> "$GITHUB_OUTPUT"
       - name: Restore the last published history
+        if: steps.sale.outputs.active == 'true'
         run: |
           if git fetch --depth=1 origin data 2>/dev/null; then
             git show FETCH_HEAD:history.json > data/history.json
           fi
       - run: node scripts/snapshot.mjs
+        if: steps.sale.outputs.active == 'true'
       - name: Publish to the data branch
+        if: steps.sale.outputs.active == 'true'
         run: |
           mkdir -p out && cp data/history.json out/ && cd out
           git init -q -b data
